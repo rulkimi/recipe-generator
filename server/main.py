@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import PIL.Image
 import os
 from fastapi import FastAPI, HTTPException, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import json
 import io
@@ -10,6 +11,19 @@ import io
 load_dotenv()
 
 app = FastAPI()
+
+origins = [
+  "http://localhost:5173",
+  "https://rulkimi.github.io/recipe-generator"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins, 
+    allow_credentials=True,
+    allow_methods=["*"], 
+    allow_headers=["*"],
+)
 
 class RecipeRequest(BaseModel):
     question: str
@@ -63,7 +77,7 @@ async def root():
 async def generate_recipe(recipe_request: RecipeRequest, language: str = "Bahasa Melayu"):
     try:
         model = get_model()
-        prompt = get_prompt(recipe_request.question, language, question.additional_instructions)
+        prompt = get_prompt(recipe_request.question, language, recipe_request.additional_instructions)
         response = model.generate_content(prompt)
         recipe = json.loads(response.text)
         return {"status": "success", "message": "Recipe generated successfully", "data": recipe}

@@ -1,20 +1,12 @@
 <script setup lang="ts">
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import SavedRecipes from '@/components/SavedRecipes.vue';
 import SearchForm from '@/components/SearchForm.vue';
 import DietaryRestrictions from '@/components/DietaryRestrictions.vue';
 import GeneratedRecipe from '@/components/GeneratedRecipe.vue';
-
 import { ref } from 'vue';
 import axios from 'axios';
 
-const question = ref('masak lemak cili api');
+const question = ref('');
 const recipe = ref(null);
 const language = ref('malay');
 
@@ -42,18 +34,7 @@ const getRecipe = async () => {
 <template>
   <div class="w-full flex justify-center">
     <div class="w-full max-w-[1200px] h-screen flex gap-4 items-start p-4">
-      <Card class="h-[600px] w-[250px]">
-        <CardHeader>
-          <CardTitle>Saved Recipes</CardTitle>
-          <CardDescription>Card Description</CardDescription>
-        </CardHeader>
-        <CardContent>
-          Card Content
-        </CardContent>
-        <CardFooter>
-          Card Footer
-        </CardFooter>
-      </Card>
+      <SavedRecipes />
       <div class="flex-grow flex flex-col gap-4">
         <section>
           <SearchForm

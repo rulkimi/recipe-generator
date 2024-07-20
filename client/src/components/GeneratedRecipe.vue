@@ -62,7 +62,7 @@ onMounted(() => {
         </ol>
       </div>
     </div>
-    <div v-else class="text-muted-foreground">Search for a recipe</div>
+    <div v-else class="text-sm text-muted-foreground">Generated recipe will appear here.</div>
 
   </div>
 </template>

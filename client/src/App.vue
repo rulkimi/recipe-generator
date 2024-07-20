@@ -3,12 +3,24 @@ import SavedRecipes from '@/components/SavedRecipes.vue';
 import SearchForm from '@/components/SearchForm.vue';
 import DietaryRestrictions from '@/components/DietaryRestrictions.vue';
 import GeneratedRecipe from '@/components/GeneratedRecipe.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const question = ref('');
 const recipe = ref(null);
 const language = ref('malay');
+
+onMounted(() => {
+  startServer();
+});
+
+const startServer = async () => {
+  try {
+    await axios.get(`${import.meta.env.VITE_BACKEND_URL}/`);
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 const getRecipe = async () => {
   const formData = {

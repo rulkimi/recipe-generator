@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-const emit = defineEmits(['generate', 'update:question', 'update:language'])
+const emit = defineEmits(['generate', 'update:question', 'update:language', 'change'])
 const props = defineProps({
   question: {
     type: String,
@@ -45,6 +45,7 @@ const updateLanguage = (value) => {
     <div class="w-full grid grid-cols-12 gap-2">
       <div class="col-span-8">
         <input
+          id="search-recipe"
           class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           placeholder="Search for a recipe"
           :value="props.question"

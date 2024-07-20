@@ -10,6 +10,8 @@ import {
 
 import { onMounted } from 'vue';
 
+const emit = defineEmits(['save-recipe']);
+
 const props = defineProps({
   recipe: {
     type: [Object, null],
@@ -24,7 +26,16 @@ onMounted(() => {
 
 <template>
   <div class="max-h-[500px] p-4 rounded-lg border bg-card text-card-foreground overflow-auto shadow-sm">
-    <div class="font-bold mb-2">Generated Recipe</div>
+    <div class="font-bold mb-2 flex justify-between">
+      <span>Generated Recipe</span>
+      <span
+        v-if="props.recipe"
+        class="underline cursor-pointer"
+        @click="emit('save-recipe')"
+      >
+        Save
+      </span>
+    </div>
     <div v-if="props.recipe">
       <!-- Recipe Name -->
       <div class="text-2xl font-bold mb-4">{{ props.recipe.name }}</div>

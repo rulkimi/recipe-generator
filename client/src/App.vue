@@ -41,6 +41,19 @@ const getRecipe = async () => {
     console.error(error)
   }
 }
+
+const saveRecipe = () => {
+  const savedRecipesString = localStorage.getItem('savedRecipes');
+  let savedRecipes = [];
+  
+  if (savedRecipesString) {
+    savedRecipes = JSON.parse(savedRecipesString);
+  }
+  
+  savedRecipes.push(recipe.value);
+  localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));
+};
+
 </script>
 
 <template>
@@ -59,7 +72,7 @@ const getRecipe = async () => {
           <DietaryRestrictions />
         </section>
         <section>
-          <GeneratedRecipe :recipe="recipe" />
+          <GeneratedRecipe :recipe="recipe" @save-recipe="saveRecipe" />
         </section>
       </div>
     </div>

@@ -9,12 +9,7 @@ import {
 } from '@/components/ui/card';
 import { ref } from 'vue';
 
-const savedRecipes = ref([
-  { title: 'Ayam masak merah', recipe: {} },
-  { title: 'Nasi Lemak', recipe: {} },
-  { title: 'Rendang Ayam', recipe: {} },
-  { title: 'Gulai Rebung', recipe: {} },
-]);
+const savedRecipes = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
 </script>
 
 <template>
@@ -23,15 +18,16 @@ const savedRecipes = ref([
       <CardTitle>Saved Recipes</CardTitle>
     </CardHeader>
     <CardContent>
-      <div class="flex flex-col gap-2">
+      <div v-if="savedRecipes && savedRecipes.length" class="flex flex-col gap-2">
         <div
           v-for="recipe in savedRecipes"
-          :key="recipe.title"
+          :key="recipe.name"
           class="p-2 rounded-lg border shadow-sm hover:bg-gray-100 cursor-pointer"
         >
-          {{ recipe.title }}
+          {{ recipe.name }}
         </div>
       </div>
+      <div class="text-muted-foreground text-sm" v-else>Start saving your recipe.</div>
     </CardContent>
   </Card>
 </template>

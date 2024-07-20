@@ -7,19 +7,31 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { ref } from 'vue';
+
+const savedRecipes = ref([
+  { title: 'Ayam masak merah', recipe: {} },
+  { title: 'Nasi Lemak', recipe: {} },
+  { title: 'Rendang Ayam', recipe: {} },
+  { title: 'Gulai Rebung', recipe: {} },
+]);
 </script>
 
 <template>
   <Card class="h-[600px] w-[250px]">
     <CardHeader>
       <CardTitle>Saved Recipes</CardTitle>
-      <CardDescription>Card Description</CardDescription>
     </CardHeader>
     <CardContent>
-      Card Content
+      <div class="flex flex-col gap-2">
+        <div
+          v-for="recipe in savedRecipes"
+          :key="recipe.title"
+          class="p-2 rounded-lg border shadow-sm hover:bg-gray-100 cursor-pointer"
+        >
+          {{ recipe.title }}
+        </div>
+      </div>
     </CardContent>
-    <CardFooter>
-      Card Footer
-    </CardFooter>
   </Card>
 </template>

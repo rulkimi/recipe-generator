@@ -52,26 +52,28 @@ const updateLanguage = (value) => {
           @change="onChange($event)"
         />
       </div>
-      <div class="col-span-2">
-        <Select :defaultValue="props.language" @value-change="updateLanguage">
-          <SelectTrigger>
-            <SelectValue placeholder="Language" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Languages</SelectLabel>
-              <SelectItem value="malay">
-                Bahasa Melayu
-              </SelectItem>
-              <SelectItem value="english">
-                English
-              </SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-      <div class="col-span-2">
-        <Button class="w-full" @click="handleGenerate">Generate</Button>
+      <div class="col-span-4 grid grid-cols-12 gap-2">
+        <div class="col-span-8">
+          <Select :defaultValue="props.language" @value-change="updateLanguage">
+            <SelectTrigger>
+              <SelectValue placeholder="Language" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Languages</SelectLabel>
+                <SelectItem value="malay">
+                  Bahasa Melayu
+                </SelectItem>
+                <SelectItem value="english">
+                  English
+                </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div class="col-span-4">
+          <Button @click="handleGenerate">Generate</Button>
+        </div>
       </div>
     </div>
   </div>

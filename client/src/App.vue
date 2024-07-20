@@ -5,6 +5,7 @@ import DietaryRestrictions from '@/components/DietaryRestrictions.vue';
 import GeneratedRecipe from '@/components/GeneratedRecipe.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { savedRecipes } from '@/store/store.ts';
 
 const question = ref('');
 const recipe = ref(null);
@@ -43,17 +44,11 @@ const getRecipe = async () => {
 }
 
 const saveRecipe = () => {
-  const savedRecipesString = localStorage.getItem('savedRecipes');
-  let savedRecipes = [];
-  
-  if (savedRecipesString) {
-    savedRecipes = JSON.parse(savedRecipesString);
-  }
-  
-  savedRecipes.push(recipe.value);
-  localStorage.setItem('savedRecipes', JSON.stringify(savedRecipes));
+  const savedRecipesArray = savedRecipes.value.slice(); // create a copy of the array
+  savedRecipesArray.push(recipe.value);
+  localStorage.setItem('savedRecipes', JSON.stringify(savedRecipesArray));
+  savedRecipes.value = savedRecipesArray; // update the global state
 };
-
 </script>
 
 <template>

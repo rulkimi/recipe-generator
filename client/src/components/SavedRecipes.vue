@@ -2,14 +2,10 @@
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { ref } from 'vue';
-
-const savedRecipes = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
+import { savedRecipes } from '@/store/store.ts'; // Import the global state
 </script>
 
 <template>
@@ -18,7 +14,7 @@ const savedRecipes = JSON.parse(localStorage.getItem('savedRecipes') || '[]');
       <CardTitle>Saved Recipes</CardTitle>
     </CardHeader>
     <CardContent>
-      <div v-if="savedRecipes && savedRecipes.length" class="flex flex-col gap-2">
+      <div v-if="savedRecipes.length" class="flex flex-col gap-2">
         <div
           v-for="recipe in savedRecipes"
           :key="recipe.name"

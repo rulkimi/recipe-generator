@@ -3,19 +3,31 @@ import { ref } from 'vue';
 import { Checkbox } from '@/components/ui/checkbox';
 
 const checkboxes = ref([
-  { id: 'halal', label: 'Halal' },
-  { id: 'vegan', label: 'Vegan' },
-  { id: 'vegetarian', label: 'Vegetarian' },
-  { id: 'nondairy', label: 'Non-dairy' },
-])
+  { id: 'halal', label: 'Halal', checked: true },
+  { id: 'vegan', label: 'Vegan', checked: false },
+  { id: 'vegetarian', label: 'Vegetarian', checked: false },
+  { id: 'nondairy', label: 'Non-dairy', checked: false },
+]);
+
+const toggleCheckbox = (checkbox) => {
+  checkbox.checked = !checkbox.checked;
+};
 </script>
 
 <template>
   <div class="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
     <div class="font-bold mb-2">Dietary Restrictions</div>
     <div class="flex gap-10">
-      <div v-for="checkbox in checkboxes" class="flex items-center gap-2">
-        <Checkbox :id="checkbox.id"/>
+      <div 
+        v-for="checkbox in checkboxes" 
+        :key="checkbox.id" 
+        class="flex items-center gap-2"
+      >
+        <Checkbox 
+          :id="checkbox.id" 
+          :checked="checkbox.checked" 
+          @click="toggleCheckbox(checkbox)"
+        />
         <label :for="checkbox.id">{{ checkbox.label }}</label>
       </div>
     </div>

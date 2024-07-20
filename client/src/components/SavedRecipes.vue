@@ -18,7 +18,7 @@ const savedRecipes = ref([
 </script>
 
 <template>
-  <Card class="h-[600px] w-[250px]">
+  <Card class="h-[600px] min-w-[250px]">
     <CardHeader>
       <CardTitle>Saved Recipes</CardTitle>
     </CardHeader>

@@ -13,16 +13,20 @@ const question = ref('');
 const recipe = ref<any>(null);
 const language = ref('malay');
 const loading = ref(false);
+const serverLoading = ref(false);
 
 onMounted(() => {
   startServer();
 });
 
 const startServer = async () => {
+  serverLoading.value = true;
   try {
     await axios.get(`${import.meta.env.VITE_BACKEND_URL}/`);
   } catch (error) {
     console.error(error)
+  } finally {
+    serverLoading.value = false;
   }
 }
 
@@ -67,20 +71,29 @@ const saveRecipe = () => {
     <div class="w-full max-w-[1200px] h-screen flex gap-4 items-start px-4 pb-4 pt-20">
       <SavedRecipes />
       <div class="flex-grow flex flex-col gap-4">
-        <section>
-          <SearchForm
-            @generate="getRecipe"
-            v-model:question="question"
-            v-model:language="language"
-            :loading="loading"
-          />
-        </section>
-        <section>
-          <DietaryRestrictions />
-        </section>
-        <section>
-          <GeneratedRecipe :recipe="recipe" @save-recipe="saveRecipe" :loading="loading" />
-        </section>
+        <template v-if="!serverLoading">
+          <section>
+            <SearchForm
+              @generate="getRecipe"
+              v-model:question="question"
+              v-model:language="language"
+              :loading="loading"
+            />
+          </section>
+          <section>
+            <DietaryRestrictions />
+          </section>
+          <section>
+            <GeneratedRecipe :recipe="recipe" @save-recipe="saveRecipe" :loading="loading" />
+          </section>
+        </template>
+        <template v-else>
+          <span>
+            We're getting things ready on our server, which is running on the free tier of
+            <a href="https://render.com/" target="_blank" class="underline">Render.com</a>.
+            This might take a moment. While you wait, feel free to explore your saved recipes. Thank you for your patience!
+          </span>
+        </template>
       </div>
     </div>
   </div>

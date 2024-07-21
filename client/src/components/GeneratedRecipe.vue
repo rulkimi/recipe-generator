@@ -25,7 +25,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="max-h-[500px] p-4 rounded-lg border bg-card text-card-foreground overflow-auto shadow-sm">
+  <div class="max-h-screen md:max-h-[500px] p-4 rounded-lg border bg-card text-card-foreground overflow-auto shadow-sm">
     <div class="font-bold mb-2 flex justify-between">
       <span>Generated Recipe</span>
       <span

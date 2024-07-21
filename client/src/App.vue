@@ -88,7 +88,7 @@ const saveRecipe = () => {
           </section>
         </template>
         <template v-else>
-          <span>
+          <span class="animate-pulse">
             We're getting things ready on our server, which is running on the free tier of
             <a href="https://render.com/" target="_blank" class="underline">Render.com</a>.
             This might take a moment. While you wait, feel free to explore your saved recipes. Thank you for your patience!

@@ -14,7 +14,7 @@ app = FastAPI()
 
 origins = [
   "http://localhost:5173",
-  "https://rulkimi.github.io/recipe-generator"
+  "https://rulkimi.github.io"
 ]
 
 app.add_middleware(

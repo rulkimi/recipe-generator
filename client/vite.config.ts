@@ -12,6 +12,7 @@ export default defineConfig({
     },
   },
   plugins: [vue()],
+  base: "/recipe-generator/",
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

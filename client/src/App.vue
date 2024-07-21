@@ -10,7 +10,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'vue-sonner';
 
 const question = ref('');
-const recipe = ref(null);
+const recipe = ref<any>(null);
 const language = ref('malay');
 
 onMounted(() => {
@@ -51,7 +51,9 @@ const saveRecipe = () => {
   localStorage.setItem('savedRecipes', JSON.stringify(savedRecipesArray));
   savedRecipes.value = savedRecipesArray; // update the global state
 
-  toast('Recipe has been created', { description: recipe.value.name });
+  if (recipe.value) {
+    toast('Recipe has been created', { description: recipe.value.name });
+  }
 };
 </script>
 

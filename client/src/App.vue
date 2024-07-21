@@ -12,6 +12,7 @@ import { toast } from 'vue-sonner';
 const question = ref('');
 const recipe = ref<any>(null);
 const language = ref('malay');
+const loading = ref(false);
 
 onMounted(() => {
   startServer();
@@ -31,6 +32,8 @@ const getRecipe = async () => {
     additional_instructions: ''
   }
 
+  loading.value = true;
+
   try {
     const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/generate`, formData, {
       params: {
@@ -42,6 +45,8 @@ const getRecipe = async () => {
     recipe.value = data.recipe;
   } catch (error) {
     console.error(error)
+  } finally {
+    loading.value = false;
   }
 }
 
@@ -73,7 +78,7 @@ const saveRecipe = () => {
           <DietaryRestrictions />
         </section>
         <section>
-          <GeneratedRecipe :recipe="recipe" @save-recipe="saveRecipe" />
+          <GeneratedRecipe :recipe="recipe" @save-recipe="saveRecipe" :loading="loading" />
         </section>
       </div>
     </div>

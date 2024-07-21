@@ -16,6 +16,10 @@ const props = defineProps({
   recipe: {
     type: [Object, null],
     required: true,
+  },
+  loading: {
+    type: Boolean,
+    required: true
   }
 });
 
@@ -29,14 +33,21 @@ onMounted(() => {
     <div class="font-bold mb-2 flex justify-between">
       <span>Generated Recipe</span>
       <span
-        v-if="props.recipe"
+        v-if="props.recipe && !loading"
         class="underline cursor-pointer"
         @click="emit('save-recipe')"
       >
         Save
       </span>
     </div>
-    <div v-if="props.recipe">
+    <div v-if="loading">
+      <div class='flex space-x-1 justify-start items-center mt-3'>
+        <div class='h-2 w-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]'></div>
+        <div class='h-2 w-2 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]'></div>
+        <div class='h-2 w-2 bg-gray-400 rounded-full animate-bounce'></div>
+      </div>
+    </div>
+    <div v-else-if="props.recipe">
       <RecipeDisplay :recipe="props.recipe" />
     </div>
     <div v-else class="text-sm text-muted-foreground">Generated recipe will appear here.</div>

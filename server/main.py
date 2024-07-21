@@ -18,60 +18,60 @@ origins = [
 ]
 
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins, 
-    allow_credentials=True,
-    allow_methods=["*"], 
-    allow_headers=["*"],
+  CORSMiddleware,
+  allow_origins=origins, 
+  allow_credentials=True,
+  allow_methods=["*"], 
+  allow_headers=["*"],
 )
 
 class RecipeRequest(BaseModel):
-    question: str
-    additional_instructions: str
+  question: str
+  additional_instructions: str
 
 def get_model():
-    genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
-    config={"response_mime_type": "application/json"}
-    model = genai.GenerativeModel(model_name="gemini-1.5-flash", generation_config=config)
-    return model
+  genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+  config={"response_mime_type": "application/json"}
+  model = genai.GenerativeModel(model_name="gemini-1.5-flash", generation_config=config)
+  return model
 
 def get_prompt(question: str, language: str, additional_instructions: str = "", ingredients: list = []):
-    prompt = f"""
-        You are a masterchef in Malaysia specializing in local and international cuisine. You will respond to a question 
-        regarding recipes, ingredients, and food preparation. The ingredients you suggest should be easily available in 
-        Malaysian supermarkets. Please provide detailed and easy-to-follow instructions.
+  prompt = f"""
+      You are a masterchef in Malaysia specializing in local and international cuisine. You will respond to a question 
+      regarding recipes, ingredients, and food preparation. The ingredients you suggest should be easily available in 
+      Malaysian supermarkets. Please provide detailed and easy-to-follow instructions.
 
-        {additional_instructions}
+      {additional_instructions}
 
-        {get_recipe_by_ingredients(ingredients)}
+      {get_recipe_by_ingredients(ingredients)}
 
-        Respond in natural {language}. Do not make it sound weird and robotic.
+      Respond in natural {language}. Do not make it sound weird and robotic.
 
-        You should only respond in the following JSON object (IMPORTANT! DO NOT RESPOND IN ANY OTHER FORMAT):
-        {{
-            "recipe": {{
-                "name": "...",
-                "ingredients": [
-                    {{ "name": "...", "amount": "..." }}
-                    // more ingredients
-                ],
-                "steps": [
-                    {{ "description": "...", "tips": "..." }},
-                    {{ "description": "...", "tips": "..." }}
-                    // more steps, tips/suggestions if any
-                ],
-                "suggested_pairings": [
-                    // only suggest if they are really GOOD pairings, if not, left it an empty array
-                    {{ "dish_name": "...", "description": "..." }}
-                ]
-            }}
-        }}
-    """
+      You should only respond in the following JSON object (IMPORTANT! DO NOT RESPOND IN ANY OTHER FORMAT):
+      {{
+          "recipe": {{
+              "name": "...",
+              "ingredients": [
+                  {{ "name": "...", "amount": "..." }}
+                  // more ingredients
+              ],
+              "steps": [
+                  {{ "description": "...", "tips": "..." }},
+                  {{ "description": "...", "tips": "..." }}
+                  // more steps, tips/suggestions if any
+              ],
+              "suggested_pairings": [
+                  // only suggest if they are really GOOD pairings, if not, left it an empty array
+                  {{ "dish_name": "...", "description": "..." }}
+              ]
+          }}
+      }}
+  """
 
-    if not ingredients:
-        prompt += f"\n\nThe question is: {question}\n"
-    
-    return prompt
+  if not ingredients:
+      prompt += f"\n\nThe question is: {question}\n"
+  
+  return prompt
 
 def get_recipe_by_ingredients(ingredients: list):
   if len(ingredients) <= 0:

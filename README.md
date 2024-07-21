@@ -2,6 +2,7 @@
   <h1>Recipe Generator</h1>
   <h2>Project Overview</h2>
   <p>The Recipe Generator is a web application that allows users to input the name of a dish and get the recipe for that dish. It combines a user-friendly frontend with a backend to provide recipe information using AI-generated responses.</p>
+  <p>You can explore the live site here: <a href="https://rulkimi.github.io/recipe-generator/" target="_blank">Recipe Generator</a></p>
   
   <h2>Tech Stack</h2>
   <ul>

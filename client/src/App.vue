@@ -72,6 +72,7 @@ const saveRecipe = () => {
             @generate="getRecipe"
             v-model:question="question"
             v-model:language="language"
+            :loading="loading"
           />
         </section>
         <section>

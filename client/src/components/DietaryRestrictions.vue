@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
 
 const checkboxes = ref([
   { id: 'halal', label: 'Halal', checked: true },
@@ -16,7 +17,12 @@ const toggleCheckbox = (checkbox) => {
 
 <template>
   <div class="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
-    <div class="font-bold mb-2">Dietary Restrictions</div>
+    <div class="flex gap-2">
+      <div class="font-bold mb-2">Dietary Restrictions</div>
+      <div>
+        <Badge variant="outline">Coming Soon</Badge>
+      </div>
+    </div>
     <div class="flex gap-10">
       <div 
         v-for="checkbox in checkboxes" 

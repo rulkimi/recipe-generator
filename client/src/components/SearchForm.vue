@@ -21,6 +21,10 @@ const props = defineProps({
     type: String,
     default: 'malay',
   },
+  loading: {
+    type: Boolean,
+    required: true
+  }
 })
 
 const updateValue = (event) => {
@@ -73,7 +77,13 @@ const updateLanguage = (value) => {
           </Select>
         </div>
         <div>
-          <Button @click="handleGenerate">Generate</Button>
+          <Button 
+            @click="handleGenerate"
+            :class="{'animate-pulse cursor-not-allowed': loading}"
+          >
+            <span v-if="!loading">Generate</span>
+            <span v-else>Generating...</span>
+          </Button>
         </div>
       </div>
     </div>

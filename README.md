@@ -1,7 +1,7 @@
 <div>
   <h1>Recipe Generator</h1>
   <h2>Project Overview</h2>
-  <p>The Recipe Generator is a web application that allows users to input the name of a dish and get the recipe for that dish. It combines a user-friendly frontend with a powerful backend to provide recipe information using AI-generated responses.</p>
+  <p>The Recipe Generator is a web application that allows users to input the name of a dish and get the recipe for that dish. It combines a user-friendly frontend with a backend to provide recipe information using AI-generated responses.</p>
   
   <h2>Tech Stack</h2>
   <ul>
@@ -55,9 +55,9 @@
   
   <h2>Usage</h2>
   <ol>
-    <li>Open the frontend application in your browser.</li>
+    <li>Open the frontend website in your browser.</li>
     <li>Enter the name of a dish into the input field.</li>
-    <li>The application will display the recipe for the specified dish.</li>
+    <li>The website will display the recipe for the specified dish.</li>
   </ol>
   
   <h2>API Documentation</h2>

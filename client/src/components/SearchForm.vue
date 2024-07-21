@@ -42,8 +42,8 @@ const updateLanguage = (value) => {
 
 <template>
   <div class="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
-    <div class="w-full grid grid-cols-12 gap-2">
-      <div class="col-span-8">
+    <div class="w-full flex gap-2">
+      <div class="flex-grow">
         <input
           id="search-recipe"
           class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -53,8 +53,8 @@ const updateLanguage = (value) => {
           @change="onChange($event)"
         />
       </div>
-      <div class="col-span-4 grid grid-cols-12 gap-2">
-        <div class="col-span-8">
+      <div class="flex items-center gap-2">
+        <div class="flex-grow">
           <Select :defaultValue="props.language" @value-change="updateLanguage">
             <SelectTrigger>
               <SelectValue placeholder="Language" />
@@ -72,7 +72,7 @@ const updateLanguage = (value) => {
             </SelectContent>
           </Select>
         </div>
-        <div class="col-span-4">
+        <div>
           <Button @click="handleGenerate">Generate</Button>
         </div>
       </div>

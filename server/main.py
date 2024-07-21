@@ -35,13 +35,15 @@ def get_model():
     model = genai.GenerativeModel(model_name="gemini-1.5-flash", generation_config=config)
     return model
 
-def get_prompt(question: str, language: str, additional_instructions: str = ""):
+def get_prompt(question: str, language: str, additional_instructions: str = "", ingredients: list = []):
     prompt = f"""
         You are a masterchef in Malaysia specializing in local and international cuisine. You will respond to a question 
         regarding recipes, ingredients, and food preparation. The ingredients you suggest should be easily available in 
         Malaysian supermarkets. Please provide detailed and easy-to-follow instructions.
 
         {additional_instructions}
+
+        {get_recipe_by_ingredients(ingredients)}
 
         Respond in natural {language}. Do not make it sound weird and robotic.
 
@@ -64,10 +66,23 @@ def get_prompt(question: str, language: str, additional_instructions: str = ""):
                 ]
             }}
         }}
-
-        The question is: {question}
     """
+
+    if not ingredients:
+        prompt += f"\n\nThe question is: {question}\n"
+    
     return prompt
+
+def get_recipe_by_ingredients(ingredients: list):
+  if len(ingredients) <= 0:
+    return ""
+  else:
+    ingredients_str = ", ".join(ingredients)
+    return f"""
+        Please provide a list of dishes that can be made with the following ingredients: {ingredients_str}.
+        Only use these ingredients. If an additional ingredient is needed, indicate it with (suggested addition).
+        Return the recipes in an array of JSON objects in the following format:
+    """
 
 @app.get("/")
 async def root():
@@ -78,6 +93,17 @@ async def generate_recipe(recipe_request: RecipeRequest, language: str = "Bahasa
     try:
         model = get_model()
         prompt = get_prompt(recipe_request.question, language, recipe_request.additional_instructions)
+        response = model.generate_content(prompt)
+        recipe = json.loads(response.text)
+        return {"status": "success", "message": "Recipe generated successfully", "data": recipe}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail={"status": "error", "message": str(e), "data": None})
+
+@app.post("/generate_by_ingredients")
+async def generate_recipe_by_ingredients(ingredients: list[str], language: str = "Bahasa Melayu"):
+    try:
+        model = get_model()
+        prompt = get_prompt("", language, "", ingredients)
         response = model.generate_content(prompt)
         recipe = json.loads(response.text)
         return {"status": "success", "message": "Recipe generated successfully", "data": recipe}

@@ -6,6 +6,8 @@ import GeneratedRecipe from '@/components/GeneratedRecipe.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { savedRecipes } from '@/store/store.ts';
+import { Toaster } from '@/components/ui/sonner';
+import { toast } from 'vue-sonner';
 
 const question = ref('');
 const recipe = ref(null);
@@ -48,12 +50,14 @@ const saveRecipe = () => {
   savedRecipesArray.push(recipe.value);
   localStorage.setItem('savedRecipes', JSON.stringify(savedRecipesArray));
   savedRecipes.value = savedRecipesArray; // update the global state
+
+  toast('Recipe has been created', { description: recipe.value.name });
 };
 </script>
 
 <template>
   <div class="w-full flex justify-center">
-    <div class="w-full max-w-[1200px] h-screen flex gap-4 items-start p-4">
+    <div class="w-full max-w-[1200px] h-screen flex gap-4 items-start px-4 pb-4 pt-20">
       <SavedRecipes />
       <div class="flex-grow flex flex-col gap-4">
         <section>
@@ -72,4 +76,5 @@ const saveRecipe = () => {
       </div>
     </div>
   </div>
+  <Toaster />
 </template>

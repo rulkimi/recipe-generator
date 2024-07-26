@@ -14,6 +14,7 @@ const recipe = ref<any>(null);
 const language = ref('malay');
 const loading = ref(false);
 const serverLoading = ref(false);
+const searchType = ref('name');
 
 onMounted(() => {
   startServer();
@@ -54,6 +55,34 @@ const getRecipe = async () => {
   }
 }
 
+const getRecipeByIngredients = async () => {
+  loading.value = true;
+  console.log(question.value)
+
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/generate_by_ingredients`, question.value, {
+      params: {
+        language: language.value
+      }
+    });
+    const { data } = response.data;
+
+    recipe.value = data.recipe;
+  } catch (error) {
+    console.error(error)
+  } finally {
+    loading.value = false;
+  }
+}
+
+const generateRecipe = () => {
+  if (searchType.value === 'ingredients') {
+    getRecipeByIngredients();
+  } else {
+    getRecipe();
+  }
+}
+
 const saveRecipe = () => {
   const savedRecipesArray = savedRecipes.value.slice(); // create a copy of the array
   savedRecipesArray.push(recipe.value);
@@ -64,6 +93,10 @@ const saveRecipe = () => {
     toast('Recipe has been created', { description: recipe.value.name });
   }
 };
+
+const searchBy = (type) => {
+  searchType.value = type;
+}
 </script>
 
 <template>
@@ -74,10 +107,11 @@ const saveRecipe = () => {
         <template v-if="!serverLoading">
           <section>
             <SearchForm
-              @generate="getRecipe"
               v-model:question="question"
               v-model:language="language"
               :loading="loading"
+              @search-by="searchBy"
+              @generate="generateRecipe"
             />
           </section>
           <section>

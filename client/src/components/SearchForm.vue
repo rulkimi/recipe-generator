@@ -16,7 +16,7 @@ import { ref } from 'vue'
 const emit = defineEmits(['generate', 'update:question', 'update:language', 'change', 'search-by'])
 const props = defineProps({
   question: {
-    type: String,
+    type: [String, Array],
     required: true,
   },
   language: {
@@ -29,7 +29,7 @@ const props = defineProps({
   }
 })
 
-const searchType = ref('ingredients');
+const searchType = ref('name');
 const typeButtons = ref([
   { type: 'name', label: 'Name' },
   { type: 'ingredients', label: 'Ingredients' },
@@ -46,6 +46,11 @@ const onChange = (event) => {
 }
 
 const handleGenerate = () => {
+  if (searchType.value === 'ingredients') {
+    emit('update:question', ingredients.value); // Emit ingredients value
+  } else {
+    emit('update:question', props.question);
+  }
   emit('generate')
 }
 
@@ -69,8 +74,8 @@ const searchBy = (type) => {
           class="flex h-10 w-full rounded-md border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           placeholder="Search by"
           :value="props.question"
-          @input="updateValue($event)"
-          @change="onChange($event)"
+          @input="updateValue"
+          @change="onChange"
         />
         <TagsInput v-else v-model="ingredients" class="border-none w-full">
           <TagsInputItem v-for="item in ingredients" :key="item" :value="item">
@@ -124,4 +129,3 @@ const searchBy = (type) => {
     </div>
   </div>
 </template>
-

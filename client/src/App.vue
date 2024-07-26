@@ -94,8 +94,8 @@ const saveRecipe = () => {
   }
 };
 
-const searchBy = (type) => {
-  searchType.value = type;
+const searchBy = (mode: string) => {
+  searchType.value = mode;
 }
 </script>
 

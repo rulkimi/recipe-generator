@@ -58,9 +58,9 @@ const updateLanguage = (value) => {
   emit('update:language', value)
 }
 
-const searchBy = (type) => {
-  searchType.value = type;
-  emit('search-by', type);
+const searchBy = (mode) => {
+  searchType.value = mode;
+  emit('search-by', mode);
 }
 </script>
 

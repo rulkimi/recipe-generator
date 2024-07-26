@@ -33,9 +33,11 @@ const searchType = ref('name');
 const typeButtons = ref([
   { type: 'name', label: 'Name' },
   { type: 'ingredients', label: 'Ingredients' },
-  // { type: 'image', label: 'Image' }
+  { type: 'image', label: 'Image' }
 ]);
 const ingredients = ref([]);
+const fileInputRef = ref(null);
+const fileName = ref('');
 
 const updateValue = (event) => {
   emit('update:question', event.target.value)
@@ -61,6 +63,18 @@ const updateLanguage = (value) => {
 const searchBy = (mode) => {
   searchType.value = mode;
   emit('search-by', mode);
+  if (mode === 'image') {
+    fileInputRef.value.click();
+  }
+}
+
+const handleFileChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    fileName.value = file.name; // Set the file name
+  } else {
+    fileName.value = ''; // Clear the file name if no file is selected
+  }
 }
 </script>
 
@@ -69,7 +83,7 @@ const searchBy = (mode) => {
     <div class="w-full flex gap-2">
       <div class="flex-grow flex items-center border rounded-md bg-white gap-2" :class="{ 'flex-col' : searchType === 'ingredients'}">
         <input
-          v-if="searchType !== 'ingredients'"
+          v-if="searchType !== 'ingredients' && searchType !== 'image'"
           id="search-recipe"
           class="flex h-10 w-full rounded-md border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
           placeholder="Search by"
@@ -77,7 +91,7 @@ const searchBy = (mode) => {
           @input="updateValue"
           @change="onChange"
         />
-        <TagsInput v-else v-model="ingredients" class="border-none w-full">
+        <TagsInput v-else-if="searchType === 'ingredients'" v-model="ingredients" class="border-none w-full">
           <TagsInputItem v-for="item in ingredients" :key="item" :value="item">
             <TagsInputItemText />
             <TagsInputItemDelete />
@@ -85,6 +99,18 @@ const searchBy = (mode) => {
 
           <TagsInputInput placeholder="Search by ingredients" />
         </TagsInput>
+        <div v-show="searchType === 'image'" class="w-full overflow-hidden text-ellipsis whitespace-nowrap">
+          <input 
+            ref="fileInputRef" 
+            type="file" 
+            accept=".jpeg, .png, .jpg" 
+            class="hidden"
+            @change="handleFileChange"
+          />
+          <span class="text-gray-500 text-sm px-2 py-1 block">
+            {{ fileName || 'Upload image' }}
+          </span>
+        </div>
         <div class="flex justify-end w-full gap-1 mr-2" :class="{ 'mb-1' : searchType === 'ingredients'}">
           <button 
             v-for="button in typeButtons" 

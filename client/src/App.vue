@@ -75,6 +75,31 @@ const getRecipeByIngredients = async () => {
   }
 }
 
+const uploadImage = async (file: File) => {
+  const formData = new FormData();
+  formData.append('file', file);
+
+  loading.value = true;
+
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/upload_image`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      params: {
+        language: language.value
+      }
+    });
+    const { data } = response.data;
+
+    recipe.value = data.recipe;
+  } catch (error) {
+    console.error(error)
+  } finally {
+    loading.value = false;
+  }
+}
+
 const generateRecipe = () => {
   if (searchType.value === 'ingredients') {
     getRecipeByIngredients();
@@ -97,6 +122,12 @@ const saveRecipe = () => {
 const searchBy = (mode: string) => {
   searchType.value = mode;
 }
+
+const handleUploadImage = (file: File) => {
+  console.log(file)
+  uploadImage(file);
+}
+
 </script>
 
 <template>
@@ -112,6 +143,7 @@ const searchBy = (mode: string) => {
               :loading="loading"
               @search-by="searchBy"
               @generate="generateRecipe"
+              @upload-image="handleUploadImage"
             />
           </section>
           <section>

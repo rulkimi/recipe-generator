@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ref } from 'vue'
 
-const emit = defineEmits(['generate', 'update:question', 'update:language', 'change', 'search-by'])
+const emit = defineEmits(['generate', 'update:question', 'update:language', 'change', 'search-by', 'upload-image'])
 const props = defineProps({
   question: {
     type: [String, Array],
@@ -37,6 +37,7 @@ const typeButtons = ref([
 ]);
 const ingredients = ref([]);
 const fileInputRef = ref(null);
+const file = ref(null);
 const fileName = ref('');
 
 const updateValue = (event) => {
@@ -48,6 +49,7 @@ const onChange = (event) => {
 }
 
 const handleGenerate = () => {
+  console.log('file value', file.value)
   if (searchType.value === 'ingredients') {
     emit('update:question', ingredients.value); // Emit ingredients value
   } else {
@@ -69,11 +71,14 @@ const searchBy = (mode) => {
 }
 
 const handleFileChange = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    fileName.value = file.name; // Set the file name
+  const selectedFile = event.target.files[0];
+  if (selectedFile) {
+    file.value = selectedFile; // Set the file
+    fileName.value = selectedFile.name; // Set the file name
+    emit('upload-image', file.value);
   } else {
-    fileName.value = ''; // Clear the file name if no file is selected
+    file.value = null; // Clear the file
+    fileName.value = ''; // Clear the file name
   }
 }
 </script>
@@ -103,11 +108,11 @@ const handleFileChange = (event) => {
           <input 
             ref="fileInputRef" 
             type="file" 
-            accept=".jpeg, .png, .jpg" 
             class="hidden"
+            accept=".jpeg, .png, .jpg" 
             @change="handleFileChange"
           />
-          <span class="text-gray-500 text-sm px-2 py-1 block">
+          <span class="text-gray-500 text-sm px-2 py-1 block" @click="fileInputRef.click();">
             {{ fileName || 'Upload image' }}
           </span>
         </div>

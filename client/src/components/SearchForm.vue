@@ -33,7 +33,7 @@ const searchType = ref('name');
 const typeButtons = ref([
   { type: 'name', label: 'Name' },
   { type: 'ingredients', label: 'Ingredients' },
-  { type: 'image', label: 'Image' }
+  // { type: 'image', label: 'Image' }
 ]);
 const ingredients = ref([]);
 

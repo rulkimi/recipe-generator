@@ -132,7 +132,7 @@ const handleUploadImage = (file: File) => {
 
 <template>
   <div class="w-full flex justify-center">
-    <div class="w-full max-w-[1200px] h-screen flex gap-4 items-start px-4 pb-4 pt-20">
+    <div class="max-w-[1200px] h-screen flex gap-4 items-start px-4 pb-4 pt-20">
       <SavedRecipes />
       <div class="flex-grow flex flex-col gap-4">
         <template v-if="!serverLoading">

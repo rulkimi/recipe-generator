@@ -85,7 +85,7 @@ const handleFileChange = (event) => {
 
 <template>
   <div class="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
-    <div class="w-full flex gap-2">
+    <div class="w-full flex flex-col md:flex-row gap-2">
       <div
         class="flex-grow flex flex-col md:flex-row items-center border rounded-md bg-white gap-2"
         :class="{'!flex-col': searchType === 'ingredients' }"
@@ -119,10 +119,7 @@ const handleFileChange = (event) => {
             {{ fileName || 'Upload image' }}
           </span>
         </div>
-        <div
-          class="flex justify-end w-full gap-1 mr-2"
-          :class="{ 'mb-1' : searchType === 'ingredients'}"
-        >
+        <div class="flex justify-end w-full gap-1 mr-2 mb-1 md:mb-0">
           <button 
             v-for="button in typeButtons" 
             :key="button.type" 
@@ -138,7 +135,7 @@ const handleFileChange = (event) => {
         class="flex flex-col md:flex-row items-center gap-2" 
         :class="{'!flex-col': searchType === 'ingredients' }"
       >
-        <div class="flex-grow" :class="{ 'w-full' : searchType === 'ingredients'}">
+        <div class="flex-grow w-full">
           <Select :defaultValue="props.language" @value-change="updateLanguage">
             <SelectTrigger>
               <SelectValue placeholder="Language" />

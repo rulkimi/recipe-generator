@@ -132,7 +132,7 @@ const handleUploadImage = (file: File) => {
 
 <template>
   <div class="w-full flex justify-center">
-    <div class="fixed flex flex-col justify-center items-center h-[70px] w-full bg-white z-[2]">
+    <div class="fixed flex flex-col justify-center items-center h-[70px] w-full bg-white/90 z-[2]">
       <h4 class="text-2xl font-bold">Recipe Generator</h4>
     </div>
     <div class="w-full max-w-[1200px] h-screen flex gap-4 items-start px-4 pb-4 pt-20">

@@ -43,7 +43,7 @@ watch(() => props.recipe, (newValue) => {
 </script>
 
 <template>
-  <div class="max-h-screen md:max-h-[500px] md:overflow-auto p-4 rounded-lg border bg-card shadow-sm">
+  <div class="md:max-h-screen md:max-h-[500px] md:overflow-auto p-4 rounded-lg border bg-card shadow-sm">
     <div class="font-bold mb-2 flex justify-between">
       <span>Generated Recipe</span>
       <span

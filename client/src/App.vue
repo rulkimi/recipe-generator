@@ -132,8 +132,11 @@ const handleUploadImage = (file: File) => {
 
 <template>
   <div class="w-full flex justify-center">
-    <div class="fixed flex flex-col justify-center items-center h-[70px] w-full bg-white/90 z-[2]">
+    <div class="fixed flex justify-center items-center gap-4 h-[70px] w-full bg-white/90 z-[2]">
       <h4 class="text-2xl font-bold">Recipe Generator</h4>
+      <a href="https://github.com/rulkimi/recipe-generator" target="_blank" class="cursor-pointer transition duration-200 hover:scale-110">
+        <img src="./assets/github-mark.png" width="24" alt="rulkimi recipe generator github" />
+      </a>
     </div>
     <div class="w-full max-w-[1200px] h-screen flex gap-4 items-start px-4 pb-4 pt-20">
       <SavedRecipes />

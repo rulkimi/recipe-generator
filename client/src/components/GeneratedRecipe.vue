@@ -27,6 +27,10 @@ const props = defineProps({
   loading: {
     type: Boolean,
     required: true
+  },
+  errorMessage: {
+    type: String,
+    default: ''
   }
 });
 const isArray = ref(false);
@@ -73,6 +77,9 @@ watch(() => props.recipe, (newValue) => {
     </div>
     <div v-else-if="props.recipe">
       <RecipeDisplay :recipe="props.recipe" />
+    </div>
+    <div v-else-if="errorMessage" class="text-sm text-red-500">
+      {{ errorMessage }}
     </div>
     <div v-else class="text-sm text-muted-foreground">Generated recipe will appear here.</div>
   </div>

@@ -15,6 +15,7 @@ const language = ref('malay');
 const loading = ref(false);
 const serverLoading = ref(false);
 const searchType = ref('name');
+const errorMessage = ref('');
 
 onMounted(() => {
   startServer();
@@ -32,6 +33,8 @@ const startServer = async () => {
 }
 
 const getRecipe = async () => {
+  errorMessage.value = '';
+
   const formData = {
     question: question.value,
     additional_instructions: ''
@@ -50,12 +53,15 @@ const getRecipe = async () => {
     recipe.value = data.recipe;
   } catch (error) {
     console.error(error)
+    errorMessage.value = 'Error getting the recipe. Please try again.'
   } finally {
     loading.value = false;
   }
 }
 
 const getRecipeByIngredients = async () => {
+  errorMessage.value = '';
+
   loading.value = true;
   console.log(question.value)
 
@@ -70,12 +76,15 @@ const getRecipeByIngredients = async () => {
     recipe.value = data.recipe;
   } catch (error) {
     console.error(error)
+    errorMessage.value = 'Error getting the recipe. Please try again.'
   } finally {
     loading.value = false;
   }
 }
 
 const uploadImage = async (file: File) => {
+  errorMessage.value = '';
+
   const formData = new FormData();
   formData.append('file', file);
 
@@ -95,6 +104,7 @@ const uploadImage = async (file: File) => {
     recipe.value = data.recipe;
   } catch (error) {
     console.error(error)
+    errorMessage.value = 'Error getting the recipe. Please try again.'
   } finally {
     loading.value = false;
   }
@@ -156,7 +166,7 @@ const handleUploadImage = (file: File) => {
             <DietaryRestrictions />
           </section>
           <section>
-            <GeneratedRecipe :recipe="recipe" @save-recipe="saveRecipe" :loading="loading" />
+            <GeneratedRecipe :recipe="recipe" @save-recipe="saveRecipe" :loading="loading" :error-message="errorMessage" />
           </section>
         </template>
         <template v-else>

@@ -55,7 +55,7 @@ import RecipeDisplay from './RecipeDisplay.vue';
       <div class="text-muted-foreground text-sm" v-else>Start saving your recipe.</div>
     </SheetContent>
   </Sheet>
-  <div class="hidden md:block h-[600px] min-w-[250px] p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
+  <div class="hidden md:block h-[600px] min-w-[250px] p-4 rounded-lg border bg-card shadow-sm">
     <div class="font-bold mb-2">Saved Recipes</div>
     <div v-if="savedRecipes.length" class="flex flex-col gap-2">
       <!-- <div

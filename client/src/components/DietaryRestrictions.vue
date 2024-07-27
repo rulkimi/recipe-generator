@@ -23,7 +23,7 @@ const toggleCheckbox = (checkbox) => {
         <Badge variant="outline">Coming Soon</Badge>
       </div>
     </div>
-    <div class="flex gap-10">
+    <div class="grid grid-rows-2 grid-flow-col md:flex md:gap-10">
       <div 
         v-for="checkbox in checkboxes" 
         :key="checkbox.id" 

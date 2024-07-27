@@ -22,7 +22,7 @@ import RecipeDisplay from './RecipeDisplay.vue';
 
 <template>
   <Sheet>
-    <SheetTrigger class="fixed md:hidden top-6">
+    <SheetTrigger class="fixed md:hidden top-6 z-[3]">
       <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 30 30">
         <path d="M 3 7 A 1.0001 1.0001 0 1 0 3 9 L 27 9 A 1.0001 1.0001 0 1 0 27 7 L 3 7 z M 3 14 A 1.0001 1.0001 0 1 0 3 16 L 27 16 A 1.0001 1.0001 0 1 0 27 14 L 3 14 z M 3 21 A 1.0001 1.0001 0 1 0 3 23 L 27 23 A 1.0001 1.0001 0 1 0 27 21 L 3 21 z"></path>
       </svg>
@@ -55,7 +55,7 @@ import RecipeDisplay from './RecipeDisplay.vue';
       <div class="text-muted-foreground text-sm" v-else>Start saving your recipe.</div>
     </SheetContent>
   </Sheet>
-  <div class="hidden md:block h-[600px] min-w-[250px] p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
+  <div class="hidden md:block h-[600px] min-w-[250px] p-4 rounded-lg border bg-card shadow-sm">
     <div class="font-bold mb-2">Saved Recipes</div>
     <div v-if="savedRecipes.length" class="flex flex-col gap-2">
       <!-- <div

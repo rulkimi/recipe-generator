@@ -85,8 +85,11 @@ const handleFileChange = (event) => {
 
 <template>
   <div class="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
-    <div class="w-full flex gap-2">
-      <div class="flex-grow flex items-center border rounded-md bg-white gap-2" :class="{ 'flex-col' : searchType === 'ingredients'}">
+    <div class="w-full flex flex-col md:flex-row gap-2">
+      <div
+        class="flex-grow flex flex-col md:flex-row items-center border rounded-md bg-white gap-2"
+        :class="{'!flex-col': searchType === 'ingredients' }"
+      >
         <input
           v-if="searchType !== 'ingredients' && searchType !== 'image'"
           id="search-recipe"
@@ -112,11 +115,11 @@ const handleFileChange = (event) => {
             accept=".jpeg, .png, .jpg" 
             @change="handleFileChange"
           />
-          <span class="text-gray-500 text-sm px-2 py-1 block" @click="fileInputRef.click();">
+          <span class="text-gray-500 text-sm text-start px-3 pt-2 py-3 block" @click="fileInputRef.click();">
             {{ fileName || 'Upload image' }}
           </span>
         </div>
-        <div class="flex justify-end w-full gap-1 mr-2" :class="{ 'mb-1' : searchType === 'ingredients'}">
+        <div class="flex justify-end w-full gap-1 mr-2 mb-1 md:mb-0">
           <button 
             v-for="button in typeButtons" 
             :key="button.type" 
@@ -128,8 +131,11 @@ const handleFileChange = (event) => {
           </button>
         </div>
       </div>
-      <div class="flex items-center gap-2" :class="{ 'flex-col' : searchType === 'ingredients'}">
-        <div class="flex-grow" :class="{ 'w-full' : searchType === 'ingredients'}">
+      <div
+        class="flex flex-col md:flex-row items-center gap-2" 
+        :class="{'!flex-col': searchType === 'ingredients' }"
+      >
+        <div class="flex-grow w-full">
           <Select :defaultValue="props.language" @value-change="updateLanguage">
             <SelectTrigger>
               <SelectValue placeholder="Language" />
@@ -147,10 +153,14 @@ const handleFileChange = (event) => {
             </SelectContent>
           </Select>
         </div>
-        <div :class="{ 'w-full' : searchType === 'ingredients'}">
+        <div class="w-full md:w-auto" :class="{ 'md:!w-full' : searchType === 'ingredients' }">
           <Button 
             @click="handleGenerate"
-            :class="{'animate-pulse cursor-not-allowed': loading,'w-full' : searchType === 'ingredients' }"
+            class="w-full md:w-auto"
+            :class="{
+              'animate-pulse cursor-not-allowed': loading,
+              'md:!w-full': searchType === 'ingredients'
+            }"
           >
             <span v-if="!loading">Generate</span>
             <span v-else>Generating...</span>

@@ -11,7 +11,7 @@ import {
 import { TagsInput, TagsInputInput, TagsInputItem, TagsInputItemDelete, TagsInputItemText } from '@/components/ui/tags-input'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const emit = defineEmits(['generate', 'update:question', 'update:language', 'change', 'search-by', 'upload-image'])
 const props = defineProps({
@@ -39,6 +39,7 @@ const ingredients = ref([]);
 const fileInputRef = ref(null);
 const file = ref(null);
 const fileName = ref('');
+const selectedLanguage = ref(props.language);
 
 const updateValue = (event) => {
   emit('update:question', event.target.value)
@@ -56,10 +57,6 @@ const handleGenerate = () => {
     emit('update:question', props.question);
   }
   emit('generate')
-}
-
-const updateLanguage = (value) => {
-  emit('update:language', value)
 }
 
 const searchBy = (mode) => {
@@ -81,6 +78,11 @@ const handleFileChange = (event) => {
     fileName.value = ''; // Clear the file name
   }
 }
+
+watch(selectedLanguage, (newVal) => {
+  console.log(newVal)
+  emit('update:language', newVal)
+});
 </script>
 
 <template>
@@ -136,7 +138,7 @@ const handleFileChange = (event) => {
         :class="{'!flex-col': searchType === 'ingredients' }"
       >
         <div class="flex-grow w-full">
-          <Select :defaultValue="props.language" @value-change="updateLanguage">
+          <Select v-model="selectedLanguage">
             <SelectTrigger>
               <SelectValue placeholder="Language" />
             </SelectTrigger>

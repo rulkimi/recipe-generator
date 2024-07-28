@@ -121,7 +121,10 @@ watch(selectedLanguage, (newVal) => {
             {{ fileName || 'Upload image' }}
           </span>
         </div>
-        <div class="flex justify-end w-full gap-1 mr-2 mb-1 md:mb-0">
+        <div
+          class="flex justify-end w-full gap-1 mr-2 mb-1"
+          :class="{ 'md:mb-0' : searchType !== 'ingredients' }"
+        >
           <button 
             v-for="button in typeButtons" 
             :key="button.type" 

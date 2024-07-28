@@ -100,6 +100,7 @@ watch(selectedLanguage, (newVal) => {
           :value="props.question"
           @input="updateValue"
           @change="onChange"
+          @keydown.enter="emit('generate')"
         />
         <TagsInput v-else-if="searchType === 'ingredients'" v-model="ingredients" class="border-none w-full">
           <TagsInputItem v-for="item in ingredients" :key="item" :value="item">

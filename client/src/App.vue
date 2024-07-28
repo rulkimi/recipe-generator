@@ -36,16 +36,16 @@ const startServer = async () => {
 const getRecipe = async () => {
   errorMessage.value = '';
 
-  const formData = {
-    question: question.value,
-    additional_instructions: ''
-  }
+  const formData = new FormData();
+  formData.append('additional_instructions', '');
+  formData.append('dietary_restrictions', '');
 
   loading.value = true;
 
   try {
     const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/generate`, formData, {
       params: {
+        question: question.value,
         language: language.value
       }
     });
@@ -64,10 +64,14 @@ const getRecipeByIngredients = async () => {
   errorMessage.value = '';
 
   loading.value = true;
-  console.log(question.value);
+  const formData = new FormData();
+  console.log(question.value)
+  formData.append('ingredients', question.value);
+  formData.append('additional_instructions', '');
+  formData.append('dietary_restrictions', '');
 
   try {
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/generate_by_ingredients`, question.value, {
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/generate_by_ingredients`, formData, {
       params: {
         language: language.value
       }
@@ -88,14 +92,13 @@ const uploadImage = async (file: File) => {
 
   const formData = new FormData();
   formData.append('file', file);
+  formData.append('additional_instructions', '');
+  formData.append('dietary_restrictions', '');
 
   loading.value = true;
 
   try {
     const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/upload_image/`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      },
       params: {
         language: language.value
       }

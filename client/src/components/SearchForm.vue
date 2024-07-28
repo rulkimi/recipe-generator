@@ -123,8 +123,8 @@ const handleFileChange = (event) => {
           <button 
             v-for="button in typeButtons" 
             :key="button.type" 
-            class="h-8 px-4 rounded-md" 
-            :class="searchType === button.type ? 'bg-gray-100' : 'border'" 
+            class="h-8 px-4 rounded-md hover:bg-slate-100 hover:border-white" 
+            :class="searchType === button.type ? 'bg-slate-100' : 'border'" 
             @click="searchBy(button.type)"
           >
             {{ button.label }}

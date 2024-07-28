@@ -16,6 +16,7 @@ const loading = ref(false);
 const serverLoading = ref(false);
 const searchType = ref('name');
 const errorMessage = ref('');
+const imageFile = ref<File | null>(null);
 
 onMounted(() => {
   startServer();
@@ -26,7 +27,7 @@ const startServer = async () => {
   try {
     await axios.get(`${import.meta.env.VITE_BACKEND_URL}/`);
   } catch (error) {
-    console.error(error)
+    console.error(error);
   } finally {
     serverLoading.value = false;
   }
@@ -52,8 +53,8 @@ const getRecipe = async () => {
 
     recipe.value = data.recipe;
   } catch (error) {
-    console.error(error)
-    errorMessage.value = 'Error getting the recipe. Please try again.'
+    console.error(error);
+    errorMessage.value = 'Error getting the recipe. Please try again.';
   } finally {
     loading.value = false;
   }
@@ -63,7 +64,7 @@ const getRecipeByIngredients = async () => {
   errorMessage.value = '';
 
   loading.value = true;
-  console.log(question.value)
+  console.log(question.value);
 
   try {
     const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/generate_by_ingredients`, question.value, {
@@ -75,8 +76,8 @@ const getRecipeByIngredients = async () => {
 
     recipe.value = data.recipe;
   } catch (error) {
-    console.error(error)
-    errorMessage.value = 'Error getting the recipe. Please try again.'
+    console.error(error);
+    errorMessage.value = 'Error getting the recipe. Please try again.';
   } finally {
     loading.value = false;
   }
@@ -91,7 +92,7 @@ const uploadImage = async (file: File) => {
   loading.value = true;
 
   try {
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/upload_image`, formData, {
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/upload_image/`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       },
@@ -103,16 +104,19 @@ const uploadImage = async (file: File) => {
 
     recipe.value = data.recipe;
   } catch (error) {
-    console.error(error)
-    errorMessage.value = 'Error getting the recipe. Please try again.'
+    console.error(error);
+    errorMessage.value = 'Error getting the recipe. Please try again.';
   } finally {
     loading.value = false;
   }
 }
 
 const generateRecipe = () => {
+  console.log(searchType.value);
   if (searchType.value === 'ingredients') {
     getRecipeByIngredients();
+  } else if (searchType.value === 'image' && imageFile.value) {
+    uploadImage(imageFile.value);
   } else {
     getRecipe();
   }
@@ -134,7 +138,7 @@ const searchBy = (mode: string) => {
 }
 
 const handleUploadImage = (file: File) => {
-  console.log(file)
+  imageFile.value = file;
   uploadImage(file);
 }
 

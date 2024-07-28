@@ -93,7 +93,7 @@ const handleFileChange = (event) => {
         <input
           v-if="searchType !== 'ingredients' && searchType !== 'image'"
           id="search-recipe"
-          class="flex h-10 w-full rounded-md border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          class="flex h-10 w-full rounded-md bg-background px-3 py-2 text-sm placeholder:text-muted-foreground outline-none"
           placeholder="Search by"
           :value="props.question"
           @input="updateValue"
@@ -105,7 +105,7 @@ const handleFileChange = (event) => {
             <TagsInputItemDelete />
           </TagsInputItem>
 
-          <TagsInputInput placeholder="Search by ingredients" />
+          <TagsInputInput class="placeholder:text-muted-foreground" placeholder="Search by ingredients" />
         </TagsInput>
         <div v-show="searchType === 'image'" class="w-full overflow-hidden text-ellipsis whitespace-nowrap">
           <input 
@@ -115,7 +115,7 @@ const handleFileChange = (event) => {
             accept=".jpeg, .png, .jpg" 
             @change="handleFileChange"
           />
-          <span class="text-gray-500 text-sm text-start px-3 pt-2 py-3 block" @click="fileInputRef.click();">
+          <span class="text-muted-foreground text-sm text-start px-3 pt-2 py-3 block" @click="fileInputRef.click();">
             {{ fileName || 'Upload image' }}
           </span>
         </div>

@@ -16,11 +16,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { savedRecipes } from '@/store/store.ts'; // Import the global state
+import { savedRecipes } from '@/store/store.ts';
 import RecipeDisplay from './RecipeDisplay.vue';
 </script>
 
 <template>
+  <!-- mobile view -->
   <Sheet>
     <SheetTrigger class="fixed md:hidden top-6 z-[3]">
       <img src="../assets/burger-menu.svg" alt="burger-menu" />
@@ -28,13 +29,6 @@ import RecipeDisplay from './RecipeDisplay.vue';
     <SheetContent side="left">
       <div class="font-bold mb-2">Saved Recipes</div>
       <div v-if="savedRecipes.length" class="flex flex-col gap-2">
-        <!-- <div
-          v-for="recipe in savedRecipes"
-          :key="recipe.name"
-          class="p-2 rounded-lg border shadow-sm hover:bg-gray-100 cursor-pointer"
-        >
-          {{ recipe.name }}
-        </div> -->
         <Dialog
           v-for="recipe in savedRecipes"
           :key="recipe.name"
@@ -53,16 +47,11 @@ import RecipeDisplay from './RecipeDisplay.vue';
       <div class="text-muted-foreground text-sm" v-else>Start saving your recipe.</div>
     </SheetContent>
   </Sheet>
+
+  <!-- desktop view -->
   <div class="hidden md:block h-[600px] min-w-[250px] p-4 rounded-lg border bg-card shadow-sm">
     <div class="font-bold mb-2">Saved Recipes</div>
     <div v-if="savedRecipes.length" class="flex flex-col gap-2">
-      <!-- <div
-        v-for="recipe in savedRecipes"
-        :key="recipe.name"
-        class="p-2 rounded-lg border shadow-sm hover:bg-gray-100 cursor-pointer"
-      >
-        {{ recipe.name }}
-      </div> -->
       <Dialog
         v-for="recipe in savedRecipes"
         :key="recipe.name"

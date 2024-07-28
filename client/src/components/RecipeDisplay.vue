@@ -38,7 +38,7 @@ const props = defineProps({
   </div>
 
   <!-- Suggested Pairings -->
-  <div v-if="props.recipe.suggested_pairings">
+  <div v-if="props.recipe.suggested_pairings.length">
     <p class="text-xl font-semibold mb-2">Suggested Pairings</p>
     <ol class="list-decimal pl-5 space-y-4">
       <li v-for="pairing in props.recipe.suggested_pairings" :key="pairing.dish_name" class="space-y-1">

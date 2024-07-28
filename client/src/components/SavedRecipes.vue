@@ -16,8 +16,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { savedRecipes } from '@/store/store.ts';
 import RecipeDisplay from './RecipeDisplay.vue';
+
+import { savedRecipes, deleteRecipe } from '@/store/store.ts';
+import { ref } from 'vue';
+
+const showDeleteConfirmation = ref(false);
+
 </script>
 
 <template>
@@ -41,6 +46,17 @@ import RecipeDisplay from './RecipeDisplay.vue';
                 <RecipeDisplay no-title :recipe="recipe" />
               </DialogDescription>
             </DialogHeader>
+
+            <DialogFooter>
+              <div class="flex justify-end gap-4">
+                <div v-if="showDeleteConfirmation" class="flex gap-4">
+                  <span>Are you sure to delete this recipe?</span>
+                  <button @click="deleteRecipe(index)">Yes</button>
+                  <button @click="showDeleteConfirmation = false">Cancel</button>
+                </div>
+                <button v-else @click="showDeleteConfirmation = true">Delete</button>
+              </div>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>
@@ -53,7 +69,7 @@ import RecipeDisplay from './RecipeDisplay.vue';
     <div class="font-bold mb-2">Saved Recipes</div>
     <div v-if="savedRecipes.length" class="flex flex-col gap-2">
       <Dialog
-        v-for="recipe in savedRecipes"
+        v-for="(recipe, index) in savedRecipes"
         :key="recipe.name"
       >
         <DialogTrigger class="p-2 rounded-lg border shadow-sm hover:bg-gray-100 cursor-pointer text-start">{{ recipe.name }}</DialogTrigger>
@@ -64,6 +80,17 @@ import RecipeDisplay from './RecipeDisplay.vue';
               <RecipeDisplay no-title :recipe="recipe" />
             </DialogDescription>
           </DialogHeader>
+
+          <DialogFooter>
+            <div class="flex justify-end gap-4">
+              <div v-if="showDeleteConfirmation" class="flex gap-4">
+                <span>Are you sure to delete this recipe?</span>
+                <button @click="deleteRecipe(index)">Yes</button>
+                <button @click="showDeleteConfirmation = false">Cancel</button>
+              </div>
+              <button v-else @click="showDeleteConfirmation = true">Delete</button>
+            </div>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

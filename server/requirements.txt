@@ -6,3 +6,4 @@ python-dotenv
 pillow
 uvicorn
 fastapi-cors
+python-multipart

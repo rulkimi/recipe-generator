@@ -61,19 +61,20 @@
     <li>The website will display the recipe for the specified dish.</li>
   </ol>
   
-  <h2>API Documentation</h2>
-  <ul>
-    <li><strong>Endpoint:</strong> <code>/generate</code></li>
-    <li><strong>Method:</strong> <code>POST</code></li>
-    <li><strong>Request Body:</strong>
-      <pre><code>{
-  "dish_name": "string",
-  "additional_instructions": "string"
-}
-</code></pre>
-    </li>
-    <li><strong>Response:</strong>
-      <pre><code>{
+<h2>API Documentation</h2>
+<ul>
+  <li><strong>Endpoint:</strong> <code>/generate</code></li>
+  <li><strong>Method:</strong> <code>POST</code></li>
+  <li><strong>Request Body:</strong>
+    <pre><code>{
+  "question": "string",
+  "additional_instructions": "string",
+  "dietary_restrictions": ["string"],
+  "language": "string"
+}</code></pre>
+  </li>
+  <li><strong>Response:</strong>
+    <pre><code>{
   "status": "success",
   "message": "Recipe generated successfully",
   "data": {
@@ -99,10 +100,107 @@
       ]
     }
   }
-}
-</code></pre>
-    </li>
-  </ul>
+}</code></pre>
+  </li>
+</ul>
+
+<h3>Generate Recipe by Ingredients</h3>
+<ul>
+  <li><strong>Endpoint:</strong> <code>/generate_by_ingredients</code></li>
+  <li><strong>Method:</strong> <code>POST</code></li>
+  <li><strong>Request Body:</strong>
+    <pre><code>{
+  "ingredients": ["string"],
+  "additional_instructions": "string",
+  "dietary_restrictions": ["string"],
+  "language": "string"
+}</code></pre>
+  </li>
+  <li><strong>Response:</strong>
+    <pre><code>{
+  "status": "success",
+  "message": "Recipe generated successfully",
+  "data": {
+    "recipe": {
+      "name": "string",
+      "ingredients": [
+        {
+          "name": "string",
+          "amount": "string"
+        }
+      ],
+      "steps": [
+        {
+          "description": "string",
+          "tips": "string"
+        }
+      ],
+      "suggested_pairings": [
+        {
+          "dish_name": "string",
+          "description": "string"
+        }
+      ]
+    }
+  }
+}</code></pre>
+  </li>
+</ul>
+
+<h3>Upload Image for Recipe</h3>
+<ul>
+  <li><strong>Endpoint:</strong> <code>/upload_image</code></li>
+  <li><strong>Method:</strong> <code>POST</code></li>
+  <li><strong>Request Body:</strong>
+    <pre><code>FormData: {
+  "file": File,
+  "additional_instructions": "string",
+  "dietary_restrictions": ["string"],
+  "language": "string"
+}</code></pre>
+  </li>
+  <li><strong>Response:</strong>
+    <pre><code>{
+  "status": "success",
+  "message": "Recipe generated successfully",
+  "data": {
+    "recipe": {
+      "name": "string",
+      "ingredients": [
+        {
+          "name": "string",
+          "amount": "string"
+        }
+      ],
+      "steps": [
+        {
+          "description": "string",
+          "tips": "string"
+        }
+      ],
+      "suggested_pairings": [
+        {
+          "dish_name": "string",
+          "description": "string"
+        }
+      ]
+    }
+  }
+}</code></pre>
+  </li>
+</ul>
+
+<h3>Root</h3>
+<ul>
+  <li><strong>Endpoint:</strong> <code>/</code></li>
+  <li><strong>Method:</strong> <code>GET</code></li>
+  <li><strong>Response:</strong>
+    <pre><code>{
+  "message": "Welcome to Recipe Generator"
+}</code></pre>
+  </li>
+</ul>
+
   
   <h2>Contributing</h2>
   <p>Contributions and feedback are welcome! If you would like to contribute to this project or have any comments, please feel free to open an issue or submit a pull request.</p>

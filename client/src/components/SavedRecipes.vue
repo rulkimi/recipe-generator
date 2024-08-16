@@ -39,7 +39,7 @@ const showDeleteConfirmation = ref(false);
           :key="recipe.name"
         >
           <DialogTrigger class="p-2 rounded-lg border shadow-sm hover:bg-gray-100 cursor-pointer text-start">{{ recipe.name }}</DialogTrigger>
-          <DialogContent >
+          <DialogContent>
             <DialogHeader>
               <DialogTitle>{{ recipe.name }}</DialogTitle>
               <DialogDescription class="overflow-y-scroll max-h-[600px]">
@@ -73,7 +73,7 @@ const showDeleteConfirmation = ref(false);
         :key="recipe.name"
       >
         <DialogTrigger class="p-2 rounded-lg border shadow-sm hover:bg-gray-100 cursor-pointer text-start">{{ recipe.name }}</DialogTrigger>
-        <DialogContent >
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>{{ recipe.name }}</DialogTitle>
             <DialogDescription class="overflow-y-scroll max-h-[600px]">

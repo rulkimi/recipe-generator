@@ -86,7 +86,7 @@ watch(selectedLanguage, (newVal) => {
 </script>
 
 <template>
-  <div class="p-4 rounded-lg border bg-card text-card-foreground shadow-sm">
+  <div class="rounded-lg text-card-foreground">
     <div class="w-full flex flex-col md:flex-row gap-2">
       <div
         class="flex-grow flex flex-col md:flex-row items-center border rounded-md bg-white gap-2"

@@ -65,7 +65,7 @@ const showDeleteConfirmation = ref(false);
   </Sheet>
 
   <!-- desktop view -->
-  <div class="hidden md:block h-[600px] min-w-[250px] p-4 rounded-lg border bg-card shadow-sm">
+  <div class="hidden md:block h-[calc(100vh-97px)] min-w-[250px] p-4 rounded-lg border bg-card shadow-sm overflow-auto">
     <div class="font-bold mb-2">Saved Recipes</div>
     <div v-if="savedRecipes.length" class="flex flex-col gap-2">
       <Dialog

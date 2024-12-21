@@ -4,8 +4,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Navigate, Outlet } from 'react-router-dom';
 import BaseLayout from '@/layouts/base-layout';
 
-import GenerateRecipe from '@/pages/GenerateRecipe';
-import SavedRecipes from '@/pages/SavedRecipes';
+import GenerateRecipe from '@/pages/generate-recipe';
+import SavedRecipes from '@/pages/saved-recipes';
 
 import './index.css';
 

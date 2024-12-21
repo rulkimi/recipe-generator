@@ -64,3 +64,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .scale-transition {
+    @apply hover:scale-105 transition-transform duration-300;
+  }
+}

@@ -1,9 +1,10 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
+import BaseLayout from "@/layouts/base-layout";
 
 export default function Home() {
   return (
-    <div>
+    <BaseLayout>
       <Button>Click me</Button>
-    </div>
+    </BaseLayout>
   )
 }

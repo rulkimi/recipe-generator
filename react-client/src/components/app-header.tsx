@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import GithubMark from "@/assets/github-mark.png";
 import {
   Tooltip,
@@ -12,13 +13,13 @@ interface NavMenu {
 }
 
 const navMenus: NavMenu[] = [
-  { label: 'Generate', url: '' },
-  { label: 'Saved Recipes', url: '' },
+  { label: 'Generate', url: '/generate' },
+  { label: 'Saved Recipes', url: '/saved-recipes' },
 ]
 
 const AppHeader = () => {
   return (
-    <header className="border-b shadow-sm p-4">
+    <header className="sticky top-0 border-b shadow-sm p-4">
       <div className="container mx-auto flex items-center justify-between gap-4">
         <div className="flex gap-2">
           <img src="/logo.svg" alt="App Logo" width={25}/>
@@ -28,7 +29,13 @@ const AppHeader = () => {
         <div className="flex items-center gap-4">
           <nav className="flex items-center gap-4">
             {navMenus.map(menu => (
-              <div className="hover:text-zinc-600 cursor-pointer">{menu.label}</div>
+              <NavLink
+                key={menu.url}
+                to={menu.url}
+                className={({ isActive }) => `hover:text-zinc-600 cursor-pointer ${ isActive ? 'font-semibold' : ''}`}
+              >
+                {menu.label}
+              </NavLink>
             ))}
           </nav>
           <TooltipProvider>

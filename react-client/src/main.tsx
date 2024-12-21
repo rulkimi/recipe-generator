@@ -1,10 +1,43 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import BaseLayout from '@/layouts/base-layout';
+
+import GenerateRecipe from '@/pages/GenerateRecipe';
+import SavedRecipes from '@/pages/SavedRecipes';
+
+import './index.css';
+
+const BaseLayoutWrapper = () => (
+  <BaseLayout>
+    <Outlet />
+  </BaseLayout>
+);
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Navigate to="/generate" replace />,
+  },
+  {
+    path: '/',
+    element: <BaseLayoutWrapper />, 
+    children: [
+      {
+        path: 'generate',
+        element: <GenerateRecipe />,
+      },
+      {
+        path: 'saved-recipes',
+        element: <SavedRecipes />,
+      },
+    ],
+  },
+]);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </StrictMode>,
-)
+);

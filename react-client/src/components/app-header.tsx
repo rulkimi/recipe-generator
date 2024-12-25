@@ -19,7 +19,7 @@ const navMenus: NavMenu[] = [
 
 const AppHeader = () => {
   return (
-    <header className="sticky top-0 border-b shadow-sm p-4">
+    <header className="sticky top-0 border-b shadow-sm p-4 bg-white z-10">
       <div className="container mx-auto flex items-center justify-between gap-4">
         <div className="flex gap-2">
           <img src="/logo.svg" alt="App Logo" width={25}/>

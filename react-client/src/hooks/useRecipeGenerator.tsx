@@ -1,21 +1,21 @@
 import axios from "axios";
 
-export interface Ingredients {
+export interface Ingredient {
   name: string;
   amount: number;
 }
 
 export interface Recipe {
   name: string;
-  ingredients: Ingredients[];
-  steps: {
+  ingredients: Ingredient[];
+  steps: Array<{
     description: string;
-    tips: string;
-  };
-  suggested_pairings: {
+    tips?: string;
+  }>;
+  suggested_pairings?: Array<{
     dish_name: string;
     description: string;
-  };
+  }>;
 }
 
 export interface RecipeResponse {

@@ -38,7 +38,7 @@ const InputTags = React.forwardRef<HTMLInputElement, InputTagsProps>(
     return (
       <div
         className={cn(
-          "has-[:focus-visible]:outline-none has-[:focus-visible]:ring-1 has-[:focus-visible]:ring-zinc-950 dark:has-[:focus-visible]:ring-zinc-300 min-h-9 flex w-full flex-wrap gap-1 rounded-md border border-zinc-200 bg-white px-3 py-1 text-sm ring-offset-white  disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-950 dark:ring-offset-zinc-950",
+          "has-[:focus-visible]:outline-none has-[:focus-visible]:ring-1 has-[:focus-visible]:ring-zinc-950 dark:has-[:focus-visible]:ring-zinc-300 min-h-9 flex w-full flex-wrap gap-1 rounded-md border border-zinc-200 bg-white px-3 py-1 md:text-sm ring-offset-white  disabled:cursor-not-allowed disabled:opacity-50 dark:border-zinc-800 dark:bg-zinc-950 dark:ring-offset-zinc-950",
           className
         )}
       >

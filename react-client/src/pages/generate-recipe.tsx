@@ -9,6 +9,9 @@ import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { Camera, Share2, Loader2, Sparkles } from "lucide-react"
 import { InputTags } from "@/components/ui/input-tags"
+import useRecipeGenerator from "@/hooks/useRecipeGenerator"
+
+const { generateRecipe } = useRecipeGenerator();
 
 interface DietaryRestriction {
   id: string;
@@ -30,9 +33,14 @@ const GenerateRecipe = () => {
   const [values, setValues] = useState<string[]>([]);
 
   
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     setIsGenerating(true)
-    setTimeout(() => setIsGenerating(false), 3000)
+    const { data, message, status } = await generateRecipe({}, { question: 'Nasi Ayam' })
+    if (status == 'success') {
+      console.log(message)
+      console.log(data.recipe.name)
+    }
+    setIsGenerating(false)
   }
   
   return (

@@ -110,7 +110,7 @@ const GenerateRecipe = () => {
           <div className="space-y-4">
             <div>
               <div className="flex justify-between mb-2">
-                <Label>Recipe Complexity</Label>
+                <Label asSpan>Recipe Complexity</Label>
                 <span className="text-sm text-muted-foreground">{complexity}%</span>
               </div>
               <Slider
@@ -124,7 +124,7 @@ const GenerateRecipe = () => {
             
             <div>
               <div className="flex justify-between mb-2">
-                <Label>Number of Servings</Label>
+                <Label asSpan>Number of Servings</Label>
                 <span className="text-sm text-muted-foreground">{servings} people</span>
               </div>
               <Slider

@@ -51,12 +51,15 @@ const GenerateRecipe = () => {
             </div>
           </TabsContent>
           <TabsContent value="ingredients" className="space-y-4">
-          <InputTags
-          value={values}
-          onChange={setValues}
-          placeholder="Enter values, comma separated..."
-          className="max-w-[500px]"
-        />
+            <div className="grid gap-2">
+              <Label htmlFor="image">List of Ingredients</Label>
+              <InputTags
+                value={values}
+                onChange={setValues}
+                placeholder="Enter values, comma separated..."
+                className="max-w-[500px]"
+              />
+            </div>
           </TabsContent>
           <TabsContent value="image" className="space-y-4">
             <div className="grid gap-4">

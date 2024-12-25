@@ -10,7 +10,7 @@ const BaseLayout: React.FC<BaseLayoutProps> = ({ children, className }) => {
   return (
     <div className={`min-h-screen flex flex-col ${className || ''}`}>
       <AppHeader />
-      <main className="flex-grow container mx-auto p-4">
+      <main className="flex-grow container mx-auto p-4 md:p-6">
         {children}
       </main>
     </div>

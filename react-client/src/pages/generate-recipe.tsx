@@ -31,11 +31,11 @@ const GenerateRecipe = () => {
   const [servings, setServings] = useState<number>(4)
   const [isGenerating, setIsGenerating] = useState<boolean>(false)
   const [values, setValues] = useState<string[]>([]);
-
+  const [question, setQuestion] = useState<string>('');
   
   const handleGenerate = async () => {
     setIsGenerating(true)
-    const { data, message, status } = await generateRecipe({}, { question: 'Nasi Ayam' })
+    const { data, message, status } = await generateRecipe({}, { question })
     if (status == 'success') {
       console.log(message)
       console.log(data.recipe.name)
@@ -55,13 +55,20 @@ const GenerateRecipe = () => {
           <TabsContent value="name" className="space-y-4">
             <div className="grid gap-2">
               <Label htmlFor="name">Recipe Name or Type</Label>
-              <Input id="name" placeholder="E.g., Chocolate Cake, Italian Pasta..." />
+              <Input
+                id="name" 
+                placeholder="E.g., Chocolate Cake, Italian Pasta..." 
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                autoComplete="on"
+              />
             </div>
           </TabsContent>
           <TabsContent value="ingredients" className="space-y-4">
             <div className="grid gap-2">
-              <Label htmlFor="image">List of Ingredients</Label>
+              <Label htmlFor="ingredients">List of Ingredients</Label>
               <InputTags
+                id="ingredients"
                 value={values}
                 onChange={setValues}
                 placeholder="Enter values, comma separated..."

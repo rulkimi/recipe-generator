@@ -74,7 +74,6 @@ const GenerateRecipe = () => {
                   value={values}
                   onChange={setValues}
                   placeholder="Enter values, comma separated..."
-                  className="max-w-[500px]"
                 />
               </div>
             </TabsContent>

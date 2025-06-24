@@ -17,6 +17,7 @@ const serverLoading = ref(false);
 const searchType = ref('name');
 const errorMessage = ref('');
 const imageFile = ref<File | null>(null);
+const logId = ref<string>("");
 
 onMounted(() => {
   startServer();
@@ -46,7 +47,8 @@ const getRecipe = async () => {
 
   try {
     const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/generate`, formData);
-    const { data } = response.data;
+    const { data, log_id } = response.data;
+    logId.value = log_id;
 
     recipe.value = data.recipe;
   } catch (error) {
@@ -73,7 +75,8 @@ const getRecipeByIngredients = async () => {
         language: language.value
       }
     });
-    const { data } = response.data;
+    const { data, log_id } = response.data;
+    logId.value = log_id;
 
     recipe.value = data.recipe;
   } catch (error) {
@@ -100,7 +103,8 @@ const uploadImage = async (file: File) => {
         language: language.value
       }
     });
-    const { data } = response.data;
+    const { data, log_id } = response.data;
+    logId.value = log_id;
 
     recipe.value = data.recipe;
   } catch (error) {
@@ -170,7 +174,13 @@ const handleUploadImage = (file: File) => {
             <DietaryRestrictions />
           </section>
           <section>
-            <GeneratedRecipe :recipe="recipe" @save-recipe="saveRecipe" :loading="loading" :error-message="errorMessage" />
+            <GeneratedRecipe 
+              :recipe="recipe" 
+              @save-recipe="saveRecipe" 
+              :loading="loading" 
+              :error-message="errorMessage"
+              :log-id="logId"
+            />
           </section>
         </template>
         <template v-else>

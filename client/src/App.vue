@@ -39,16 +39,13 @@ const getRecipe = async () => {
   const formData = new FormData();
   formData.append('additional_instructions', '');
   formData.append('dietary_restrictions', '');
+  formData.append('language', language.value);
+  formData.append('question', question.value)
 
   loading.value = true;
 
   try {
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/generate`, formData, {
-      params: {
-        question: question.value,
-        language: language.value
-      }
-    });
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/generate`, formData);
     const { data } = response.data;
 
     recipe.value = data.recipe;

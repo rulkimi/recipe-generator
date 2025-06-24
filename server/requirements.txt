@@ -7,3 +7,4 @@ pillow
 uvicorn
 fastapi-cors
 python-multipart
+supabase

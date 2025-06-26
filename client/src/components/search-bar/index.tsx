@@ -3,12 +3,13 @@ import { Input } from "@/components/ui/input";
 import { Camera, Search } from "lucide-react";
 import Customization from "./customization";
 
-export default function SearchBar() {
+export default function SearchBar({ ...props }) {
   return (
     <div className="relative w-full">
       <Input
         className="h-[50px] pl-12 pr-22 border-2"
         placeholder="Type something tasty..."
+        {...props}
       />
       <Button variant="ghost" size="icon" className="absolute left-2 top-2">
         <Search className="size-5 text-primary" />

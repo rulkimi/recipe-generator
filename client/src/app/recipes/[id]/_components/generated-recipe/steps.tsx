@@ -16,9 +16,11 @@ export default function Steps() {
           >
             <span>{step.description}</span>
             <br />
-            <span className="italic text-sm font-light">
-              Tips: {step.tips}
-            </span>
+            {step.tips && (
+              <span className="italic text-sm font-light">
+                Tips: {step.tips}
+              </span>
+            )}
           </li>
         ))}
       </ol>

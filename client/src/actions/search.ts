@@ -2,7 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 
-export const searchRecipe = async (dishName: string) => {
+export const searchRecipe = async (dishName: string, {
+  dietaryRestrictions,
+  responseLanguage
+}: {
+  dietaryRestrictions: string[];
+  responseLanguage: string;
+}) => {
 	try {
 		const url = `${process.env.API_URL}/generate`;
 		console.log("url", url);
@@ -10,8 +16,10 @@ export const searchRecipe = async (dishName: string) => {
 		const formData = new FormData();
 		formData.append("question", dishName);
 		formData.append("additional_instructions", "");
-		formData.append("dietary_restrictions", "[]");
-		formData.append("language", "Bahasa Melayu");
+		dietaryRestrictions.forEach((restriction) => {
+      formData.append("dietary_restrictions", restriction);
+    });
+		formData.append("language", responseLanguage);
 
 		const response = await fetch(url, {
 			method: 'POST',

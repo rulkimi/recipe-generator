@@ -38,8 +38,8 @@ const SuggestedPairingButton = ({
             <ArrowRight className="ml-2 size-5 text-border" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent className="max-w-[250px]">
-          {description}
+        <TooltipContent>
+          <div className="">{description}</div>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

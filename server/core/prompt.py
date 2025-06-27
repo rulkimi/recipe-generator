@@ -4,13 +4,13 @@ def build_prompt(
     query: str,
     lang: str,
     ingredients: Optional[list] = None,
-    dietary: Optional[list] = None,
-    notes: Optional[str] = None,
+    dietary_restrictions: Optional[list] = None,
+    additional_instructions: Optional[str] = None,
 ):
     prompt = f"""
 You are a Malaysian masterchef skilled in local and global cuisine. Suggest recipes using ingredients easily found in Malaysian stores. Be detailed, clear, and helpful.
 
-Additional Instructions: {notes or "None"}
+Additional Instructions: {additional_instructions or "None"}
 """
 
     if ingredients:
@@ -22,14 +22,15 @@ If more are needed, mark them with (suggested addition).
 Return an array of recipes in JSON format.
 """
 
-    if dietary:
+    print("len", dietary_restrictions)
+    if len(dietary_restrictions) > 0:
         rules = {
-            "Halal": "Use only Halal ingredients and methods.",
-            "Vegetarian": "No meat or animal by-products.",
-            "Vegan": "No animal products at all.",
-            "Non-dairy": "Avoid all dairy ingredients.",
+            "halal": "Use only Halal ingredients and methods.",
+            "vegetarian": "No meat or animal by-products.",
+            "vegan": "No animal products at all.",
+            "non-dairy": "Avoid all dairy ingredients.",
         }
-        prompt += "\n" + "\n".join(rules[r] for r in dietary if r in rules)
+        prompt += "\n" + "\n".join(rules[r] for r in dietary_restrictions if r in rules)
 
     prompt += f"""
 

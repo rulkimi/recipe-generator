@@ -28,6 +28,7 @@ def generate(
         response = model.generate_content(prompt)
         parsed = json.loads(response.text)
 
+        print(prompt)
         result = supabase.table("recipe_logs").insert({
             "user_input": question,
             "type": "name",

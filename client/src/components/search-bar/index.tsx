@@ -9,10 +9,14 @@ import { KeyboardEvent, useState, useEffect } from "react";
 import { Recipe, SearchResponse } from "@/types";
 import { useRecipe } from "@/app/recipes/recipe-provider";
 import { useRouter, usePathname } from "next/navigation";
+import { useDietaryRestrictions } from "@/app/recipes/dietary-restrictions-provider";
+import { useResponseLanguage } from "@/app/recipes/response-language-provider";
 
 export default function SearchBar({ ...props }) {
 	const router = useRouter();
 	const pathname = usePathname();
+  const { dietaryRestrictions } = useDietaryRestrictions();
+  const { responseLanguage } = useResponseLanguage();
 	const { setRecipe } = useRecipe();
 	const [inputValue, setInputValue] = useState("");
 
@@ -42,7 +46,10 @@ export default function SearchBar({ ...props }) {
 	const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === "Enter") {
 			try {
-				const response: SearchResponse = await searchRecipe(inputValue);
+				const response: SearchResponse = await searchRecipe(inputValue, {
+          dietaryRestrictions,
+          responseLanguage
+        });
 				const { data, log_id, status } = response;
 				setRecipe(data.recipe);
 				router.push(`/recipes/${log_id}`);

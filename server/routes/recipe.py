@@ -31,7 +31,7 @@ def generate(
         result = supabase.table("recipe_logs").insert({
             "user_input": question,
             "type": "name",
-            "response": response.text,
+            "recipe": parsed,
             "language": language,
             "dietary_restrictions": dietary_restrictions,
             "additional_instructions": additional_instructions,
@@ -65,7 +65,7 @@ def generate_by_ingredients(
         result = supabase.table("recipe_logs").insert({
             "user_input": ", ".join(ingredients),
             "type": "ingredients",
-            "response": response.text,
+            "recipe": parsed,
             "language": language,
             "dietary_restrictions": dietary_restrictions,
             "additional_instructions": additional_instructions,
@@ -104,7 +104,7 @@ def generate_from_image(
         result = supabase.table("recipe_logs").insert({
             "user_input": food_name,
             "type": "image",
-            "response": recipe_response.text,
+            "recipe": parsed,
             "language": language,
             "dietary_restrictions": dietary_restrictions,
             "additional_instructions": additional_instructions,
@@ -143,4 +143,17 @@ def update_feedback(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/recipe/{log_id}")
+def get_recipe_by_id(log_id: str):
+	try:
+		result = supabase.table("recipe_logs").select("recipe").eq("id", log_id).single().execute()
+		if not result.data:
+			raise HTTPException(status_code=404, detail="Recipe not found.")
+		return {
+			"status": "success",
+			"data": result.data
+		}
+	except Exception as e:
+		raise HTTPException(status_code=500, detail=str(e))
 

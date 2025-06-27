@@ -11,7 +11,10 @@ export default function RecipeFooter() {
           <ThumbsDown className="size-5" />
         </div>
       </div>
-      <Button variant="link">
+      <Button
+        variant="link"
+        className="p-0"
+      >
         Save Recipe
       </Button>
     </footer>

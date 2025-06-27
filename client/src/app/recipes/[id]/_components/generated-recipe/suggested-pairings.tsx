@@ -33,9 +33,11 @@ const SuggestedPairingButton = ({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="outline" className="border-2">
+          <Button variant="outline" className="border-2 group">
             {label}
-            <ArrowRight className="ml-2 size-5 text-border" />
+            <ArrowRight
+              className="ml-2 size-5 text-border group-hover:translate-x-2 transition-transform duration-300"
+            />
           </Button>
         </TooltipTrigger>
         <TooltipContent>

@@ -1,7 +1,5 @@
 "use server"
 
-import { revalidatePath } from "next/cache";
-
 export const searchRecipe = async (dishName: string, {
   dietaryRestrictions,
   responseLanguage

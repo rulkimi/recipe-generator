@@ -34,7 +34,11 @@ export default function GeneratedRecipe() {
 
   if (!isDesktop) {
     return (
-      <Accordion type="multiple" className="w-full space-y-4">
+      <Accordion
+        type="single"
+        className="w-full space-y-4"
+        defaultValue={ACCORDION_ITEMS[0].value}
+      >
         {ACCORDION_ITEMS.map(item => (
           <AccordionItem
             key={item.value}

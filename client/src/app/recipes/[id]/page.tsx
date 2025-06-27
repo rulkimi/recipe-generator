@@ -5,10 +5,12 @@ import RecipeFooter from "./_components/recipe-footer";
 export default function Recipe() {
   return (
     <div className="h-screen">
-      <div className="py-6 space-y-4">
+      <div className="py-6 space-y-8 lg:space-y-4">
         <SearchBar />
-        <GeneratedRecipe />
-        <RecipeFooter />
+        <div className="space-y-4">
+          <GeneratedRecipe />
+          <RecipeFooter />
+        </div>
       </div>
     </div>
   );

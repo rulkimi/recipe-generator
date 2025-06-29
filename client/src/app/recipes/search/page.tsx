@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import SearchBar from "../../../components/search-bar";
 import ActionButtons from "./_components/action-buttons";
 
@@ -7,8 +8,10 @@ export default function SearchPage() {
       <h1 className="mb-12 text-5xl sm:text-6xl md:text-7xl font-semibold text-transparent leading-tight sm:leading-snug bg-clip-text bg-gradient-to-r from-primary to-pink-500/80 text-center px-4">
         Find a recipe, skip the stress
       </h1>
-      <SearchBar />
-      <ActionButtons />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchBar />
+        <ActionButtons />
+      </Suspense>
     </main>
   )
 }

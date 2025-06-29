@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { RecipeProvider } from "./recipe-provider";
 import { DietaryRestrictionsProvider } from "./dietary-restrictions-provider";
 import { ResponseLanguageProvider } from "./response-language-provider";
+import { SuggestedFoodProvider } from "./suggested-food-provider";
 
 export default function RecipeLayout({ children }: { children: ReactNode }) {
   return (
@@ -9,7 +10,9 @@ export default function RecipeLayout({ children }: { children: ReactNode }) {
       <RecipeProvider>
         <DietaryRestrictionsProvider>
           <ResponseLanguageProvider>
-            {children}
+            <SuggestedFoodProvider>
+              {children}
+            </SuggestedFoodProvider>
           </ResponseLanguageProvider>
         </DietaryRestrictionsProvider>
       </RecipeProvider>

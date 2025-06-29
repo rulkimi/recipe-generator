@@ -24,7 +24,7 @@ def generate(
 ):
     try:
         model = get_model()
-        prompt = build_prompt(question, language, None, dietary_restrictions, additional_instructions)
+        prompt = build_prompt(question, language, "name", None, dietary_restrictions, additional_instructions)
         response = model.generate_content(prompt)
         parsed = json.loads(response.text)
 
@@ -40,6 +40,7 @@ def generate(
         }).execute()
 
         log_id = result.data[0]["id"]
+        print(prompt)
 
         return {
             "status": "success",
@@ -59,7 +60,7 @@ def generate_by_ingredients(
 ):
     try:
         model = get_model()
-        prompt = build_prompt("", language, ingredients, dietary_restrictions, additional_instructions)
+        prompt = build_prompt("", language, "ingredients", ingredients, dietary_restrictions, additional_instructions)
         response = model.generate_content(prompt)
         parsed = json.loads(response.text)
 
@@ -98,7 +99,7 @@ def generate_from_image(
         id_response = model.generate_content([identify_prompt, image])
         food_name = id_response.text.strip()
 
-        prompt = build_prompt(food_name, language, None, dietary_restrictions, additional_instructions)
+        prompt = build_prompt(food_name, language, None, "image", dietary_restrictions, additional_instructions)
         recipe_response = model.generate_content(prompt)
         parsed = json.loads(recipe_response.text)
 

@@ -35,6 +35,47 @@ export const searchRecipe = async (dishName: string, {
 	}
 }
 
+export const searchRecipeByIngredients = async (
+  ingredients: string[],
+  {
+    dietaryRestrictions,
+    responseLanguage,
+  }: {
+    dietaryRestrictions: string[];
+    responseLanguage: string;
+  }
+) => {
+  try {
+    const url = `${process.env.API_URL}/generate_by_ingredients`;
+
+    const formData = new FormData();
+    formData.append("ingredients", JSON.stringify(ingredients));
+    formData.append("dietary_restrictions", JSON.stringify(dietaryRestrictions));
+    formData.append("additional_instructions", "");
+    formData.append("language", responseLanguage);
+
+    console.log(formData)
+
+    const response = await fetch(url, {
+      method: "POST",
+      body: formData,
+    });
+
+    console.log('respn', response)
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch recipe by ingredients:", error);
+    throw error;
+  }
+};
+
+
 export const getRecipeById = async (logId: string) => {
 	try {
 		const url = `${process.env.API_URL}/recipe/${logId}`;

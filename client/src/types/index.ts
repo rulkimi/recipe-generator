@@ -14,6 +14,7 @@ export interface SuggestedPairing {
 }
 
 export interface Recipe {
+  type: "ingredients" | "name";
   name: string;
   ingredients: Ingredient[];
   steps: Step[];

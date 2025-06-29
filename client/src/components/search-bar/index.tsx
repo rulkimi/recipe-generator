@@ -102,8 +102,8 @@ export default function SearchBar({ ...props }) {
   };
 
   return (
-    <div className="flex items-center gap-2 w-full">
-      <div className="relative w-full">
+    <div className="flex flex-wrap items-center gap-2 w-full">
+      <div className="relative flex-1">
         {type === "ingredients" ? (
           <TagInput
             className="min-h-[50px] pl-12 pr-22 border-2"
@@ -130,7 +130,7 @@ export default function SearchBar({ ...props }) {
           <Camera className="size-5 text-primary" />
         </Button>
       </div>
-      <Button className="h-[50px] px-6" onClick={search}>
+      <Button className="h-[50px] px-6 w-full md:w-auto" onClick={search}>
         Search
       </Button>
     </div>

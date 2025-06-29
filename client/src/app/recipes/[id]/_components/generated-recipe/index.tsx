@@ -43,7 +43,7 @@ export default function GeneratedRecipe() {
   return (
     <>
       {type === "ingredients" && suggestedFood && suggestedFood?.length > 0 && (
-        <ul className="mb-4 flex gap-2">
+        <ul className="mb-4 flex flex-wrap gap-2">
           {suggestedFood.map((food, index) => {
             const isActive = recipe?.name === food.name;
             return (

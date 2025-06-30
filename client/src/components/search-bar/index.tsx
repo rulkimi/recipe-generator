@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Camera, Search } from "lucide-react";
+import { Camera, Loader, Search } from "lucide-react";
 import Customization from "./customization";
 import { searchRecipe, searchRecipeByIngredients, getRecipeById } from "@/actions/search";
 import { KeyboardEvent, useState, useEffect } from "react";
@@ -25,6 +25,7 @@ export default function SearchBar({ ...props }) {
   const { setRecipe } = useRecipe();
   const { setSuggestedFood } = useSuggestedFood();
 
+  const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [type, setType] = useQueryState("type");
@@ -35,6 +36,7 @@ export default function SearchBar({ ...props }) {
     const match = pathname.match(/^\/recipes\/([^\/]+)$/);
     if (match && match[1]) {
       const logId = match[1];
+      setLoading(true);
       getRecipeById(logId)
         .then((response) => {
           if (response?.data?.recipe) {
@@ -50,13 +52,15 @@ export default function SearchBar({ ...props }) {
         })
         .catch((error) => {
           console.error("Failed to fetch recipe by id:", error);
+        }).finally(() => {
+          setLoading(false);
         });
     }
   }, [pathname, setRecipe]);
 
   useEffect(() => {
     if (type === "ingredients") {
-      setPlaceholder("Press enter to add ingredient");
+      setPlaceholder("Press enter to add ingredient (Ctrl + Enter to search)");
     } else {
       setPlaceholder("Type something tasty...");
     }
@@ -72,6 +76,8 @@ export default function SearchBar({ ...props }) {
     }
   };
 
+  const handleOnCtrlEnter = async () => await search();
+
   const search = async () => {
     const isIngredientsMode = type === "ingredients";
     const query = isIngredientsMode ? ingredients : inputValue.trim();
@@ -81,6 +87,7 @@ export default function SearchBar({ ...props }) {
       return;
     }
   
+    setLoading(true);
     try {
       const response: SearchResponse = isIngredientsMode
         ? await searchRecipeByIngredients(ingredients, {
@@ -98,19 +105,25 @@ export default function SearchBar({ ...props }) {
       router.push(`/recipes/${log_id}`);
     } catch (error) {
       console.error(error);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 500)
     }
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2 w-full">
+    <div className="flex flex-wrap items-center w-full gap-2">
       <div className="relative flex-1">
         {type === "ingredients" ? (
           <TagInput
             className="min-h-[50px] pl-12 pr-22 border-2"
             value={ingredients}
             onChange={setIngredients}
+            onCtrlEnter={handleOnCtrlEnter}
             placeholder={placeholder}
             {...props}
+            disabled={loading}
           />
         ) : (
           <Input
@@ -120,6 +133,7 @@ export default function SearchBar({ ...props }) {
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
+            disabled={loading}
           />
         )}
         <Button variant="ghost" size="icon" className="absolute left-2 top-2">
@@ -130,7 +144,12 @@ export default function SearchBar({ ...props }) {
           <Camera className="size-5 text-primary" />
         </Button>
       </div>
-      <Button className="h-[50px] px-6 w-full md:w-auto" onClick={search}>
+      <Button
+        className="h-[50px] px-6 w-full md:w-auto"
+        onClick={search}
+        disabled={loading}
+      >
+        {loading && <Loader className="mr-2 size-5 animate-spin" />}
         Search
       </Button>
     </div>

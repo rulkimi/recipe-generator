@@ -4,6 +4,7 @@ import { Columns3Cog } from "lucide-react";
 import DietaryRestrictions from "./dietary-restrictions";
 import ResponseLanguage from "./response-language";
 import { ReactNode } from "react";
+import SearchType from "./search-type";
 
 export default function Customization() {
   return (
@@ -14,6 +15,9 @@ export default function Customization() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="mt-4 space-y-4">
+        <CustomizationSection title="Search by">
+          <SearchType />
+        </CustomizationSection>
         <CustomizationSection title="Dietary Restrictions">
           <DietaryRestrictions />
         </CustomizationSection>

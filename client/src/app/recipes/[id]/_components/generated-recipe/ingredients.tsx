@@ -8,8 +8,8 @@ export default function Ingredients() {
 
   return (
     <ScrollArea className="max-h-[800px] overflow-auto">
-      <ul className="grid grid-cols-2 lg:grid-cols-1 gap-2"> 
-        {recipe?.ingredients.map(ingredient => (
+      <ul className="grid grid-cols-2 gap-2 lg:grid-cols-1"> 
+        {recipe?.ingredients?.map(ingredient => (
           <li key={ingredient.name}>
             <strong>{ingredient.name},</strong>&nbsp;
             <span className="italic">{ingredient.amount}</span>

@@ -9,8 +9,8 @@ export default function SuggestedPairings() {
   const { recipe } = useRecipe();
 
   return (
-    <ul className="flex flex-col md:flex-row gap-2">
-      {recipe?.suggested_pairings.map((pairing, index) => (
+    <ul className="flex flex-col gap-2 md:flex-row">
+      {recipe?.suggested_pairings?.map((pairing, index) => (
         <li key={index}>
           <SuggestedPairingButton
             label={pairing.dish_name}
@@ -33,10 +33,10 @@ const SuggestedPairingButton = ({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="outline" className="border-2 group w-full md:w-fit">
+          <Button variant="outline" className="w-full border-2 group md:w-fit">
             {label}
             <ArrowRight
-              className="ml-2 size-5 text-border group-hover:translate-x-2 transition-transform duration-300"
+              className="ml-2 transition-transform duration-300 size-5 text-border group-hover:translate-x-2"
             />
           </Button>
         </TooltipTrigger>

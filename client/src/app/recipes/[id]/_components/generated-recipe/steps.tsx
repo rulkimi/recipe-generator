@@ -9,15 +9,15 @@ export default function Steps() {
   return (
     <ScrollArea className="max-h-[550px] overflow-auto">
       <ol className="space-y-2">
-        {recipe?.steps.map((step, index) => (
+        {recipe?.steps?.map((step, index) => (
           <li
-            className="list-decimal ml-6"
+            className="ml-6 list-decimal"
             key={index}
           >
             <span>{step.description}</span>
             <br />
             {step.tips && (
-              <span className="italic text-sm font-light">
+              <span className="text-sm italic font-light">
                 Tips: {step.tips}
               </span>
             )}

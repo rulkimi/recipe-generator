@@ -86,6 +86,23 @@ export const getRecipeById = async (logId: string) => {
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
 		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error(error);
+		throw error;
+	}
+}
+
+export const getRandomRecipe = async () => {
+  try {
+		const url = `${process.env.API_URL}/random-recipe`;
+		const response = await fetch(url, {
+			method: 'GET'
+		});
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+		const data = await response.json();
     console.log('data', data)
 		return data;
 	} catch (error) {

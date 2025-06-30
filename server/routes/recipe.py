@@ -3,6 +3,7 @@ from fastapi import APIRouter, Form, File, UploadFile, HTTPException, Body
 from typing import List, Optional
 import json
 import io
+import random
 from PIL import Image
 
 from core.model import get_model
@@ -159,3 +160,17 @@ def get_recipe_by_id(log_id: str):
 	except Exception as e:
 		raise HTTPException(status_code=500, detail=str(e))
 
+@router.get("/random-recipe")
+def get_random_recipe():
+    try:
+        result = supabase.table("recipe_logs").select("id").execute()
+
+        if not result.data:
+            raise HTTPException(status_code=404, detail="No recipes found")
+
+        random_id = random.choice(result.data)["id"]
+
+        return random_id
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

@@ -41,6 +41,7 @@ export default function SearchBar({ ...props }) {
         .then((response) => {
           if (response?.data?.recipe) {
             const recipeResponse = response.data.recipe;
+            console.log(recipeResponse)
             const recipe: Recipe = Array.isArray(recipeResponse) ? recipeResponse[0] : recipeResponse;
             if (Array.isArray(recipeResponse)) {
               setType("ingredients");

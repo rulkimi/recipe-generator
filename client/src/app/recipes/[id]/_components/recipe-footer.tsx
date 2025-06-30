@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Bookmark, ThumbsDown, ThumbsUp } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const FEEDBACK_STORAGE_KEY = "feedback_map";
 
@@ -28,18 +28,18 @@ function saveFeedbackToStorage(logId: string, feedback: "good" | "bad") {
 export default function RecipeFooter() {
   const pathname = usePathname();
   const logId = pathname.split("/").pop();
-  const [feedbackCounts, setFeedbackCounts] = useState({
-    badCount: 0,
-    goodCount: 0,
-  });
+  const [feedbackCounts, setFeedbackCounts] = useState({ badCount: 0, goodCount: 0 });
   const [feedbackGiven, setFeedbackGiven] = useState<"good" | "bad" | null>(null);
+
+  // track whether a request is in flight
+  const [pending, setPending] = useState(false);
+  const requestSeq = useRef(0);
 
   useEffect(() => {
     if (!logId) return;
 
     const feedbackMap = getStoredFeedback();
-    const savedFeedback = feedbackMap[logId] ?? null;
-    setFeedbackGiven(savedFeedback);
+    setFeedbackGiven(feedbackMap[logId] ?? null);
 
     getFeedbackCounts(logId).then((res) =>
       setFeedbackCounts({
@@ -50,34 +50,57 @@ export default function RecipeFooter() {
   }, [logId]);
 
   const sendFeedback = async (newFeedback: "good" | "bad") => {
-    if (!logId) return;
+    if (!logId || pending) return;
 
+    // no-op if the user taps the same reaction twice
+    if (feedbackGiven === newFeedback) return;
+
+    setPending(true);
+    const thisReqId = ++requestSeq.current;
     const prevFeedback = feedbackGiven;
 
-    // If same as previous, ignore
-    if (prevFeedback === newFeedback) return;
+    // optimistically update UI
+    setFeedbackCounts((prev) => ({
+      goodCount:
+        prevFeedback === "good"
+          ? prev.goodCount - 1 + (newFeedback === "good" ? 1 : 0)
+          : prev.goodCount + (newFeedback === "good" ? 1 : 0),
+      badCount:
+        prevFeedback === "bad"
+          ? prev.badCount - 1 + (newFeedback === "bad" ? 1 : 0)
+          : prev.badCount + (newFeedback === "bad" ? 1 : 0),
+    }));
+    setFeedbackGiven(newFeedback);
+    saveFeedbackToStorage(logId, newFeedback);
 
     try {
-      await giveFeedback(logId, newFeedback, feedbackGiven ?? undefined);
+      await giveFeedback(logId, newFeedback, prevFeedback ?? undefined);
 
-      // Update counts locally
-      setFeedbackCounts((prev) => ({
-        goodCount:
-          prevFeedback === "good"
-            ? prev.goodCount - 1 + (newFeedback === "good" ? 1 : 0)
-            : prev.goodCount + (newFeedback === "good" ? 1 : 0),
-        badCount:
-          prevFeedback === "bad"
-            ? prev.badCount - 1 + (newFeedback === "bad" ? 1 : 0)
-            : prev.badCount + (newFeedback === "bad" ? 1 : 0),
-      }));
-
-      setFeedbackGiven(newFeedback);
-      saveFeedbackToStorage(logId, newFeedback);
-      toast.success("Feedback updated!");
+      // only apply the “success” toast if this is still the latest request
+      if (thisReqId === requestSeq.current) {
+        toast.success("Feedback updated!");
+      }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to send feedback.");
+      if (thisReqId === requestSeq.current) {
+        setFeedbackCounts((prev) => ({
+          goodCount:
+            newFeedback === "good"
+              ? prev.goodCount - 1 + (prevFeedback === "good" ? 1 : 0)
+              : prev.goodCount,
+          badCount:
+            newFeedback === "bad"
+              ? prev.badCount - 1 + (prevFeedback === "bad" ? 1 : 0)
+              : prev.badCount,
+        }));
+        setFeedbackGiven(prevFeedback);
+        toast.error("Failed to send feedback.");
+      }
+    } finally {
+      // only clear pending if this was the latest request
+      if (thisReqId === requestSeq.current) {
+        setPending(false);
+      }
     }
   };
 
@@ -90,6 +113,7 @@ export default function RecipeFooter() {
             variant="ghost"
             size="icon"
             onClick={() => sendFeedback("good")}
+            disabled={pending}
             className={`size-8 hover:bg-green-100 rounded-full ${
               feedbackGiven === "good" ? "text-green-600" : "text-muted-foreground"
             }`}
@@ -102,6 +126,7 @@ export default function RecipeFooter() {
             variant="ghost"
             size="icon"
             onClick={() => sendFeedback("bad")}
+            disabled={pending}
             className={`size-8 hover:bg-red-200 rounded-full ${
               feedbackGiven === "bad" ? "text-red-600" : "text-muted-foreground"
             }`}
@@ -112,7 +137,12 @@ export default function RecipeFooter() {
         </div>
       </div>
 
-      <Button variant="ghost" size="sm" className="text-sm text-muted-foreground hover:text-primary">
+      <Button
+        variant="ghost"
+        size="sm"
+        disabled={pending}
+        className="text-sm text-muted-foreground hover:text-primary"
+      >
         <Bookmark className="mr-1.5 size-4" />
         Save Recipe
       </Button>

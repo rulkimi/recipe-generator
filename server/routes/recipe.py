@@ -123,29 +123,6 @@ def generate_from_image(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
-@router.put("/feedback/{log_id}")
-def update_feedback(
-    log_id: str,
-    feedback: str = Body(..., embed=True)
-):
-    if feedback not in ["good", "bad"]:
-        raise HTTPException(status_code=400, detail="Feedback must be 'good' or 'bad'.")
-
-    try:
-        result = supabase.table("recipe_logs").update({
-            "feedback": feedback
-        }).eq("id", log_id).execute()
-
-        if not result.data:
-            raise HTTPException(status_code=404, detail="Log entry not found.")
-
-        return {
-            "status": "success",
-            "message": f"Feedback updated for log {log_id}"
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/recipe/{log_id}")
 def get_recipe_by_id(log_id: str):

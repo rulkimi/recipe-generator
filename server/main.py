@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.recipe import router as recipe_router
+from routes.feedback import router as feedbac_router
 
 app = FastAPI()
 
@@ -17,3 +18,4 @@ app.add_middleware(
 )
 
 app.include_router(recipe_router)
+app.include_router(feedbac_router)

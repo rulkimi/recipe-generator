@@ -41,7 +41,6 @@ export default function SearchBar({ ...props }) {
         .then((response) => {
           if (response?.data?.recipe) {
             const recipeResponse = response.data.recipe;
-            console.log(recipeResponse)
             const recipe: Recipe = Array.isArray(recipeResponse) ? recipeResponse[0] : recipeResponse;
             if (Array.isArray(recipeResponse)) {
               setType("ingredients");
@@ -101,7 +100,6 @@ export default function SearchBar({ ...props }) {
           });
   
       const { data, log_id } = response;
-      console.log(data)
       setRecipe(Array.isArray(data.recipe) ? data.recipe[0] : data.recipe);
       router.push(`/recipes/${log_id}`);
     } catch (error) {

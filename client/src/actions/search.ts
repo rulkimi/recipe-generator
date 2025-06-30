@@ -9,7 +9,6 @@ export const searchRecipe = async (dishName: string, {
 }) => {
 	try {
 		const url = `${process.env.API_URL}/generate`;
-		console.log("url", url);
 
 		const formData = new FormData();
 		formData.append("question", dishName);
@@ -54,14 +53,10 @@ export const searchRecipeByIngredients = async (
     formData.append("additional_instructions", "");
     formData.append("language", responseLanguage);
 
-    console.log(formData)
-
     const response = await fetch(url, {
       method: "POST",
       body: formData,
     });
-
-    console.log('respn', response)
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -103,7 +98,6 @@ export const getRandomRecipe = async () => {
 			throw new Error(`HTTP error! status: ${response.status}`);
 		}
 		const data = await response.json();
-    console.log('data', data)
 		return data;
 	} catch (error) {
 		console.error(error);

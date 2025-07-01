@@ -5,7 +5,7 @@ import { Bookmark } from "lucide-react";
 export default function Header() {
   return (
     <header className="sticky top-0 z-10 p-4 shadow-md bg-background/90">
-      <div className="flex justify-between max-w-6xl px-4 mx-auto md:px-12">
+      <div className="flex justify-between max-w-6xl mx-auto md:px-12">
         <Link href="/recipes/search" className="font-semibold text-primary">
           Recipe Generator
         </Link>

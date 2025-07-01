@@ -1,5 +1,7 @@
 "use server"
 
+import { Buffer } from "buffer";
+
 export const searchRecipe = async (dishName: string, {
   dietaryRestrictions,
   responseLanguage
@@ -106,3 +108,47 @@ export const getRandomRecipe = async () => {
 		throw error;
 	}
 }
+
+export const searchByImage = async (
+  base64: string,
+  {
+    dietaryRestrictions,
+    responseLanguage,
+    filename,
+  }: {
+    dietaryRestrictions: string[];
+    responseLanguage: string;
+    filename: string;
+  }
+) => {
+  try {
+    const base64Data = base64.split(",")[1]; // strip "data:image/jpeg;base64,..."
+    const binary = Buffer.from(base64Data, "base64");
+
+    const blob = new Blob([binary], { type: "image/jpeg" });
+
+    const formData = new FormData();
+    formData.append("file", blob, filename);
+    formData.append("additional_instructions", "");
+
+    dietaryRestrictions.forEach((restriction) => {
+      formData.append("dietary_restrictions", restriction);
+    });
+
+    formData.append("language", responseLanguage);
+
+    const response = await fetch(`${process.env.API_URL}/upload_image`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Upload failed: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("searchByImage error:", error);
+    throw error;
+  }
+};

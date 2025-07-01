@@ -1,11 +1,16 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Camera, Loader, Search } from "lucide-react";
 import Customization from "./customization";
-import { searchRecipe, searchRecipeByIngredients, getRecipeById } from "@/actions/search";
-import { KeyboardEvent, useState, useEffect } from "react";
+import {
+  searchRecipe,
+  searchRecipeByIngredients,
+  searchByImage,
+  getRecipeById,
+} from "@/actions/search";
+import { KeyboardEvent, useState, useEffect, useRef } from "react";
 import { Recipe, SearchResponse } from "@/types";
 import { useRecipe } from "@/app/recipes/recipe-provider";
 import { useRouter, usePathname } from "next/navigation";
@@ -31,6 +36,8 @@ export default function SearchBar({ ...props }) {
   const [type, setType] = useQueryState("type");
   const [placeholder, setPlaceholder] = useState("Type something tasty...");
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (pathname === "/recipes/search") return;
     const match = pathname.match(/^\/recipes\/([^\/]+)$/);
@@ -41,7 +48,9 @@ export default function SearchBar({ ...props }) {
         .then((response) => {
           if (response?.data?.recipe) {
             const recipeResponse = response.data.recipe;
-            const recipe: Recipe = Array.isArray(recipeResponse) ? recipeResponse[0] : recipeResponse;
+            const recipe: Recipe = Array.isArray(recipeResponse)
+              ? recipeResponse[0]
+              : recipeResponse;
             if (Array.isArray(recipeResponse)) {
               setType("ingredients");
               setSuggestedFood(recipeResponse);
@@ -52,7 +61,8 @@ export default function SearchBar({ ...props }) {
         })
         .catch((error) => {
           console.error("Failed to fetch recipe by id:", error);
-        }).finally(() => {
+        })
+        .finally(() => {
           setLoading(false);
         });
     }
@@ -81,12 +91,12 @@ export default function SearchBar({ ...props }) {
   const search = async () => {
     const isIngredientsMode = type === "ingredients";
     const query = isIngredientsMode ? ingredients : inputValue.trim();
-  
+
     if (!query || (isIngredientsMode && ingredients.length === 0)) {
       toast.warning("Please provide ingredients or a dish name.");
       return;
     }
-  
+
     setLoading(true);
     try {
       const response: SearchResponse = isIngredientsMode
@@ -98,7 +108,7 @@ export default function SearchBar({ ...props }) {
             dietaryRestrictions,
             responseLanguage,
           });
-  
+
       const { data, log_id } = response;
       setRecipe(Array.isArray(data.recipe) ? data.recipe[0] : data.recipe);
       router.push(`/recipes/${log_id}`);
@@ -107,9 +117,42 @@ export default function SearchBar({ ...props }) {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 500)
+      }, 500);
     }
   };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const base64 = await toBase64(file);
+
+    setLoading(true);
+    try {
+      const response = await searchByImage(base64, {
+        dietaryRestrictions,
+        responseLanguage,
+        filename: file.name,
+      });
+
+      const { data, log_id } = response;
+      setRecipe(Array.isArray(data.recipe) ? data.recipe[0] : data.recipe);
+      router.push(`/recipes/${log_id}`);
+    } catch (err) {
+      console.error("Image recipe generation failed:", err);
+      toast.error("Failed to generate recipe from image.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toBase64 = (file: File) =>
+    new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+    });
 
   return (
     <div className="flex flex-wrap items-center w-full gap-2">
@@ -139,9 +182,22 @@ export default function SearchBar({ ...props }) {
           <Search className="size-5 text-primary" />
         </Button>
         <Customization />
-        <Button variant="ghost" size="icon" className="absolute right-2 top-2">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="absolute right-2 top-2"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={loading}
+        >
           <Camera className="size-5 text-primary" />
         </Button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          hidden
+          onChange={handleImageUpload}
+        />
       </div>
       <Button
         className="h-[50px] px-6 w-full md:w-auto"

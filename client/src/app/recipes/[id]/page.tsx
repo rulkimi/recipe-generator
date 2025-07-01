@@ -16,7 +16,7 @@ export async function generateMetadata({
   const recipe: Recipe = data.recipe;
 
   const recipeName = Array.isArray(recipe)
-    ? recipe.map(r => r.name).join(" and ")
+    ? recipe.map(r => r.name).join(", ")
     : recipe.name;
 
   // const ingredients = Array.isArray(recipe)
@@ -29,7 +29,7 @@ export async function generateMetadata({
 
   // const description = `Ingredients: ${ingredients}. Pairings: ${suggestedPairings}`;
   const description = Array.isArray(recipe)
-    ? recipe.map(r => r.description).join(" and ")
+    ? recipe.map(r => r.description).join(" Also, ")
     : recipe.description;
 
   return {

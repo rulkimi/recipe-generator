@@ -26,6 +26,7 @@ Format:
 recipe: [
   {{
     "name": "...",
+    "description: "...",
     "type": "{type}",
     "ingredients": [{{ "name": "...", "amount": "..." }}],
     "steps": [{{ "description": "...", "tips": "..." }}],

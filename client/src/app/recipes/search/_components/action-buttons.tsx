@@ -35,7 +35,7 @@ export default function ActionButtons() {
         {type === "ingredients" ? "Search By Name" : "Search By Ingredients"}
       </Button>
       <Button variant="outline" size="sm" onClick={surpriseMe} disabled={loading}>
-        {loading && <Loader className="mr-2 size-5 animate-spin" />}
+        {loading && <Loader className="mr-1 size-4 animate-spin" />}
         Surprise Me!
       </Button>
     </div>

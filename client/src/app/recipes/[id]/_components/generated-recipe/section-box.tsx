@@ -32,7 +32,7 @@ export const SectionHeading = ({
   return (
     <div className="flex items-center gap-2">
       <span className="text-border">{icon}</span>
-      <h2 className="text-lg font-semibold text-border">{title}</h2>
+      <h2 className="text-lg font-semibold uppercase text-border">{title}</h2>
     </div>
   );
 }

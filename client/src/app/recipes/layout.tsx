@@ -6,7 +6,7 @@ import { SuggestedFoodProvider } from "./suggested-food-provider";
 
 export default function RecipeLayout({ children }: { children: ReactNode }) {
   return (
-    <main className="max-w-6xl min-h-screen px-4 md:px-12 mx-auto">
+    <main className="max-w-6xl min-h-screen px-4 mx-auto md:px-12">
       <RecipeProvider>
         <DietaryRestrictionsProvider>
           <ResponseLanguageProvider>

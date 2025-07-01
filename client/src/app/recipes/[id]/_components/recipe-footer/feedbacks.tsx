@@ -2,7 +2,7 @@
 
 import { getFeedbackCounts, giveFeedback } from "@/actions/feedback";
 import { Button } from "@/components/ui/button";
-import { Bookmark, ThumbsDown, ThumbsUp } from "lucide-react";
+import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 import { useEffect, useRef, useState } from "react";
@@ -25,7 +25,7 @@ function saveFeedbackToStorage(logId: string, feedback: "good" | "bad") {
   localStorage.setItem(FEEDBACK_STORAGE_KEY, JSON.stringify(feedbackMap));
 }
 
-export default function RecipeFooter() {
+export default function Feedbacks() {
   const pathname = usePathname();
   const logId = pathname.split("/").pop();
   const [feedbackCounts, setFeedbackCounts] = useState({ badCount: 0, goodCount: 0 });
@@ -105,47 +105,35 @@ export default function RecipeFooter() {
   };
 
   return (
-    <footer className="flex items-center justify-between px-4 py-4 mt-6 border-t border-muted">
-      <div className="flex items-center gap-3 text-sm text-muted-foreground">
-        <span>Was this helpful?</span>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => sendFeedback("good")}
-            disabled={pending}
-            className={`size-8 hover:bg-green-100 rounded-full ${
-              feedbackGiven === "good" ? "text-green-600" : "text-muted-foreground"
-            }`}
-          >
-            <ThumbsUp className="size-4" />
-          </Button>
-          <span className="text-xs">{feedbackCounts.goodCount}</span>
+    <div className="flex items-center gap-3 text-sm text-muted-foreground">
+      <span>Was this helpful?</span>
+      <div className="flex items-center gap-2">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => sendFeedback("good")}
+          disabled={pending}
+          className={`size-8 hover:bg-green-100 rounded-full ${
+            feedbackGiven === "good" ? "text-green-600" : "text-muted-foreground"
+          }`}
+        >
+          <ThumbsUp className="size-4" />
+        </Button>
+        <span className="text-xs">{feedbackCounts.goodCount}</span>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => sendFeedback("bad")}
-            disabled={pending}
-            className={`size-8 hover:bg-red-200 rounded-full ${
-              feedbackGiven === "bad" ? "text-red-600" : "text-muted-foreground"
-            }`}
-          >
-            <ThumbsDown className="size-4" />
-          </Button>
-          <span className="text-xs">{feedbackCounts.badCount}</span>
-        </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => sendFeedback("bad")}
+          disabled={pending}
+          className={`size-8 hover:bg-red-200 rounded-full ${
+            feedbackGiven === "bad" ? "text-red-600" : "text-muted-foreground"
+          }`}
+        >
+          <ThumbsDown className="size-4" />
+        </Button>
+        <span className="text-xs">{feedbackCounts.badCount}</span>
       </div>
-
-      <Button
-        variant="ghost"
-        size="sm"
-        disabled={pending}
-        className="text-sm text-muted-foreground hover:text-primary"
-      >
-        <Bookmark className="mr-1.5 size-4" />
-        Save Recipe
-      </Button>
-    </footer>
+    </div>
   );
 }

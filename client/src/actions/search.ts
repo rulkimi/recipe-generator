@@ -49,7 +49,9 @@ export const searchRecipeByIngredients = async (
 
     const formData = new FormData();
     formData.append("ingredients", JSON.stringify(ingredients));
-    formData.append("dietary_restrictions", JSON.stringify(dietaryRestrictions));
+    dietaryRestrictions.forEach((restriction) => {
+      formData.append("dietary_restrictions", restriction);
+    });
     formData.append("additional_instructions", "");
     formData.append("language", responseLanguage);
 

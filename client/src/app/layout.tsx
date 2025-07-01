@@ -17,7 +17,33 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Recipe Generator",
-  description: "An AI-powered tool to generate personalized recipes based on your preferences and ingredients.",
+  description:
+    "An AI-powered tool to generate personalized recipes based on your preferences and ingredients.",
+  openGraph: {
+    title: "Recipe Generator",
+    description:
+      "An AI-powered tool to generate personalized recipes based on your preferences and ingredients.",
+    url: "https://recipe-generator.rulkimi.com",
+    type: "website",
+    images: [
+      {
+        url: "https://opengraph.b-cdn.net/production/images/9f011366-2c27-4d66-bf7e-eb84bcd2d981.png?token=k-_35-CHIlEZS6jFkcPnsxWX-QfV62LSHki6AMfjm0Y&height=206&width=382&expires=33287351366",
+        width: 382,
+        height: 206,
+        alt: "Recipe Generator Preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Recipe Generator",
+    description:
+      "An AI-powered tool to generate personalized recipes based on your preferences and ingredients.",
+    images: [
+      "https://opengraph.b-cdn.net/production/images/9f011366-2c27-4d66-bf7e-eb84bcd2d981.png?token=k-_35-CHIlEZS6jFkcPnsxWX-QfV62LSHki6AMfjm0Y&height=206&width=382&expires=33287351366",
+    ],
+    site: "https://recipe-generator.rulkimi.com",
+  },
 };
 
 export default function RootLayout({

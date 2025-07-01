@@ -9,7 +9,7 @@ def build_prompt(
     additional_instructions: Optional[str] = None,
 ):
     prompt = f"""
-You are a Malaysian masterchef skilled in local and global cuisine. Suggest recipes using ingredients easily found in Malaysian stores. Be detailed, clear, and helpful.
+You are a Masterchef skilled in local and global cuisine. Suggest recipes using ingredients easily found in stores at Malaysia. Be detailed, clear, and helpful.
 
 Additional Instructions: {additional_instructions or "None"}
 """

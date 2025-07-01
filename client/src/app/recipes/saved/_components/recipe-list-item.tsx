@@ -18,7 +18,7 @@ export default function RecipeListItem({
   return (
     <li
       key={recipe.id}
-      className="flex flex-col gap-2 p-3 border rounded-md sm:flex-row sm:items-center sm:justify-between"
+      className="flex items-center justify-between gap-2 p-3 border rounded-md"
     >
       <Link
         href={`/recipes/${recipe.id}`}

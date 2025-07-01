@@ -7,6 +7,8 @@ const DIETARY_OPTIONS = [
 	{ label: 'Vegan', value: 'vegan' },
 	{ label: 'Vegetarion', value: 'vegetarian' },
 	{ label: 'Non-dairy', value: 'non-dairy' },
+	{ label: 'Keto', value: 'keto' },
+	{ label: 'Gluten-free', value: 'gluten-free' },
 ] as const;
 
 export default function DietaryRestrictions() {

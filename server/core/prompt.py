@@ -55,6 +55,8 @@ Format:
             "vegetarian": "No meat or animal by-products.",
             "vegan": "No animal products at all.",
             "non-dairy": "Avoid all dairy ingredients.",
+            "keto": "Low in carbs, high in healthy fats, moderate in protein. Avoid sugars and starches.",
+            "gluten-free": "Avoid all sources of gluten, including wheat, barley, and rye.",
         }
         prompt += "\nDietary restrictions:\n" + "\n".join(
             rules[r] for r in dietary_restrictions if r in rules

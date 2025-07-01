@@ -96,11 +96,20 @@ def generate_from_image(
         model = get_model()
         image = Image.open(io.BytesIO(file.file.read()))
 
-        identify_prompt = "You are an expert in food identification. What food is shown in this image?"
-        id_response = model.generate_content([identify_prompt, image])
-        food_name = id_response.text.strip()
+        identify_prompt = """You are an expert in food identification. 
+            What food is shown in this image?
 
-        prompt = build_prompt(food_name, language, None, "image", dietary_restrictions, additional_instructions)
+            Respond in the following JSON format only:
+
+            {
+            "food_name": "..."
+            }
+        """
+        id_response = model.generate_content([identify_prompt, image])
+        parsed_id_response = json.loads(id_response.text)
+        food_name = parsed_id_response["food_name"]
+
+        prompt = build_prompt(food_name, language,"image", None, dietary_restrictions, additional_instructions)
         recipe_response = model.generate_content(prompt)
         parsed = json.loads(recipe_response.text)
 

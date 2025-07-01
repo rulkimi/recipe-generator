@@ -42,6 +42,7 @@ Return a **single** recipe in JSON format.
 Format:
 {{
   "name": "...",
+  "description: "...",
   "type": "{type}",
   "ingredients": [{{ "name": "...", "amount": "..." }}],
   "steps": [{{ "description": "...", "tips": "..." }}],

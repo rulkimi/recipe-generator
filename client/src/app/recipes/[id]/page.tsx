@@ -19,15 +19,18 @@ export async function generateMetadata({
     ? recipe.map(r => r.name).join(" and ")
     : recipe.name;
 
-  const ingredients = Array.isArray(recipe)
-    ? recipe.flatMap(r => r.ingredients || []).join(", ")
-    : recipe.ingredients?.join(", ");
+  // const ingredients = Array.isArray(recipe)
+  //   ? recipe.flatMap(r => r.ingredients || []).join(", ")
+  //   : recipe.ingredients?.join(", ");
 
-  const suggestedPairings = Array.isArray(recipe)
-    ? recipe.flatMap(r => r.suggested_pairings || []).map(p => p.dish_name).join(" and ")
-    : recipe.suggested_pairings?.map(p => p.dish_name).join(" and ");
+  // const suggestedPairings = Array.isArray(recipe)
+  //   ? recipe.flatMap(r => r.suggested_pairings || []).map(p => p.dish_name).join(" and ")
+  //   : recipe.suggested_pairings?.map(p => p.dish_name).join(" and ");
 
-  const description = `Ingredients: ${ingredients}. Pairings: ${suggestedPairings}`;
+  // const description = `Ingredients: ${ingredients}. Pairings: ${suggestedPairings}`;
+  const description = Array.isArray(recipe)
+    ? recipe.map(r => r.description).join(" and ")
+    : recipe.description;
 
   return {
     title: recipeName,

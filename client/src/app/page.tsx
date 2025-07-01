@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function LandingPage() {
   return (
-    <main className="flex flex-col min-h-screen bg-background text-foreground">
+    <main className="flex flex-col bg-background text-foreground">
       <section className="flex flex-col items-center justify-center px-6 py-24 text-center bg-gradient-to-b from-muted/50 to-background">
         <h1 className="mb-6 text-4xl font-bold tracking-tight md:text-6xl text-primary">
           AI-Powered Recipe Generator
@@ -13,7 +13,7 @@ export default function LandingPage() {
         <p className="max-w-2xl mb-8 text-lg text-muted-foreground md:text-xl">
           Instantly create delicious recipes from your ingredients. No planning, no guessing — just cooking.
         </p>
-        <Link href="/recipes/search">
+        <Link href="/recipes/search" >
           <Button size="lg">
             🍽️ Generate a Recipe
           </Button>

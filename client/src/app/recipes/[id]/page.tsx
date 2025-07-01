@@ -5,8 +5,13 @@ import { Metadata } from "next";
 import { getRecipeById } from "@/actions/search";
 import { Recipe } from "@/types";
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const response = await getRecipeById(params.id);
+export async function generateMetadata({
+  params 
+}: { 
+  params: Promise<{ id: string }> 
+}): Promise<Metadata> {
+  const { id } = await params;
+  const response = await getRecipeById(id);
   const { data } = response;
   const recipe: Recipe = data.recipe;
 

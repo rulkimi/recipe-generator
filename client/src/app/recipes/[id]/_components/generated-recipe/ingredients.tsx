@@ -9,8 +9,8 @@ export default function Ingredients() {
   return (
     <ScrollArea className="max-h-[800px] overflow-auto">
       <ul className="grid grid-cols-2 gap-2 lg:grid-cols-1"> 
-        {recipe?.ingredients?.map(ingredient => (
-          <li key={ingredient.name}>
+        {recipe?.ingredients?.map((ingredient, index) => (
+          <li key={ingredient.name + "-" + index}>
             <strong>{ingredient.name},</strong>&nbsp;
             <span className="italic">{ingredient.amount}</span>
           </li>

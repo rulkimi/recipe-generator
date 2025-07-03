@@ -1,5 +1,5 @@
 # --- app/routes/recipe.py ---
-from fastapi import APIRouter, Form, File, UploadFile, HTTPException, Body
+from fastapi import APIRouter, Form, File, UploadFile, HTTPException, Body, Depends
 from typing import List, Optional
 import json
 import io
@@ -8,7 +8,11 @@ from PIL import Image
 
 from core.model import get_model
 from core.prompt import build_prompt
-from core.db import supabase
+# from core.db import supabase
+
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import text
+from core.deps import get_db
 
 router = APIRouter()
 
@@ -17,11 +21,12 @@ def home():
     return {"message": "Welcome to Recipe Generator"}
 
 @router.post("/generate")
-def generate(
+async def generate(
     question: str = Form(...),
     additional_instructions: Optional[str] = Form(""),
     dietary_restrictions: List[str] = Form([]),
-    language: str = Form("Bahasa Melayu")
+    language: str = Form("Bahasa Melayu"),
+    db: AsyncSession = Depends(get_db)
 ):
     try:
         model = get_model()
@@ -29,35 +34,54 @@ def generate(
         response = model.generate_content(prompt)
         parsed = json.loads(response.text)
 
-        print(prompt)
-        result = supabase.table("recipe_logs").insert({
+        insert_query = text("""
+            INSERT INTO recipe_logs (
+                user_input,
+                type,
+                recipe,
+                language,
+                dietary_restrictions,
+                additional_instructions
+            )
+            VALUES (
+                :user_input,
+                :type,
+                :recipe,
+                :language,
+                :dietary_restrictions,
+                :additional_instructions
+            )
+            RETURNING id
+        """)
+
+        result = await db.execute(insert_query, {
             "user_input": question,
             "type": "name",
-            "recipe": parsed,
+            "recipe": json.dumps(parsed),  
             "language": language,
-            "dietary_restrictions": dietary_restrictions,
-            "additional_instructions": additional_instructions,
-            "feedback": None
-        }).execute()
+            "dietary_restrictions": dietary_restrictions, 
+            "additional_instructions": ""
+        })
 
-        log_id = result.data[0]["id"]
-        print(prompt)
+        log_id = result.scalar()
+        await db.commit()
 
         return {
             "status": "success",
             "log_id": log_id,
             "data": parsed
         }
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
 @router.post("/generate_by_ingredients")
-def generate_by_ingredients(
+async def generate_by_ingredients(
     ingredients: List[str] = Form(...),
     additional_instructions: Optional[str] = Form(""),
     dietary_restrictions: List[str] = Form([]),
-    language: str = Form("Bahasa Melayu")
+    language: str = Form("malay"),
+    db: AsyncSession = Depends(get_db) 
 ):
     try:
         model = get_model()
@@ -65,98 +89,152 @@ def generate_by_ingredients(
         response = model.generate_content(prompt)
         parsed = json.loads(response.text)
 
-        result = supabase.table("recipe_logs").insert({
+        insert_query = text("""
+            INSERT INTO recipe_logs (
+                user_input,
+                type,
+                recipe,
+                language,
+                dietary_restrictions,
+                additional_instructions
+            )
+            VALUES (
+                :user_input,
+                :type,
+                :recipe,
+                :language,
+                :dietary_restrictions,
+                :additional_instructions
+            )
+            RETURNING id
+        """)
+
+        result = await db.execute(insert_query, {
             "user_input": ", ".join(ingredients),
             "type": "ingredients",
-            "recipe": parsed,
+            "recipe": json.dumps(parsed),
             "language": language,
             "dietary_restrictions": dietary_restrictions,
-            "additional_instructions": additional_instructions,
-            "feedback": None
-        }).execute()
+            "additional_instructions": ""
+        })
 
-        log_id = result.data[0]["id"]
+        log_id = result.scalar()
+        await db.commit()
 
         return {
             "status": "success",
             "log_id": log_id,
             "data": parsed
         }
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/upload_image")
-def generate_from_image(
+async def generate_from_image(
     file: UploadFile = File(...),
     additional_instructions: Optional[str] = Form(""),
     dietary_restrictions: List[str] = Form([]),
-    language: str = Form("Bahasa Melayu")
+    language: str = Form("malay"),
+    db: AsyncSession = Depends(get_db)
 ):
     try:
         model = get_model()
         image = Image.open(io.BytesIO(file.file.read()))
 
         identify_prompt = """You are an expert in food identification. 
-            What food is shown in this image?
+        What food is shown in this image?
 
-            Respond in the following JSON format only:
+        Respond in the following JSON format only:
 
-            {
-            "food_name": "..."
-            }
+        {
+          "food_name": "..."
+        }
         """
         id_response = model.generate_content([identify_prompt, image])
         parsed_id_response = json.loads(id_response.text)
         food_name = parsed_id_response["food_name"]
 
-        prompt = build_prompt(food_name, language,"image", None, dietary_restrictions, additional_instructions)
+        prompt = build_prompt(
+            food_name, language, "image", None, dietary_restrictions, additional_instructions
+        )
         recipe_response = model.generate_content(prompt)
         parsed = json.loads(recipe_response.text)
 
-        result = supabase.table("recipe_logs").insert({
+        insert_query = text("""
+            INSERT INTO recipe_logs (
+                user_input,
+                type,
+                recipe,
+                language,
+                dietary_restrictions,
+                additional_instructions
+            )
+            VALUES (
+                :user_input,
+                :type,
+                :recipe,
+                :language,
+                :dietary_restrictions,
+                :additional_instructions
+            )
+            RETURNING id
+        """)
+
+        result = await db.execute(insert_query, {
             "user_input": food_name,
             "type": "image",
-            "recipe": parsed,
+            "recipe": json.dumps(parsed),
             "language": language,
             "dietary_restrictions": dietary_restrictions,
-            "additional_instructions": additional_instructions,
-            "feedback": None
-        }).execute()
+            "additional_instructions": additional_instructions
+        })
 
-        log_id = result.data[0]["id"]
+        log_id = result.scalar()
+        await db.commit()
 
         return {
             "status": "success",
             "log_id": log_id,
             "data": parsed
         }
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/recipe/{log_id}")
-def get_recipe_by_id(log_id: str):
-	try:
-		result = supabase.table("recipe_logs").select("recipe").eq("id", log_id).single().execute()
-		if not result.data:
-			raise HTTPException(status_code=404, detail="Recipe not found.")
-		return {
-			"status": "success",
-			"data": result.data
-		}
-	except Exception as e:
-		raise HTTPException(status_code=500, detail=str(e))
+async def get_recipe_by_id(log_id: str, db: AsyncSession = Depends(get_db)):
+    try:
+        query = f"SELECT recipe FROM recipe_logs WHERE id = '{log_id}'"
+        result = await db.execute(text(query))
+        row = result.fetchone()
+
+        if not row:
+            raise HTTPException(status_code=404, detail="Recipe not found.")
+
+        recipe = dict(row._mapping)
+
+        return {
+            "status": "success",
+            "data": recipe
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/random-recipe")
-def get_random_recipe():
+async def get_random_recipe(db: AsyncSession = Depends(get_db)):
     try:
-        result = supabase.table("recipe_logs").select("id").execute()
+        query = f"SELECT id FROM recipe_logs LIMIT 100"
+        # result = supabase.table("recipe_logs").select("id").execute()
+        result = await db.execute(text(query))
+        rows = result.fetchall()
 
-        if not result.data:
+        if not rows:
             raise HTTPException(status_code=404, detail="No recipes found")
 
-        random_id = random.choice(result.data)["id"]
+        ids = [row[0] for row in rows]
+        random_id = random.choice(ids)
 
         return random_id
-
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -8,3 +8,7 @@ uvicorn
 fastapi-cors
 python-multipart
 supabase
+asyncpg
+sqlalchemy
+databases
+psycopg2-binary

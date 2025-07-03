@@ -1,15 +1,13 @@
 "use client"
 
-import { useRecipe } from "@/app/recipes/recipe-provider";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Recipe } from "@/types";
 
-export default function Steps() {
-  const { recipe } = useRecipe();
-
+export default function Steps({ steps }: { steps: Recipe["steps"] }) {
   return (
     <ScrollArea className="max-h-[550px] overflow-auto">
       <ol className="space-y-2">
-        {recipe?.steps?.map((step, index) => (
+        {steps?.map((step, index) => (
           <li
             className="ml-6 list-decimal"
             key={index}

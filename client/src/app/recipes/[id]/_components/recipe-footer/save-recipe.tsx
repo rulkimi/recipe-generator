@@ -1,7 +1,7 @@
 "use client";
 
-import { useRecipe } from "@/app/recipes/recipe-provider";
 import { Button } from "@/components/ui/button";
+import { Recipe } from "@/types";
 import { Bookmark } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -23,13 +23,10 @@ function saveRecipe(id: string, name: string) {
   }
 }
 
-export default function SaveRecipe() {
+export default function SaveRecipe({ recipeName }: { recipeName: Recipe["name"] }) {
   const pathname = usePathname();
   const logId = pathname.split("/").pop()!;
-  const { recipe } = useRecipe();
   const [saved, setSaved] = useState(false);
-
-  const recipeName = recipe?.name;
 
   useEffect(() => {
     const savedRecipes = getSavedRecipes();

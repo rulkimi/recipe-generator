@@ -1,16 +1,14 @@
 "use client"
 
-import { useRecipe } from "@/app/recipes/recipe-provider";
 import { Button } from "@/components/ui/button";
 import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Recipe } from "@/types";
 import { ArrowRight } from "lucide-react";
 
-export default function SuggestedPairings() {
-  const { recipe } = useRecipe();
-
+export default function SuggestedPairings({ pairings }: { pairings: Recipe["suggested_pairings"] }) {
   return (
     <ul className="flex flex-col gap-2 md:flex-row">
-      {recipe?.suggested_pairings?.map((pairing, index) => (
+      {pairings?.map((pairing, index) => (
         <li key={index}>
           <SuggestedPairingButton
             label={pairing.dish_name}

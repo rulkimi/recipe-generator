@@ -19,15 +19,6 @@ export async function generateMetadata({
     ? recipe.map(r => r.name).join(", ")
     : recipe.name;
 
-  // const ingredients = Array.isArray(recipe)
-  //   ? recipe.flatMap(r => r.ingredients || []).join(", ")
-  //   : recipe.ingredients?.join(", ");
-
-  // const suggestedPairings = Array.isArray(recipe)
-  //   ? recipe.flatMap(r => r.suggested_pairings || []).map(p => p.dish_name).join(" and ")
-  //   : recipe.suggested_pairings?.map(p => p.dish_name).join(" and ");
-
-  // const description = `Ingredients: ${ingredients}. Pairings: ${suggestedPairings}`;
   const description = Array.isArray(recipe)
     ? recipe.map(r => r.description).join(" Also, ")
     : recipe.description;
@@ -43,13 +34,31 @@ export async function generateMetadata({
 }
 
 
-export default function RecipePage() {
+export default async function RecipePage({ params }: { params: Promise<{id: string }>}) {
+  const { id } = await params;
+  const response = await getRecipeById(id);
+  const { data } = response;
+  const recipe: Recipe = Array.isArray(data.recipe) ? data.recipe[0] : data.recipe;
+  const type = Array.isArray(data.recipe) ? "ingredients" : "name";
+  const suggestedFood = Array.isArray(data.recipe) ? data.recipe : [];
+  let parsedUserInput;
+  try {
+    parsedUserInput = data.user_input ? JSON.parse(data.user_input) : undefined;
+  } catch (e) {
+    parsedUserInput = data.user_input;
+  }
+  const ingredients = Array.isArray(parsedUserInput) ? parsedUserInput : undefined;
+  
   return (
     <div className="py-6 space-y-8 lg:space-y-4">
-      <SearchBar />
+      <SearchBar recipeName={recipe.name} recipeIngredients={ingredients} />
       <div className="space-y-4">
-        <GeneratedRecipe />
-        <RecipeFooter />
+        <GeneratedRecipe
+          data={recipe}
+          type={type}
+          suggestedFood={suggestedFood}
+        />
+        <RecipeFooter recipeName={recipe.name} />
       </div>
     </div>
   );

@@ -7,42 +7,49 @@ import Steps from "./steps";
 import SuggestedPairings from "./suggested-pairings";
 import { useViewport } from "@/hooks/use-viewport";
 import { Accordion, AccordionItem, AccordionContent, AccordionTrigger } from "@/components/ui/accordion";
-import { useSuggestedFood } from "@/app/recipes/suggested-food-provider";
-import { useQueryState } from "nuqs";
 import { Button } from "@/components/ui/button";
-import { useRecipe } from "@/app/recipes/recipe-provider";
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Recipe } from "@/types";
+import { useQueryState } from "nuqs";
 
-const ACCORDION_ITEMS = [
-  { 
-    label: 'Ingredients',
-    value: "ingredients",
-    icon: <ShoppingBasket className="w-4 h-4" />,
-    children: <Ingredients />
-  },
-  {
-    label: 'Steps',
-    value: "steps",
-    icon: <List className="w-4 h-4" />,
-    children: <Steps />
-  },
-  {
-    label: 'Suggested Pairings', 
-    value: "pairings", 
-    icon: <Lightbulb className="w-4 h-4" />,
-    children: <SuggestedPairings />
-  },
-];
-
-export default function GeneratedRecipe() {
+export default function GeneratedRecipe({
+  data,
+  type,
+  suggestedFood
+}: { 
+  data: Recipe;
+  type: "ingredients" | "name";
+  suggestedFood: Recipe[];
+}) {
   const { isDesktop } = useViewport();
-  const { suggestedFood } = useSuggestedFood();
-  const [type] = useQueryState("type");
-  const { recipe, setRecipe } = useRecipe();
+  const [recipe, setRecipe] = useState<Recipe>(data);
+  const [_, setType] = useQueryState("type");
+
+  const ACCORDION_ITEMS = [
+    { 
+      label: 'Ingredients',
+      value: "ingredients",
+      icon: <ShoppingBasket className="w-4 h-4" />,
+      children: <Ingredients ingredients={recipe.ingredients} />
+    },
+    {
+      label: 'Steps',
+      value: "steps",
+      icon: <List className="w-4 h-4" />,
+      children: <Steps steps={recipe.steps} />
+    },
+    {
+      label: 'Suggested Pairings', 
+      value: "pairings", 
+      icon: <Lightbulb className="w-4 h-4" />,
+      children: <SuggestedPairings pairings={recipe.suggested_pairings} />
+    },
+  ];
 
   useEffect(() => {
     if (!recipe) return;
+    if (suggestedFood.length) setType("ingredients");
 
     const descriptionContent = `Ingredients: ${recipe.ingredients?.map(i => i.name).join(", ") || "N/A"}. Steps: ${recipe.steps?.length || 0}. Pairings: ${recipe.suggested_pairings?.map(pairing => (pairing.dish_name)).join(", ") || "None"}.`;
 
@@ -114,17 +121,17 @@ export default function GeneratedRecipe() {
         <div className="grid grid-cols-12 gap-4 grid-rows-8">
           <div className="col-span-4 row-span-8">
             <SectionBox title="Ingredients" icon={<ShoppingBasket />}>
-              <Ingredients />
+              <Ingredients ingredients={recipe.ingredients} />
             </SectionBox>
           </div>
           <div className="col-span-8 col-start-5 row-span-6">
             <SectionBox title="Steps" icon={<List />}>
-              <Steps />
+              <Steps steps={recipe.steps} />
             </SectionBox>
           </div>
           <div className="col-span-8 col-start-5 row-span-2 row-start-7">
             <SectionBox title="Suggested Pairings" icon={<Lightbulb />}>
-              <SuggestedPairings />
+              <SuggestedPairings pairings={recipe.suggested_pairings} />
             </SectionBox>
           </div>
         </div>

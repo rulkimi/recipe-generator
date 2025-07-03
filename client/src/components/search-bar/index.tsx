@@ -8,70 +8,45 @@ import {
   searchRecipe,
   searchRecipeByIngredients,
   searchByImage,
-  getRecipeById,
 } from "@/actions/search";
 import { KeyboardEvent, useState, useEffect, useRef } from "react";
-import { Recipe, SearchResponse } from "@/types";
-import { useRecipe } from "@/app/recipes/recipe-provider";
-import { useRouter, usePathname } from "next/navigation";
+import { SearchResponse } from "@/types";
+import { useRouter } from "next/navigation";
 import { useDietaryRestrictions } from "@/app/recipes/dietary-restrictions-provider";
 import { useResponseLanguage } from "@/app/recipes/response-language-provider";
 import { toast } from "sonner";
 import { useQueryState } from "nuqs";
 import { TagInput } from "../ui/tag-input";
-import { useSuggestedFood } from "@/app/recipes/suggested-food-provider";
 
-export default function SearchBar({ ...props }) {
+interface SearchBarProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange" | "value"> {
+  recipeName?: string;
+  recipeIngredients?: string[];
+}
+
+export default function SearchBar({ recipeName = "", recipeIngredients = [], ...props }: SearchBarProps) {
   const router = useRouter();
-  const pathname = usePathname();
 
   const { dietaryRestrictions } = useDietaryRestrictions();
   const { responseLanguage } = useResponseLanguage();
-  const { setRecipe } = useRecipe();
-  const { setSuggestedFood } = useSuggestedFood();
 
   const [loading, setLoading] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const [ingredients, setIngredients] = useState<string[]>([]);
-  const [type, setType] = useQueryState("type");
+  const [inputValue, setInputValue] = useState(recipeName);
+  const [ingredients, setIngredients] = useState<string[]>(recipeIngredients);
+  const [type] = useQueryState("type");
   const [placeholder, setPlaceholder] = useState("Type something tasty...");
+
+  const isIngredientsMode = type === "ingredients";
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (pathname === "/recipes/search") return;
-    const match = pathname.match(/^\/recipes\/([^\/]+)$/);
-    if (match && match[1]) {
-      const logId = match[1];
-      setLoading(true);
-      getRecipeById(logId)
-        .then((response) => {
-          if (response?.data?.recipe) {
-            const recipeResponse = response.data.recipe;
-            const recipe: Recipe = Array.isArray(recipeResponse)
-              ? recipeResponse[0]
-              : recipeResponse;
-            if (Array.isArray(recipeResponse)) {
-              setType("ingredients");
-              setSuggestedFood(recipeResponse);
-            }
-            setInputValue(recipe.name);
-            setRecipe(recipe);
-          }
-        })
-        .catch((error) => {
-          console.error("Failed to fetch recipe by id:", error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  }, [pathname, setRecipe]);
-
-  useEffect(() => {
-    if (type === "ingredients") {
+    if (isIngredientsMode) {
       setPlaceholder("Press enter to add ingredient (Ctrl + Enter to search)");
+      setInputValue("");
+      setIngredients(recipeIngredients);
     } else {
+      setInputValue(recipeName);
+      setIngredients([]);
       setPlaceholder("Type something tasty...");
     }
   }, [type]);
@@ -89,7 +64,6 @@ export default function SearchBar({ ...props }) {
   const handleOnCtrlEnter = async () => await search();
 
   const search = async () => {
-    const isIngredientsMode = type === "ingredients";
     const query = isIngredientsMode ? ingredients : inputValue.trim();
 
     if (!query || (isIngredientsMode && ingredients.length === 0)) {
@@ -109,8 +83,7 @@ export default function SearchBar({ ...props }) {
             responseLanguage,
           });
 
-      const { data, log_id } = response;
-      setRecipe(Array.isArray(data.recipe) ? data.recipe[0] : data.recipe);
+      const { log_id } = response;
       router.push(`/recipes/${log_id}`);
     } catch (error) {
       console.error(error);
@@ -135,8 +108,7 @@ export default function SearchBar({ ...props }) {
         filename: file.name,
       });
 
-      const { data, log_id } = response;
-      setRecipe(Array.isArray(data.recipe) ? data.recipe[0] : data.recipe);
+      const { log_id } = response;
       router.push(`/recipes/${log_id}`);
     } catch (err) {
       console.error("Image recipe generation failed:", err);
@@ -157,7 +129,7 @@ export default function SearchBar({ ...props }) {
   return (
     <div className="flex flex-wrap items-center w-full gap-2">
       <div className="relative flex-1">
-        {type === "ingredients" ? (
+        {isIngredientsMode ? (
           <TagInput
             className="min-h-[50px] pl-12 pr-22 border-2"
             value={ingredients}

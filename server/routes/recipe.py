@@ -30,7 +30,7 @@ async def generate(
 ):
     try:
         model = get_model()
-        prompt = build_prompt(question, language, "name", None, dietary_restrictions, additional_instructions)
+        prompt = build_prompt(question, language, None, dietary_restrictions, additional_instructions)
         response = model.generate_content(prompt)
         parsed = json.loads(response.text)
 
@@ -86,7 +86,7 @@ async def generate_by_ingredients(
 ):
     try:
         model = get_model()
-        prompt = build_prompt("", language, "ingredients", ingredients, dietary_restrictions, additional_instructions)
+        prompt = build_prompt("", language, ingredients, dietary_restrictions, additional_instructions)
         response = model.generate_content(prompt)
         parsed = json.loads(response.text)
 
@@ -156,9 +156,7 @@ async def generate_from_image(
         parsed_id_response = json.loads(id_response.text)
         food_name = parsed_id_response["food_name"]
 
-        prompt = build_prompt(
-            food_name, language, "image", None, dietary_restrictions, additional_instructions
-        )
+        prompt = build_prompt(food_name, language, None, dietary_restrictions, additional_instructions)
         recipe_response = model.generate_content(prompt)
         parsed = json.loads(recipe_response.text)
 

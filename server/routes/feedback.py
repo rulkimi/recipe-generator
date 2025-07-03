@@ -98,16 +98,6 @@ async def update_feedback(
             "bad_count": bad_count
         })
 
-        update_log_query = text("""
-            UPDATE recipe_logs
-            SET feedback = :feedback
-            WHERE id = :log_id
-        """)
-        result = await db.execute(update_log_query, {
-            "feedback": feedback,
-            "log_id": log_id
-        })
-
         await db.commit()
 
         return {

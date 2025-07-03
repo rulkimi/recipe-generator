@@ -73,6 +73,7 @@ async def generate(
         }
 
     except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/generate_by_ingredients")

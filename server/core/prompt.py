@@ -27,7 +27,6 @@ recipe: [
   {{
     "name": "...",
     "description: "...",
-    "type": "{type}",
     "ingredients": [{{ "name": "...", "amount": "..." }}],
     "steps": [{{ "description": "...", "tips": "..." }}],
     "suggested_pairings": [{{ "dish_name": "...", "description": "..." }}]
@@ -44,7 +43,6 @@ Format:
 {{
   "name": "...",
   "description: "...",
-  "type": "{type}",
   "ingredients": [{{ "name": "...", "amount": "..." }}],
   "steps": [{{ "description": "...", "tips": "..." }}],
   "suggested_pairings": [{{ "dish_name": "...", "description": "..." }}]

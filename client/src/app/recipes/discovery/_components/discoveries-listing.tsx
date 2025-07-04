@@ -5,7 +5,8 @@ import DiscoveryCard from "./discovery-card";
 
 export default async function DiscoveriesListing() {
   const page = searchParamsCache.get("page");
-  const response = await getDiscoveries({ page });
+  const q = searchParamsCache.get("q");
+  const response = await getDiscoveries({ page, query: q });
   const { data: discoveries } = response;
 
   return (

@@ -3,6 +3,7 @@ import { searchParamsCache, serialize } from "@/lib/searchparams";
 import { SearchParams } from "nuqs";
 import DiscoveriesListing from "./_components/discoveries-listing";
 import { Metadata } from "next";
+import DiscoverySearch from "./_components/discovery-search";
 
 export const metadata: Metadata = {
   title: "Shared Discoveries - Recipe Generator",
@@ -25,7 +26,10 @@ export default async function Discovery({ searchParams }: { searchParams: Promis
 
   return (
     <div className="py-6">
-      <PageTitle title="Shared Discoveries" icon="compass" />
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <PageTitle title="Shared Discoveries" icon="compass" />
+        <DiscoverySearch />
+      </div>
       <DiscoveriesListing />
     </div>
   );

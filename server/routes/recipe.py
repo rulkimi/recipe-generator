@@ -256,11 +256,44 @@ async def get_discoveries(
     db: AsyncSession = Depends(get_db),
     page: int = Query(1, ge=1),
     limit: int = Query(10, ge=1, le=100),
+    query: Optional[str] = None,
 ):
     try:
         offset = (page - 1) * limit
+        filters = []
+        params = {"limit": limit, "offset": offset}
 
-        query = text(f"""
+        if query:
+            filters.append("""
+                (
+                    -- match name or description when recipe is an object
+                    recipe->>'name' ILIKE :q OR
+                    recipe->>'description' ILIKE :q OR
+
+                    -- match inside array only if it's an array
+                    (
+                        jsonb_typeof(recipe) = 'array' AND
+                        EXISTS (
+                            SELECT 1 FROM jsonb_array_elements(recipe) AS elem
+                            WHERE elem->>'name' ILIKE :q OR elem->>'description' ILIKE :q
+                        )
+                    ) OR
+
+                    -- match in type / language / user_input / dietary
+                    rl.type ILIKE :q OR
+                    rl.language ILIKE :q OR
+                    rl.user_input ILIKE :q OR
+                    EXISTS (
+                        SELECT 1 FROM unnest(rl.dietary_restrictions) AS d
+                        WHERE d ILIKE :q
+                    )
+                )
+            """)
+            params["q"] = f"%{query}%"
+
+        where_clause = f"WHERE {' AND '.join(filters)}" if filters else ""
+
+        query_sql = text(f"""
             SELECT
                 CASE
                     WHEN jsonb_typeof(recipe) = 'array'
@@ -287,14 +320,15 @@ async def get_discoveries(
                 COALESCE(rf.bad_count, 0) AS bad_count
             FROM recipe_logs rl
             LEFT JOIN recipe_feedback rf ON rl.id = rf.log_id
+            {where_clause}
             ORDER BY COALESCE(rf.good_count, 0) DESC, rl.created_at DESC
             LIMIT :limit OFFSET :offset
         """)
-        result = await db.execute(query, {"limit": limit, "offset": offset})
+        result = await db.execute(query_sql, params)
         items = result.fetchall()
 
-        count_query = text("SELECT COUNT(*) FROM recipe_logs")
-        total_result = await db.execute(count_query)
+        count_query = text(f"SELECT COUNT(*) FROM recipe_logs rl {where_clause}")
+        total_result = await db.execute(count_query, params)
         total = total_result.scalar()
 
         return {
@@ -306,3 +340,4 @@ async def get_discoveries(
         }
     except Exception as e:
         return {"error": str(e)}
+

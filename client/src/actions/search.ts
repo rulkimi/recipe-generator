@@ -156,15 +156,21 @@ export const searchByImage = async (
 
 export const getDiscoveries = async ({
   page = 1,
-  limit = 10
+  limit = 10,
+  query
 }: {
   page?: number;
   limit?: number;
+  query?: string;
 }) => {
   try {
     const url = new URL(`${process.env.API_URL}/discoveries`);
     url.searchParams.set("page", page.toString());
     url.searchParams.set("limit", limit.toString());
+
+    if (query) {
+      url.searchParams.set("query", query);
+    }
 
     const response = await fetch(url.toString(), {
       method: "GET",
@@ -178,7 +184,11 @@ export const getDiscoveries = async ({
     const data = await response.json();
 
     return data as {
-      data: Discovery[]
+      data: Discovery[];
+      page: number;
+      limit: number;
+      total: number;
+      total_pages: number;
     };
   } catch (error) {
     console.error("getDiscoveries error:", error);

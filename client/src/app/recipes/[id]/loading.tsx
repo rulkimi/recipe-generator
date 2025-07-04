@@ -109,7 +109,7 @@ const pairingsSkeleton = (
   </div>
 );
 
-const SearchBarSkeleton = () => {
+export const SearchBarSkeleton = () => {
   return (
     <div className="flex flex-wrap items-center w-full gap-2">
       <div className="relative flex-1">

@@ -1,8 +1,7 @@
 import { Suspense } from "react";
 import SearchBar from "../../../components/search-bar";
 import ActionButtons from "./_components/action-buttons";
-
-
+import { SearchBarSkeleton } from "../[id]/loading";
 
 export default function SearchPage() {
   return (
@@ -10,7 +9,7 @@ export default function SearchPage() {
       <h1 className="px-4 mb-12 text-4xl font-semibold leading-tight text-center text-transparent sm:text-6xl md:text-7xl sm:leading-snug bg-clip-text bg-gradient-to-r from-primary to-pink-500/80">
         Find a recipe, skip the stress
       </h1>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<SearchBarSkeleton />}>
         <SearchBar />
         <ActionButtons />
       </Suspense>

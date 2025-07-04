@@ -13,7 +13,7 @@ export default function DiscoverySearch() {
   const [search, setSearch] = useQueryState(
     'q',
     searchParams.q
-      .withOptions({ shallow: false, throttleMs: 1000 })
+      .withOptions({ shallow: false, throttleMs: 300 })
       .withDefault('')
   );
 

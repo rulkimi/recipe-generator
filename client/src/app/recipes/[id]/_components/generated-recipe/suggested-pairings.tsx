@@ -1,9 +1,15 @@
 "use client"
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ArrowRight, Loader } from "lucide-react";
+import { searchRecipe } from "@/actions/search";
+import { toast } from "sonner";
+import { useDietaryRestrictions } from "@/app/recipes/dietary-restrictions-provider";
+import { useResponseLanguage } from "@/app/recipes/response-language-provider";
 import { Recipe } from "@/types";
-import { ArrowRight } from "lucide-react";
 
 export default function SuggestedPairings({ pairings }: { pairings: Recipe["suggested_pairings"] }) {
   return (
@@ -27,21 +33,50 @@ const SuggestedPairingButton = ({
   label: string;
   description: string;
 }) => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { dietaryRestrictions } = useDietaryRestrictions();
+  const { responseLanguage } = useResponseLanguage();
+
+  const handleClick = async () => {
+    setLoading(true);
+    try {
+      const response = await searchRecipe(label, {
+        dietaryRestrictions,
+        responseLanguage,
+      });
+      const { log_id } = response;
+      router.push(`/recipes/${log_id}`);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to find recipe.");
+    } finally {
+      setTimeout(() => setLoading(false), 500);
+    }
+  };
+
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button variant="outline" className="w-full border-2 group md:w-fit">
+          <Button
+            variant="outline"
+            className="w-full border-2 group md:w-fit"
+            onClick={handleClick}
+            disabled={loading}
+          >
             {label}
-            <ArrowRight
-              className="ml-2 transition-transform duration-300 size-5 text-border group-hover:translate-x-2"
-            />
+            {loading ? (
+              <Loader className="size-4 animate-spin" />
+            ) : (
+              <ArrowRight className="ml-2 size-5 text-border transition-transform duration-300 group-hover:translate-x-2" />
+            )}
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          <div className="">{description}</div>
+          <div>{description}</div>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );
-}
+};

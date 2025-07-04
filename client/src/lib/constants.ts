@@ -6,6 +6,7 @@ export const LANGUAGE_OPTIONS = [
 
 export const DIETARY_OPTIONS = [
   { label: 'Halal', value: 'halal' },
+  { label: 'Non-halal', value: 'non-halal' },
   { label: 'Vegan', value: 'vegan' },
   { label: 'Vegetarion', value: 'vegetarian' },
   { label: 'Non-dairy', value: 'non-dairy' },

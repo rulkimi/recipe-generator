@@ -63,15 +63,19 @@ export default async function CollectionsListing() {
                   {formatLanguage(item.language)}
                 </span>
               )}
-              <Separator orientation="vertical" className="mx-1" />
-              {item.dietary_restrictions?.map((restriction, idx) => (
-                <span
-                  key={idx}
-                  className="px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground border border-border"
-                >
-                  {formatDietaryRestriction(restriction)}
-                </span>
-              ))}
+              {item.dietary_restrictions.length > 0 && (
+                <>
+                  <Separator orientation="vertical" className="mx-1" />
+                  {item.dietary_restrictions?.map((restriction, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground border border-border"
+                    >
+                      {formatDietaryRestriction(restriction)}
+                    </span>
+                  ))}
+                </>
+              )}
             </div>
 
             {showUserInput && (

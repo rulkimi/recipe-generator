@@ -3,7 +3,6 @@ from typing import List, Optional
 def build_prompt(
     query: str,
     lang: str,
-    type: str,
     ingredients: Optional[list] = None,
     dietary_restrictions: Optional[list] = None,
     additional_instructions: Optional[str] = None,
@@ -37,7 +36,7 @@ recipe: [
         prompt += f"""
 
 Answer this question: {query}
-Return a **single** recipe in JSON format.
+Return a **single** recipe in JSON format. Make sure to ONLY return SINGLE recipe.
 
 Format:
 {{

@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 
 export default function Customization() {
   const pathname = usePathname();
+  
   return (
     <Popover defaultOpen={pathname === "/recipes/search"}>
       <PopoverTrigger className="absolute right-12 top-2 data-[state=open]:bg-accent dark:data-[state=open]:bg-accent/50 group" asChild>

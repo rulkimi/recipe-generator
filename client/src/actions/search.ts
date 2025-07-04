@@ -1,6 +1,6 @@
 "use server"
 
-import { Collection } from "@/types";
+import { Discovery } from "@/types";
 import { Buffer } from "buffer";
 
 export const searchRecipe = async (dishName: string, {
@@ -154,7 +154,7 @@ export const searchByImage = async (
   }
 };
 
-export const getCollections = async ({
+export const getDiscoveries = async ({
   page = 1,
   limit = 10
 }: {
@@ -162,7 +162,7 @@ export const getCollections = async ({
   limit?: number;
 }) => {
   try {
-    const url = new URL(`${process.env.API_URL}/collections`);
+    const url = new URL(`${process.env.API_URL}/discoveries`);
     url.searchParams.set("page", page.toString());
     url.searchParams.set("limit", limit.toString());
 
@@ -178,10 +178,10 @@ export const getCollections = async ({
     const data = await response.json();
 
     return data as {
-      data: Collection[]
+      data: Discovery[]
     };
   } catch (error) {
-    console.error("getCollections error:", error);
+    console.error("getDiscoveries error:", error);
     throw error;
   }
 };

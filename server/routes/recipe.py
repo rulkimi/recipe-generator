@@ -251,8 +251,8 @@ async def get_random_recipe(db: AsyncSession = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/collections")
-async def get_collections(
+@router.get("/discoveries")
+async def get_discoveries(
     db: AsyncSession = Depends(get_db),
     page: int = Query(1, ge=1),
     limit: int = Query(10, ge=1, le=100),
@@ -287,7 +287,7 @@ async def get_collections(
                 COALESCE(rf.bad_count, 0) AS bad_count
             FROM recipe_logs rl
             LEFT JOIN recipe_feedback rf ON rl.id = rf.log_id
-            ORDER BY rl.created_at DESC
+            ORDER BY COALESCE(rf.good_count, 0) DESC, rl.created_at DESC
             LIMIT :limit OFFSET :offset
         """)
         result = await db.execute(query, {"limit": limit, "offset": offset})

@@ -33,7 +33,7 @@ export interface SearchResponse {
 
 export type SearchType = "name" | "ingredients" | "image";
 
-export interface Collection {
+export interface Discovery {
   name: string;
   id: string;
   type: SearchType;

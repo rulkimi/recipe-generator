@@ -1,7 +1,7 @@
 import type { LucideIcon, LucideProps } from "lucide-react";
 import {
   Bookmark,
-  Blocks
+  Compass
 } from "lucide-react";
 
 export type Icon = LucideIcon;
@@ -26,7 +26,7 @@ export const Icons = {
       </svg>
   ),
   bookmark: Bookmark,
-  blocks: Blocks,
+  compass: Compass,
 }
 
 export type IconType = keyof typeof Icons;

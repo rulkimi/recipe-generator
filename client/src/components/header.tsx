@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Icons } from "./icons";
-import { Blocks, Bookmark } from "lucide-react";
+import { Compass, Bookmark } from "lucide-react";
 
 export default function Header() {
   return (
@@ -11,23 +11,23 @@ export default function Header() {
         </Link>
         <div className="flex items-center gap-3">
           <Link
-            href="/recipes/collection"
+            href="/recipes/discovery"
             className="group"
           >
-            <Blocks className="transition-colors duration-300 text-primary group-hover:fill-primary" />
+            <Compass className="transition-colors duration-300 text-primary group-hover:fill-primary/20" />
           </Link>
           <Link
             href="/recipes/saved"
             className="group"
           >
-            <Bookmark className="transition-colors duration-300 text-primary group-hover:fill-primary" />
+            <Bookmark className="transition-colors duration-300 text-primary group-hover:fill-primary/20" />
           </Link>
           <Link
             href="https://github.com/rulkimi/recipe-generator"
             target="_blank"
             className="group"
           >
-            <Icons.github className="transition-colors duration-300 text-primary group-hover:fill-primary" />
+            <Icons.github className="transition-colors duration-300 text-primary group-hover:fill-primary/20" />
           </Link>
         </div>
       </div>

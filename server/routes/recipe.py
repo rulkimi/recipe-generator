@@ -12,6 +12,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
 from core.deps import get_db
 
+from uuid import UUID
+
 router = APIRouter()
 
 @router.get("/")
@@ -201,6 +203,15 @@ async def generate_from_image(
 
 @router.get("/recipe/{log_id}")
 async def get_recipe_by_id(log_id: str, db: AsyncSession = Depends(get_db)):
+    try:
+        UUID(log_id, version=4)
+    except ValueError:
+        return {
+            "status": "not_found",
+            "data": None,
+            "message": "Invalid recipe ID format."
+        }
+
     query = text("SELECT recipe, user_input FROM recipe_logs WHERE id = :log_id")
     try:
         result = await db.execute(query, {"log_id": log_id})

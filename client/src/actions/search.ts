@@ -1,6 +1,6 @@
 "use server"
 
-import { Collection, Recipe } from "@/types";
+import { Collection } from "@/types";
 import { Buffer } from "buffer";
 
 export const searchRecipe = async (dishName: string, {

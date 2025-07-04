@@ -4,6 +4,7 @@ import RecipeFooter from "./_components/recipe-footer";
 import { Metadata } from "next";
 import { getRecipeById } from "@/actions/search";
 import { Recipe } from "@/types";
+import RecipeNotFound from "./_components/recipe-not-found";
 
 export async function generateMetadata({
   params 
@@ -12,7 +13,15 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { id } = await params;
   const response = await getRecipeById(id);
-  const { data } = response;
+  const { data, status } = response;
+
+  if (status !== "success") {
+    return {
+      title: "Oops! Recipe Not Found",
+      description: "Recipe id is wrong or is probably deleted from database.",
+    };
+  };
+
   const recipe: Recipe = data.recipe;
 
   const recipeName = Array.isArray(recipe)
@@ -37,7 +46,10 @@ export async function generateMetadata({
 export default async function RecipePage({ params }: { params: Promise<{id: string }>}) {
   const { id } = await params;
   const response = await getRecipeById(id);
-  const { data } = response;
+  const { data, status } = response;
+
+  if (status === "not_found") return <RecipeNotFound />;
+
   const recipe: Recipe = Array.isArray(data.recipe) ? data.recipe[0] : data.recipe;
   const type = Array.isArray(data.recipe) ? "ingredients" : "name";
   const suggestedFood = Array.isArray(data.recipe) ? data.recipe : [];

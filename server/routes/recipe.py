@@ -201,22 +201,26 @@ async def generate_from_image(
 
 @router.get("/recipe/{log_id}")
 async def get_recipe_by_id(log_id: str, db: AsyncSession = Depends(get_db)):
+    query = text("SELECT recipe, user_input FROM recipe_logs WHERE id = :log_id")
     try:
-        query = text("SELECT recipe, user_input FROM recipe_logs WHERE id = :log_id")
         result = await db.execute(query, {"log_id": log_id})
         row = result.fetchone()
-
-        if not row:
-            raise HTTPException(status_code=404, detail="Recipe not found.")
-
-        data = dict(row._mapping)
-
-        return {
-            "status": "success",
-            "data": data
-        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+    if not row:
+        return {
+            "status": "not_found",
+            "data": None,
+            "message": "Recipe not found."
+        }
+
+    data = dict(row._mapping)
+
+    return {
+        "status": "success",
+        "data": data
+    }
 
 @router.get("/random-recipe")
 async def get_random_recipe(db: AsyncSession = Depends(get_db)):

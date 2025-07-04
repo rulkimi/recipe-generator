@@ -293,35 +293,59 @@ async def get_discoveries(
 
         where_clause = f"WHERE {' AND '.join(filters)}" if filters else ""
 
+        # CTE to deduplicate by name, prioritizing higher good_count, then created_at
         query_sql = text(f"""
+            WITH recipes_with_name AS (
+                SELECT
+                    CASE
+                        WHEN jsonb_typeof(recipe) = 'array'
+                            THEN (
+                                SELECT string_agg(elem->>'name', ', ')
+                                FROM jsonb_array_elements(recipe) AS elem
+                            )
+                        ELSE recipe->>'name'
+                    END AS name,
+                    CASE
+                        WHEN jsonb_typeof(recipe) = 'array'
+                            THEN (
+                                SELECT string_agg(elem->>'description', ' ')
+                                FROM jsonb_array_elements(recipe) AS elem
+                            )
+                        ELSE recipe->>'description'
+                    END AS description,
+                    rl.id,
+                    rl.type,
+                    rl.user_input,
+                    rl.language,
+                    rl.dietary_restrictions,
+                    COALESCE(rf.good_count, 0) AS good_count,
+                    COALESCE(rf.bad_count, 0) AS bad_count,
+                    rl.created_at
+                FROM recipe_logs rl
+                LEFT JOIN recipe_feedback rf ON rl.id = rf.log_id
+                {where_clause}
+            ),
+            ranked_recipes AS (
+                SELECT *,
+                    ROW_NUMBER() OVER (
+                        PARTITION BY name
+                        ORDER BY good_count DESC, created_at DESC
+                    ) AS rn
+                FROM recipes_with_name
+            )
             SELECT
-                CASE
-                    WHEN jsonb_typeof(recipe) = 'array'
-                        THEN (
-                            SELECT string_agg(elem->>'name', ', ')
-                            FROM jsonb_array_elements(recipe) AS elem
-                        )
-                    ELSE recipe->>'name'
-                END AS name,
-                CASE
-                    WHEN jsonb_typeof(recipe) = 'array'
-                        THEN (
-                            SELECT string_agg(elem->>'description', ' ')
-                            FROM jsonb_array_elements(recipe) AS elem
-                        )
-                    ELSE recipe->>'description'
-                END AS description,
-                rl.id,
-                rl.type,
-                rl.user_input,
-                rl.language,
-                rl.dietary_restrictions,
-                COALESCE(rf.good_count, 0) AS good_count,
-                COALESCE(rf.bad_count, 0) AS bad_count
-            FROM recipe_logs rl
-            LEFT JOIN recipe_feedback rf ON rl.id = rf.log_id
-            {where_clause}
-            ORDER BY COALESCE(rf.good_count, 0) DESC, rl.created_at DESC
+                name,
+                description,
+                id,
+                type,
+                user_input,
+                language,
+                dietary_restrictions,
+                good_count,
+                bad_count
+            FROM ranked_recipes
+            WHERE rn = 1
+            ORDER BY good_count DESC, created_at DESC
             LIMIT :limit OFFSET :offset
         """)
         result = await db.execute(query_sql, params)

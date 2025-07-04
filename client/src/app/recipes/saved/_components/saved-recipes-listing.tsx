@@ -7,6 +7,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { ArrowRight, Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 import RecipeListItem from "./recipe-list-item";
+import PageTitle from "../../_components/page-title";
 
 const STORAGE_KEY = "saved_recipes";
 
@@ -43,10 +44,7 @@ export default function SavedRecipesListing() {
   return (
     <div className="py-6 space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="flex items-center gap-1 text-sm font-semibold uppercase text-border">
-          <Bookmark className="size-4" />
-          Saved Recipes
-        </h1>
+        <PageTitle title="Saved Recipes" icon="bookmark" />
 
         <div className="flex flex-col w-full gap-2 sm:flex-row sm:items-center sm:gap-2 sm:w-auto">
           {recipes.length > 0 && (

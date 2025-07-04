@@ -1,5 +1,4 @@
-# --- app/routes/recipe.py ---
-from fastapi import APIRouter, Form, File, UploadFile, HTTPException, Body, Depends
+from fastapi import APIRouter, Form, File, UploadFile, HTTPException, Body, Depends, Query
 from typing import List, Optional
 import json
 import io
@@ -8,7 +7,6 @@ from PIL import Image
 
 from core.model import get_model
 from core.prompt import build_prompt
-# from core.db import supabase
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
@@ -237,3 +235,59 @@ async def get_random_recipe(db: AsyncSession = Depends(get_db)):
         return random_id
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/collections")
+async def get_collections(
+    db: AsyncSession = Depends(get_db),
+    page: int = Query(1, ge=1),
+    limit: int = Query(10, ge=1, le=100),
+):
+    try:
+        offset = (page - 1) * limit
+
+        query = text(f"""
+            SELECT
+                CASE
+                    WHEN jsonb_typeof(recipe) = 'array'
+                        THEN (
+                            SELECT string_agg(elem->>'name', ', ')
+                            FROM jsonb_array_elements(recipe) AS elem
+                        )
+                    ELSE recipe->>'name'
+                END AS name,
+                CASE
+                    WHEN jsonb_typeof(recipe) = 'array'
+                        THEN (
+                            SELECT string_agg(elem->>'description', ' ')
+                            FROM jsonb_array_elements(recipe) AS elem
+                        )
+                    ELSE recipe->>'description'
+                END AS description,
+                rl.id,
+                rl.type,
+                rl.user_input,
+                rl.language,
+                rl.dietary_restrictions,
+                COALESCE(rf.good_count, 0) AS good_count,
+                COALESCE(rf.bad_count, 0) AS bad_count
+            FROM recipe_logs rl
+            LEFT JOIN recipe_feedback rf ON rl.id = rf.log_id
+            ORDER BY rl.created_at DESC
+            LIMIT :limit OFFSET :offset
+        """)
+        result = await db.execute(query, {"limit": limit, "offset": offset})
+        items = result.fetchall()
+
+        count_query = text("SELECT COUNT(*) FROM recipe_logs")
+        total_result = await db.execute(count_query)
+        total = total_result.scalar()
+
+        return {
+            "data": [dict(row._mapping) for row in items],
+            "page": page,
+            "limit": limit,
+            "total": total,
+            "total_pages": (total + limit - 1) // limit
+        }
+    except Exception as e:
+        return {"error": str(e)}

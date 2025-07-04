@@ -1,5 +1,6 @@
 "use server"
 
+import { Collection, Recipe } from "@/types";
 import { Buffer } from "buffer";
 
 export const searchRecipe = async (dishName: string, {
@@ -149,6 +150,38 @@ export const searchByImage = async (
     return await response.json();
   } catch (error) {
     console.error("searchByImage error:", error);
+    throw error;
+  }
+};
+
+export const getCollections = async ({
+  page = 1,
+  limit = 10
+}: {
+  page?: number;
+  limit?: number;
+}) => {
+  try {
+    const url = new URL(`${process.env.API_URL}/collections`);
+    url.searchParams.set("page", page.toString());
+    url.searchParams.set("limit", limit.toString());
+
+    const response = await fetch(url.toString(), {
+      method: "GET",
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return data as {
+      data: Collection[]
+    };
+  } catch (error) {
+    console.error("getCollections error:", error);
     throw error;
   }
 };

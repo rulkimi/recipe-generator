@@ -1,15 +1,7 @@
 import { useDietaryRestrictions } from "@/app/recipes/dietary-restrictions-provider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-
-const DIETARY_OPTIONS = [
-	{ label: 'Halal', value: 'halal' },
-	{ label: 'Vegan', value: 'vegan' },
-	{ label: 'Vegetarion', value: 'vegetarian' },
-	{ label: 'Non-dairy', value: 'non-dairy' },
-	{ label: 'Keto', value: 'keto' },
-	{ label: 'Gluten-free', value: 'gluten-free' },
-] as const;
+import { DIETARY_OPTIONS } from "@/lib/constants";
 
 export default function DietaryRestrictions() {
 	const { dietaryRestrictions, setDietaryRestrictions } = useDietaryRestrictions();

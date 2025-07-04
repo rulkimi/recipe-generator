@@ -1,12 +1,7 @@
 import { useResponseLanguage } from "@/app/recipes/response-language-provider";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-
-const LANGUAGE_OPTIONS = [
-  { label: 'Malay', value: 'malay' },
-  { label: 'English', value: 'english' },
-  { label: '中文', value: 'mandarin' },
-]
+import { LANGUAGE_OPTIONS } from "@/lib/constants";
 
 export default function ResponseLanguage() {
   const { responseLanguage, setResponseLanguage } = useResponseLanguage();

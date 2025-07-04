@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Icons } from "./icons";
-import { Bookmark } from "lucide-react";
+import { Blocks, Bookmark } from "lucide-react";
 
 export default function Header() {
   return (
@@ -10,6 +10,12 @@ export default function Header() {
           Recipe Generator
         </Link>
         <div className="flex items-center gap-3">
+          <Link
+            href="/recipes/collection"
+            className="group"
+          >
+            <Blocks className="transition-colors duration-300 text-primary group-hover:fill-primary" />
+          </Link>
           <Link
             href="/recipes/saved"
             className="group"

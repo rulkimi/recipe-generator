@@ -11,13 +11,13 @@ import { usePathname } from "next/navigation";
 
 export default function Customization() {
   const pathname = usePathname();
-  
+
   return (
     <Popover defaultOpen={pathname === "/recipes/search"}>
       <PopoverTrigger className="absolute right-12 top-2 data-[state=open]:bg-accent dark:data-[state=open]:bg-accent/50 group" asChild>
         <Button variant="ghost" size="icon">
           <Columns3Cog className="size-5 text-primary" />
-          <ArrowDown className="opacity-0 group-data-[state=open]:opacity-100 transition-all duration-300 absolute -bottom-5 size-5 text-primary" />
+          {/* <ArrowDown className="opacity-0 group-data-[state=open]:opacity-100 transition-all duration-300 absolute -bottom-5 size-5 text-primary" /> */}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="mt-4 space-y-4">

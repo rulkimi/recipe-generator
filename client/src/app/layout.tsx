@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import Header from "@/components/header";
+import NextTopLoader from 'nextjs-toploader';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,6 +59,7 @@ export default function RootLayout({
       >
         <NuqsAdapter>
           <Header />
+          <NextTopLoader color="var(--primary)" height={3} />
           {children}
         </NuqsAdapter>
         <Toaster />

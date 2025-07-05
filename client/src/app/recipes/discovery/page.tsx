@@ -21,16 +21,17 @@ export const metadata: Metadata = {
 };
 
 export default async function Discovery({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  await searchParamsCache.parse(searchParams);
-  // const key = serialize({ ...searchParams });
+  const resolvedSearchParams = await searchParams;
+  searchParamsCache.parse(resolvedSearchParams);
+  // const key = serialize({ ...resolvedSearchParams });
 
   return (
     <div className="py-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <PageTitle title="Shared Discoveries" icon="compass" />
-        <DiscoverySearch />
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <PageTitle title="Shared Discoveries" icon="compass" />
+          <DiscoverySearch />
+        </div>
+        <DiscoveriesListing />
       </div>
-      <DiscoveriesListing />
-    </div>
   );
 }

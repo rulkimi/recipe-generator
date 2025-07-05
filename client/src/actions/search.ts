@@ -156,7 +156,7 @@ export const searchByImage = async (
 
 export const getDiscoveries = async ({
   page = 1,
-  limit = 10,
+  limit = 6,
   query
 }: {
   page?: number;

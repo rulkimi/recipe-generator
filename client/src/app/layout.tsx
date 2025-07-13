@@ -17,34 +17,34 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Recipe Generator",
-  description:
-    "An AI-powered tool to generate personalized recipes based on your preferences and ingredients.",
-  openGraph: {
-    title: "Recipe Generator",
-    description:
-      "An AI-powered tool to generate personalized recipes based on your preferences and ingredients.",
-    url: "https://recipe-generator.rulkimi.com",
-    type: "website",
-    images: [
-      {
-        url: "https://opengraph.b-cdn.net/production/images/9f011366-2c27-4d66-bf7e-eb84bcd2d981.png?token=k-_35-CHIlEZS6jFkcPnsxWX-QfV62LSHki6AMfjm0Y&height=206&width=382&expires=33287351366",
-        width: 382,
-        height: 206,
-        alt: "Recipe Generator Preview",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Recipe Generator",
-    description:
-      "An AI-powered tool to generate personalized recipes based on your preferences and ingredients.",
-    images: [
-      "https://opengraph.b-cdn.net/production/images/9f011366-2c27-4d66-bf7e-eb84bcd2d981.png?token=k-_35-CHIlEZS6jFkcPnsxWX-QfV62LSHki6AMfjm0Y&height=206&width=382&expires=33287351366",
-    ],
-    site: "https://recipe-generator.rulkimi.com",
-  },
+	title: "Recipe Generator",
+	description:
+		"An AI-powered tool to generate personalized recipes based on your preferences and ingredients.",
+	openGraph: {
+		title: "Recipe Generator",
+		description:
+			"An AI-powered tool to generate personalized recipes based on your preferences and ingredients.",
+		url: "https://recipe-generator.rulkimi.com",
+		type: "website",
+		images: [
+			{
+				url: "https://opengraph.b-cdn.net/production/images/48b6b729-4217-45e0-90b0-b72c57b3d990.png?token=1coiLlCz2STZ7GyjDUJtJ3z8aOcl9XNtDzQUUf3A7iE&height=100&width=187&expires=33288403645",
+				width: 187,
+				height: 100,
+				alt: "Recipe Generator Preview",
+			},
+		],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "Recipe Generator",
+		description:
+			"An AI-powered tool to generate personalized recipes based on your preferences and ingredients.",
+		images: [
+			"https://opengraph.b-cdn.net/production/images/48b6b729-4217-45e0-90b0-b72c57b3d990.png?token=1coiLlCz2STZ7GyjDUJtJ3z8aOcl9XNtDzQUUf3A7iE&height=100&width=187&expires=33288403645",
+		],
+		site: "https://recipe-generator.rulkimi.com",
+	},
 };
 
 export default function RootLayout({

@@ -68,7 +68,7 @@ export default function SavedRecipesListing() {
       {filteredRecipes.length === 0 ? (
         <p className="text-muted-foreground">
           {recipes.length === 0
-            ? "You haven't saved any recipes yet."
+            ? "No saved recipes yet. Browse discoveries or create one!"
             : "No matching recipes found."}
         </p>
       ) : (

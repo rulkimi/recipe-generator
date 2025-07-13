@@ -12,10 +12,20 @@ export default async function DiscoveriesListing() {
 
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
-        {discoveries.map((item: Discovery) => <DiscoveryCard key={item.id} item={item} />)}
-      </div>
-      <DiscoveryPagination totalPages={total_pages} />
+      {discoveries.length === 0 ? (
+        <div className="py-10 text-center text-muted-foreground">
+          No results found{q ? ` for "${q}"` : ""}.
+        </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
+            {discoveries.map((item: Discovery) => (
+              <DiscoveryCard key={item.id} item={item} />
+            ))}
+          </div>
+          <DiscoveryPagination totalPages={total_pages} />
+        </>
+      )}
     </>
   );
 }

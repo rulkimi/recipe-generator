@@ -155,6 +155,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-gradient-to-b from-background to-white min-h-screen text-foreground;
   }
 }

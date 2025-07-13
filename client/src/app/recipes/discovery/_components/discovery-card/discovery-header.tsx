@@ -70,11 +70,16 @@ export default function DiscoveryHeader({
         </span>
 
         <button
-          onClick={handleToggleSave}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleToggleSave();
+          }}
           className="text-muted-foreground hover:text-primary transition-colors"
           aria-label={isSaved ? "Unsave discovery" : "Save discovery"}
         >
-          <Bookmark className={`size-5 cursor-pointer active:scale-125 transition-transform duration-300 ${isSaved ? "fill-primary" : ""}`} />
+          <Bookmark
+            className={`size-5 cursor-pointer active:scale-125 transition-transform duration-300 ${isSaved ? "fill-primary" : ""}`}
+          />
         </button>
       </div>
     </div>

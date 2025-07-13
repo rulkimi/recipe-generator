@@ -34,6 +34,12 @@ async def generate(
         response = model.generate_content(prompt)
         parsed = json.loads(response.text)
 
+        if "error" in parsed:
+            return {
+                "status": "error",
+                "data": parsed["error"],
+            }
+        
         insert_query = text("""
             INSERT INTO recipe_logs (
                 user_input,
@@ -89,6 +95,12 @@ async def generate_by_ingredients(
         prompt = build_prompt("", language, ingredients, dietary_restrictions, additional_instructions)
         response = model.generate_content(prompt)
         parsed = json.loads(response.text)
+
+        if "error" in parsed:
+            return {
+                "status": "error",
+                "data": parsed["error"],
+            }
 
         insert_query = text("""
             INSERT INTO recipe_logs (
@@ -159,6 +171,12 @@ async def generate_from_image(
         prompt = build_prompt(food_name, language, None, dietary_restrictions, additional_instructions)
         recipe_response = model.generate_content(prompt)
         parsed = json.loads(recipe_response.text)
+
+        if "error" in parsed:
+            return {
+                "status": "error",
+                "data": parsed["error"],
+            }
 
         insert_query = text("""
             INSERT INTO recipe_logs (

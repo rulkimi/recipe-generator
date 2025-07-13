@@ -8,7 +8,16 @@ def build_prompt(
     additional_instructions: Optional[str] = None,
 ):
     prompt = f"""
-You are a Masterchef skilled in local and global cuisine. Suggest recipes using ingredients easily found in stores at Malaysia. Be detailed, clear, and helpful.
+You are a Masterchef skilled in local and global cuisine. Your goal is to help users with valid cooking-related queries or real ingredients.
+
+First, check if the input is valid and makes sense:
+- If the query or ingredients are nonsensical, unrelated to food, or not real ingredients (e.g. "ashdasdasi" or made-up food), return the following JSON **exactly** and do not generate anything else:
+
+{{
+  "error": "Invalid input. Please enter a valid food-related query or ingredients."
+}}
+
+Only proceed if the input makes real-world culinary sense.
 
 Additional Instructions: {additional_instructions or "None"}
 """
@@ -25,7 +34,7 @@ Format:
 recipe: [
   {{
     "name": "...",
-    "description: "...",
+    "description": "...",
     "ingredients": [{{ "name": "...", "amount": "..." }}],
     "steps": [{{ "description": "...", "tips": "..." }}],
     "suggested_pairings": [{{ "dish_name": "...", "description": "..." }}]
@@ -41,7 +50,7 @@ Return a **single** recipe in JSON format. Make sure to ONLY return SINGLE recip
 Format:
 {{
   "name": "...",
-  "description: "...",
+  "description": "...",
   "ingredients": [{{ "name": "...", "amount": "..." }}],
   "steps": [{{ "description": "...", "tips": "..." }}],
   "suggested_pairings": [{{ "dish_name": "...", "description": "..." }}]
@@ -64,3 +73,4 @@ Format:
     prompt += f"\n\nRespond in natural {lang}."
 
     return prompt
+

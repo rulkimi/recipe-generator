@@ -83,7 +83,11 @@ export default function SearchBar({ recipeName = "", recipeIngredients = [], ...
             responseLanguage,
           });
 
-      const { log_id } = response;
+      const { status, log_id } = response;
+      if (status === "error") {
+        toast.error("Invalid input. Please enter a valid food-related query or ingredients.");
+        return;
+      } 
       router.push(`/recipes/${log_id}`);
     } catch (error) {
       console.error(error);

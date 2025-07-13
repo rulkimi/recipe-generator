@@ -19,8 +19,6 @@ export default function ActionButtons() {
       router.push(`/recipes/${randomId}`);
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   }
 

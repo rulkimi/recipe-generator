@@ -5,6 +5,11 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 from dotenv import load_dotenv
 
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from core.db import Base  # noqa
 from core import models  # noqa: F401
 

@@ -4,6 +4,7 @@ services:
   db:
     image: postgres:16
     restart: unless-stopped
+    container_name: recipe-generator-postgress
     environment:
       POSTGRES_DB: ${PGDATABASE:-recipe_generator}
       POSTGRES_USER: ${PGUSER:-recipe_admin}

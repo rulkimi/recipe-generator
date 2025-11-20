@@ -29,6 +29,15 @@
     </li>
   </ul>
   
+  <h2>Local PostgreSQL via Docker + Alembic</h2>
+  <ol>
+    <li>Copy <code>server/env.example</code> to <code>server/.env</code> and adjust credentials if needed. The same env file is used by Alembic.</li>
+    <li>Run <code>cd server && docker compose up -d</code> to start PostgreSQL on <code>localhost:5432</code>.</li>
+    <li>Apply migrations with <code>alembic upgrade head</code> (run inside the <code>server</code> directory). This creates the required tables and extensions in the container.</li>
+    <li>Develop as usual. When schema changes are needed, update the SQLAlchemy models in <code>server/core/models.py</code> and generate a migration via <code>alembic revision --autogenerate -m "describe change"</code>, then run <code>alembic upgrade head</code>.</li>
+    <li>Shut the database down with <code>docker compose down</code>. Append <code>-v</code> if you also want to remove the stored volume.</li>
+  </ol>
+
   <h2>Contributing</h2>
   <p>Contributions and feedback are welcome! If you would like to contribute to this project or have any comments, please feel free to open an issue or submit a pull request.</p>
 </div>

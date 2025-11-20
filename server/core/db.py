@@ -14,7 +14,11 @@ from dotenv import load_dotenv
 
 # supabase: Client = create_supabase_client()
 
+load_dotenv()
+
 DATABASE_URL = os.getenv("DATABASE_ASYNC_URL")
+if not DATABASE_URL:
+	raise RuntimeError("DATABASE_ASYNC_URL is not set")
 
 engine = create_async_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)

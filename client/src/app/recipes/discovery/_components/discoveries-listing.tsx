@@ -10,6 +10,14 @@ export default async function DiscoveriesListing() {
   const response = await getDiscoveries({ page, query: q });
   const { data: discoveries, total_pages } = response;
 
+  if (!Array.isArray(discoveries)) {
+    return (
+      <div className="py-4 text-red-400">
+        Sorry, something went wrong while loading discoveries.
+      </div>
+    );
+  }
+
   return (
     <>
       {discoveries.length === 0 ? (

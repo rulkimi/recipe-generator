@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://recipe-generator.rulkimi.com"),
 	title: "Recipe Generator",
 	description:
 		"An AI-powered tool to generate personalized recipes based on your preferences and ingredients.",

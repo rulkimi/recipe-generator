@@ -13,7 +13,7 @@ import { Recipe } from "@/types";
 
 export default function SuggestedPairings({ pairings }: { pairings: Recipe["suggested_pairings"] }) {
   return (
-    <ul className="flex flex-col gap-2 md:flex-row">
+    <ul className="flex flex-col flex-wrap gap-2 md:flex-row">
       {pairings?.map((pairing, index) => (
         <li key={index}>
           <SuggestedPairingButton

@@ -27,7 +27,7 @@ export default function HeroSection() {
           </ScaleFade>
 
           <FadeUp>
-            <h1 className="mb-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text text-center md:text-left">
+            <h1 className="mb-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text text-center md:text-left leading-tight md:leading-tight">
               Turn Your Ingredients Into Delicious Recipes, Instantly.
             </h1>
           </FadeUp>

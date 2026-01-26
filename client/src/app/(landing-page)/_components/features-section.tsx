@@ -16,7 +16,7 @@ const FEATURES = [
     icon: <Sparkles className="text-secondary w-9 h-9 mb-2" />,
     desc: (
       <>
-        Set your <span className="font-semibold text-primary">diet</span> or faves to get matching recipes.
+        Set your diet or faves to get matching recipes.
       </>
     ),
   },
@@ -31,7 +31,7 @@ export default function FeaturesSection() {
   return (
     <section className="max-w-6xl mx-auto px-12 py-20">
       <FadeUp>
-        <h2 className="mb-12 text-center text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-br from-primary to-accent/80">
+        <h2 className="mb-12 text-center text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-br from-primary to-accent/80 text-transparent bg-clip-text leading-tight md:leading-tight">
           Unlock Smarter Cooking
         </h2>
       </FadeUp>

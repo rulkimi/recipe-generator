@@ -180,6 +180,6 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-gradient-to-b from-background to-white min-h-screen text-foreground;
+    @apply bg-gradient-to-b from-background dark:from-primary/5 to-white dark:to-background min-h-screen text-foreground;
   }
 }

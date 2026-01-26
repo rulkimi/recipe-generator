@@ -12,10 +12,10 @@ const tagList = [
 
 export default function PerfectForSection() {
   return (
-    <section className="px-6 py-20 bg-muted/80">
+    <section className="px-6 py-20 bg-muted/80 dark:bg-muted/60 transition-colors">
       <div className="max-w-4xl mx-auto text-center">
         <FadeUp>
-          <h2 className="mb-8 text-2xl md:text-3xl font-bold">
+          <h2 className="mb-8 text-2xl md:text-3xl font-bold text-foreground">
             Perfect For...
           </h2>
         </FadeUp>
@@ -24,7 +24,7 @@ export default function PerfectForSection() {
           {tagList.map((text) => (
             <MotionTag
               key={text}
-              className="inline-flex px-4 py-1.5 rounded-full bg-primary/10 text-primary font-medium text-base shadow-sm backdrop-blur-md"
+              className="inline-flex px-4 py-1.5 rounded-full bg-primary/10 dark:bg-primary/15 text-primary dark:text-primary font-medium text-base shadow-sm backdrop-blur-md transition-colors"
             >
               {text}
             </MotionTag>

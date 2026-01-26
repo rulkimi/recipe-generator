@@ -14,7 +14,7 @@ export default function SectionBox ({
   return (
     <section
       id={id ?? title}
-      className="h-full p-4 space-y-3 border-2"
+      className="h-full p-4 space-y-3 border-2 rounded-md"
     >
       <SectionHeading title={title} icon={icon} />
       {children}

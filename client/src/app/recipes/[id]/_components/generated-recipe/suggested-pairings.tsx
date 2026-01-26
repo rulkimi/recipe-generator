@@ -73,7 +73,7 @@ const SuggestedPairingButton = ({
             )}
           </Button>
         </TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent className="max-w-lg">
           <div>{description}</div>
         </TooltipContent>
       </Tooltip>

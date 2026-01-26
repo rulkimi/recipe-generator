@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-10 p-4 shadow-md bg-background/90">
       <div className="flex justify-between max-w-6xl mx-auto md:px-12">
-        <Link href="/recipes/search" className="font-semibold text-primary">
+        <Link href="/" className="font-semibold text-primary">
           Recipe Generator
         </Link>
         <div className="flex items-center gap-3">

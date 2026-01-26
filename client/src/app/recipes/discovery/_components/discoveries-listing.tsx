@@ -3,7 +3,6 @@ import { searchParamsCache } from "@/lib/searchparams";
 import { Discovery } from "@/types";
 import DiscoveryCard from "./discovery-card";
 import DiscoveryPagination from "./discovery-pagination";
-import { MotionContainer, MotionCard } from "@/components/motions/discoveries-motions";
 
 export default async function DiscoveriesListing() {
   const page = searchParamsCache.get("page");

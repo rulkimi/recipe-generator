@@ -138,7 +138,7 @@ export default function Header() {
                         : ""
                     }`}
                   />
-                  <span className="hidden sm:inline ml-1">Discover</span>
+                  <span className="hidden sm:inline ml-1">Discovery</span>
                 </Link>
               </li>
               <li>

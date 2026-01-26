@@ -8,12 +8,27 @@ import { ArrowRight, Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 import RecipeListItem from "./recipe-list-item";
 import PageTitle from "../../_components/page-title";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 
 const STORAGE_KEY = "saved_recipes";
 
 type Recipe = {
   id: string;
   name: string;
+};
+
+const listVariants: Variants = {
+  animate: {
+    transition: {
+      staggerChildren: 0.13,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  initial: { opacity: 0, y: 14 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.25, type: "spring", damping: 20, stiffness: 260 }},
+  exit: { opacity: 0, y: -14, transition: { duration: 0.17 } },
 };
 
 export default function SavedRecipesListing() {
@@ -72,15 +87,28 @@ export default function SavedRecipesListing() {
             : "No matching recipes found."}
         </p>
       ) : (
-        <ul className="space-y-2">
-          {filteredRecipes.map((recipe) => (
-            <RecipeListItem
-              key={recipe.id}
-              recipe={recipe}
-              handleRemove={handleRemove}
-            />
-          ))}
-        </ul>
+        <motion.ul
+          className="space-y-2"
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          variants={listVariants}
+        >
+          <AnimatePresence>
+            {filteredRecipes.map((recipe) => (
+              <motion.li
+                key={recipe.id}
+                variants={itemVariants}
+                layout
+              >
+                <RecipeListItem
+                  recipe={recipe}
+                  handleRemove={handleRemove}
+                />
+              </motion.li>
+            ))}
+          </AnimatePresence>
+        </motion.ul>
       )}
     </div>
   );

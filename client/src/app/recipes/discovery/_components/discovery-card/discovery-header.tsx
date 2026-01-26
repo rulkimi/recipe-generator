@@ -26,7 +26,11 @@ export default function DiscoveryHeader({
     }
   }, [item.id])
 
-  const handleToggleSave = () => {
+  const handleToggleSave = (e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
     const stored = localStorage.getItem(STORAGE_KEY)
     let saved: Discovery[] = []
 
@@ -41,13 +45,13 @@ export default function DiscoveryHeader({
       updated = saved.filter((c) => c.id !== item.id)
       setIsSaved(false)
       toast.success("Removed from saved discoveries", {
-        description: `"${item.name}" has been unsaved.`,
+        // description: `"${item.name}" has been unsaved.`,
       })
     } else {
       updated = [...saved, { id: item.id, name: item.name } as Discovery]
       setIsSaved(true)
       toast.success("Saved to discoveries", {
-        description: `"${item.name}" has been saved.`,
+        // description: `"${item.name}" has been saved.`,
       })
     }
 

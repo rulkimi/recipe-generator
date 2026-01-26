@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ArrowDown, Columns3Cog } from "lucide-react";
@@ -11,9 +12,22 @@ import { usePathname } from "next/navigation";
 
 export default function Customization() {
   const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout | null = null;
+    if (pathname === "/recipes/search") {
+      timer = setTimeout(() => {
+        setOpen(true);
+      }, 700);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [pathname]);
 
   return (
-    <Popover defaultOpen={pathname === "/recipes/search"}>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger className="absolute right-12 top-2 data-[state=open]:bg-accent dark:data-[state=open]:bg-accent/50 group" asChild>
         <Button variant="ghost" size="icon">
           <Columns3Cog className="size-5 text-primary" />

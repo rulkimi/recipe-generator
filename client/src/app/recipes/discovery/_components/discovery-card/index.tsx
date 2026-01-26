@@ -1,13 +1,16 @@
+"use client"
+
+import { useRouter } from "next/navigation";
 import { Discovery } from "@/types";
 import DiscoveryHeader from "./discovery-header";
 import DiscoveryCustomizationInfo from "./discovery-customization-badges";
-import Link from "next/link";
 
 export default function DiscoveryCard({
   item
 }: {
   item: Discovery
 }) {
+  const router = useRouter();
   let parsedUserInput;
 
   try {
@@ -18,10 +21,18 @@ export default function DiscoveryCard({
 
   const showUserInput = item.type === "ingredients";
   return (
-    <Link
+    <div
       key={item.id}
-      href={`/recipes/${item.id}`}
-      className="rounded-xl p-5 bg-card text-card-foreground border border-border shadow-sm hover:shadow-none transition-all duration-300 space-y-3 hover:bg-muted/50 cursor-pointer"
+      className="space-y-3 cursor-pointer"
+      onClick={() => router.push(`/recipes/${item.id}`)}
+      tabIndex={0}
+      role="link"
+      onKeyDown={e => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          router.push(`/recipes/${item.id}`);
+        }
+      }}
     >
       <DiscoveryHeader item={item} />
 
@@ -41,6 +52,6 @@ export default function DiscoveryCard({
             : parsedUserInput}
         </p>
       )}
-    </Link>
+    </div>
   );
 }

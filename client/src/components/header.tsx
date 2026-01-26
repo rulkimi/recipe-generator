@@ -163,9 +163,9 @@ export default function Header() {
                 <Link
                   href="https://github.com/rulkimi/recipe-generator"
                   target="_blank"
-                  className="flex items-center justify-center rounded-md group transition-colors hover:bg-primary/10"
+                  className="flex items-center justify-center rounded-md group"
                 >
-                  <Icons.github className="size-4 transition-colors duration-300 text-primary group-hover:fill-primary/20" />
+                  <Icons.github className="size-4 transition-colors duration-300 group-hover:text-primary group-hover:fill-primary/20" />
                   <span className="sr-only">GitHub</span>
                 </Link>
               </li>

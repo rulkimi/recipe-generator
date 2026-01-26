@@ -9,21 +9,21 @@ const FEATURES = [
   {
     title: "Snap & Cook",
     icon: <Camera className="text-accent w-9 h-9 mb-2" />,
-    desc: "Upload a photo of your fridge or leftovers—let AI identify the ingredients and craft a custom recipe.",
+    desc: "Snap a photo and get the recipe so you can make it yourself.",
   },
   {
     title: "Tailored to You",
     icon: <Sparkles className="text-secondary w-9 h-9 mb-2" />,
     desc: (
       <>
-        Set <span className="font-semibold text-primary">dietary needs</span> (vegan, halal, allergies) or cuisine preferences—AI personalizes everything!
+        Set your <span className="font-semibold text-primary">diet</span> or faves to get matching recipes.
       </>
     ),
   },
   {
     title: "Instant Inspiration",
     icon: <CheckCircle className="text-chart-4 w-9 h-9 mb-2" />,
-    desc: "No more scrolling endless blogs. Just type what you have—and get fast, step-by-step recipes.",
+    desc: "List what’s in your kitchen and get meal ideas now.",
   },
 ] as const;
 
@@ -40,12 +40,11 @@ export default function FeaturesSection() {
         {FEATURES.map((f) => (
           <MotionCard
             key={f.title}
-            className="rounded-2xl bg-card/80 backdrop-blur-lg shadow-xl border border-primary/10 p-8 flex flex-col items-center text-center transition hover:shadow-2xl hover:-translate-y-2"
-            whileHover={{ scale: 1.045, boxShadow: "0 12px 28px 0 rgba(0,0,0,0.13)" }}
+            className="rounded-xl bg-card/90 border border-primary/10 p-5 flex flex-col items-center text-center gap-2"
           >
             {f.icon}
-            <h3 className="mt-1 mb-2 text-xl font-semibold">{f.title}</h3>
-            <p className="text-muted-foreground">{f.desc}</p>
+            <h3 className="text-lg font-semibold">{f.title}</h3>
+            <p className="text-sm text-muted-foreground">{f.desc}</p>
           </MotionCard>
         ))}
       </MotionContainer>

@@ -28,9 +28,9 @@ export const metadata: Metadata = {
 		type: "website",
 		images: [
 			{
-				url: "https://opengraph.b-cdn.net/production/images/48b6b729-4217-45e0-90b0-b72c57b3d990.png?token=1coiLlCz2STZ7GyjDUJtJ3z8aOcl9XNtDzQUUf3A7iE&height=100&width=187&expires=33288403645",
-				width: 187,
-				height: 100,
+				url: "/recipe-generator-og-image.png",
+				width: 1200,
+				height: 630,
 				alt: "Recipe Generator Preview",
 			},
 		],
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 		description:
 			"An AI-powered tool to generate personalized recipes based on your preferences and ingredients.",
 		images: [
-			"https://opengraph.b-cdn.net/production/images/48b6b729-4217-45e0-90b0-b72c57b3d990.png?token=1coiLlCz2STZ7GyjDUJtJ3z8aOcl9XNtDzQUUf3A7iE&height=100&width=187&expires=33288403645",
+			"/recipe-generator-og-image.png",
 		],
 		site: "https://recipe-generator.rulkimi.com",
 	},

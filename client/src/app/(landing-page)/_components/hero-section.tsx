@@ -43,13 +43,13 @@ export default function HeroSection() {
           <FadeUp>
             <div className="flex gap-3 justify-center md:justify-start w-full flex-wrap">
               <Link
-                href="/recipes/search"
+                href="/recipes/generate"
                 className={cn(buttonVariants({ variant: "default", size: "lg" }))}
               >
                 Generate a Recipe
               </Link>
               <Link
-                href="/recipes/search?type=ingredients"
+                href="/recipes/generate?type=ingredients"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "lg" }),
                   "flex items-center gap-2"

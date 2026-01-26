@@ -71,7 +71,7 @@ export default function SavedRecipesListing() {
             />
           )}
           <Link
-            href="/recipes/search"
+            href="/recipes/generate"
             className={cn(buttonVariants({ variant: "default" }), "w-full sm:w-auto text-center group")}
           >
             New Recipe

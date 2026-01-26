@@ -30,7 +30,7 @@ export default function ActionButtons() {
         onClick={() => setType(type === "ingredients" ? "name" : "ingredients")}
         disabled={loading}
       >
-        {type === "ingredients" ? "Search By Name" : "Search By Ingredients"}
+        {type === "ingredients" ? "Generate By Name" : "Generate By Ingredients"}
       </Button>
       <Button variant="outline" size="sm" onClick={surpriseMe} disabled={loading}>
         {loading && <Loader className="mr-1 size-4 animate-spin" />}

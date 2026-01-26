@@ -20,7 +20,7 @@ export default function RecipeNotFound() {
           </div>
 
           <Button asChild variant="secondary" className="mt-1 px-4 py-2 text-sm">
-            <Link href="/recipes/search">
+            <Link href="/recipes/generate">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Search
             </Link>

@@ -181,7 +181,7 @@ export default function SearchBar({ recipeName = "", recipeIngredients = [], ...
         disabled={loading}
       >
         {loading && <Loader className="mr-2 size-5 animate-spin" />}
-        Search
+        Generate
       </Button>
     </div>
   );

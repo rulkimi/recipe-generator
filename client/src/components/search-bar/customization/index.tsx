@@ -16,7 +16,7 @@ export default function Customization() {
 
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
-    if (pathname === "/recipes/search") {
+    if (pathname === "/recipes/generate") {
       timer = setTimeout(() => {
         setOpen(true);
       }, 700);
@@ -35,7 +35,7 @@ export default function Customization() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="mt-4 space-y-4">
-        <CustomizationSection title="Search by">
+        <CustomizationSection title="Generate by">
           <SearchType />
         </CustomizationSection>
         <CustomizationSection title="Dietary Restrictions"> 

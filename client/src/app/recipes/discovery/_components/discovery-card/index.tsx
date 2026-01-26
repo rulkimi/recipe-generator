@@ -23,7 +23,7 @@ export default function DiscoveryCard({
   return (
     <div
       key={item.id}
-      className="space-y-3 cursor-pointer"
+      className="space-y-3 rounded-xl p-5 bg-card text-card-foreground border border-border shadow-sm hover:shadow-none transition-all duration-300 hover:bg-muted/50 cursor-pointer"
       onClick={() => router.push(`/recipes/${item.id}`)}
       tabIndex={0}
       role="link"

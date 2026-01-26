@@ -29,16 +29,11 @@ export default async function DiscoveriesListing() {
 
   return (
     <>
-      <MotionContainer className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-4">
         {discoveries.map((item: Discovery) => (
-          <MotionCard 
-            key={item.id}
-            className="rounded-xl p-5 bg-card text-card-foreground border border-border shadow-sm hover:shadow-none transition-all duration-300 hover:bg-muted/50 cursor-pointer"
-          >
-            <DiscoveryCard item={item} />
-          </MotionCard>
+          <DiscoveryCard key={item.id} item={item} />
         ))}
-      </MotionContainer>
+      </div>
       <DiscoveryPagination totalPages={total_pages} />
     </>
   );

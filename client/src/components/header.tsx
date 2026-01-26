@@ -27,7 +27,7 @@ export default function Header() {
   const navLinks = [
     {
       href: "/recipes/discovery",
-      label: "Discover",
+      label: "Discovery",
       icon: Compass,
     },
     {

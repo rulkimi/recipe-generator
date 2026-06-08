@@ -6,17 +6,21 @@ import { Metadata } from "next";
 import DiscoverySearch from "./_components/discovery-search";
 
 export const metadata: Metadata = {
-  title: "Shared Discoveries - Recipe Generator",
-  description: "Explore curated and shared discoveries from the community.",
+  title: "Shared Discoveries | Recipe Generator",
+  description: "Explore curated and shared AI recipes from the community. See what others have cooked by searching recipes by ingredients. Get inspired and find new ideas.",
+  keywords: ["discover recipes", "community recipes", "shared recipes", "search recipes by ingredients", "recipe ideas", "cooking inspiration", "ingredient based recipes"],
+  alternates: {
+    canonical: "https://recipe-generator.rulkimi.com/recipes/discovery",
+  },
   openGraph: {
-    title: "Shared Discoveries - Recipe Generator",
-    description: "Explore curated and shared discoveries from the community.",
+    title: "Shared Discoveries | Recipe Generator",
+    description: "Explore curated and shared AI recipes from the community. See what others have cooked by searching recipes by ingredients. Get inspired and find new ideas.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Shared Discoveries - Recipe Generator",
-    description: "Explore curated and shared discoveries from the community.",
+    title: "Shared Discoveries | Recipe Generator",
+    description: "Explore curated and shared AI recipes from the community. See what others have cooked by searching recipes by ingredients. Get inspired and find new ideas.",
   },
 };
 

@@ -1,8 +1,18 @@
 import { Suspense } from "react";
+import { Metadata } from "next";
 import SearchBar from "../../../components/search-bar";
 import ActionButtons from "./_components/action-buttons";
 import { SearchBarSkeleton } from "../[id]/loading";
 import { MotionContainer, FadeUp } from "@/components/motions/search-page-motions";
+
+export const metadata: Metadata = {
+  title: "Generate AI Recipe | Recipe Generator",
+  description: "Generate AI recipes instantly. Input the ingredients you have, and our AI will act as your reverse recipe search engine to create the perfect customized recipe.",
+  keywords: ["generate AI recipe", "search recipes by ingredients", "what to do with ingredients", "reverse recipe search", "fridge clearer", "input ingredients get recipe"],
+  alternates: {
+    canonical: "https://recipe-generator.rulkimi.com/recipes/generate",
+  },
+};
 
 export default function SearchPage() {
   return (

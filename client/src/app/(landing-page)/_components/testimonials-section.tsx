@@ -36,14 +36,14 @@ export default function TestimonialsSection() {
             {typeof t.avatar === "string" ? (
               <img
                 src={t.avatar}
-                alt={`Avatar of ${t.name}`}
+                alt={`User review avatar of ${t.name} for Recipe Generator - Search recipes by ingredients`}
                 className="w-12 h-12 rounded-full mb-3 ring-2 ring-primary/30 object-cover"
                 loading="lazy"
               />
             ) : (
               <Image
                 src={t.avatar}
-                alt={`Avatar of ${t.name}`}
+                alt={`User review avatar of ${t.name} for Recipe Generator - Search recipes by ingredients`}
                 className="w-12 h-12 rounded-full mb-3 ring-2 ring-primary/30 object-cover"
                 width={48}
                 height={48}
